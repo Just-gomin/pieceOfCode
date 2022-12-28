@@ -1,3 +1,5 @@
+# 출처 : https://wiki.ubuntu-kr.org/index.php/ANSI_%EC%BB%AC%EB%9F%AC_%EC%BD%94%EB%93%9C
+
 echo "\033[0m    [0m  : Default"
 echo "\033[01m   [01m : Bold / Bright \033[0m"
 echo "\033[3m    [3m  : Italic \033[0m"
