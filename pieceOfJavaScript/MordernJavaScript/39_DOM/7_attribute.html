@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="" id="name" value="Name" />
+
+    <ul class="users">
+      <li id="1" data-user-id="7621" data-role="admin">Lee</li>
+      <li id="2" data-user-id="9524" data-role="subscriber">Kim</li>
+    </ul>
+  </body>
+  <script>
+    /* Attributes & DOM Property */
+    const $nameInput = document.getElementById("name");
+
+    // Attribute Node와 DOM Properties 확인
+    console.log($nameInput.getAttribute("value"));
+    console.log($nameInput.value);
+
+    $nameInput.value = "kangmin";
+
+    console.log($nameInput.getAttribute("value"));
+    console.log($nameInput.value);
+
+    console.log("------------------------------");
+
+    /* data Attribute & dataset Property */
+    const users = [...document.querySelector(".users").children];
+
+    const adminUser = users.find((user) => user.dataset.userId === "7621");
+    console.log(adminUser.dataset);
+    console.log(adminUser.textContent, " >> ", adminUser.dataset.role);
+
+    adminUser.dataset.role = "subscriber";
+    console.log(adminUser.textContent, " >> ", adminUser.dataset.role);
+  </script>
+</html>

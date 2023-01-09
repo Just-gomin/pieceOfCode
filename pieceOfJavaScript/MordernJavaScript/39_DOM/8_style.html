@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: antiquewhite;
+      }
+
+      .red {
+        /* color: red; */
+        color: rgb(250, 0, 0);
+      }
+      .blue {
+        /* color: blue; */
+
+        color: rgb(0, 0, 255);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Style & className -->
+    <!-- <div style="color: red">Hello World!</div> -->
+
+    <!-- Class List -->
+    <div class="box red">Hello Style!</div>
+  </body>
+  <script>
+    /*  style & className  */
+    // const $div = document.querySelector("div");
+
+    // console.log($div.style);
+
+    // console.log($div.style.color);
+
+    // $div.style.color = "blue";
+
+    // console.log($div.style.color);
+
+    // $div.style.width = "100px";
+    // $div.style.height = "100px";
+    // $div.style.backgroundColor = "yellow";
+    // $div.style["background-color"] = "green";
+
+    /* style & classList  */
+    const $box = document.querySelector(".box");
+    console.log($box.className);
+    console.log($box.classList);
+
+    $box.classList.replace("red", "blue");
+
+    console.log($box.style.color);
+
+    const boxComputedStyle = window.getComputedStyle($box);
+    console.log(boxComputedStyle.color);
+  </script>
+</html>
