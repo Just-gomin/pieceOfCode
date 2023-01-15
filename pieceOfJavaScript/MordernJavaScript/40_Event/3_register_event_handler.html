@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="sayHi('An')">sayHi('An')</button>
+    <button onclick="sayHi">sayHi</button>
+    <button id="prop_btn">property</button>
+    <button id="blank_btn">addEventListener</button>
+    <script>
+      function sayHi(name) {
+        console.log(`Hi ${name}`);
+      }
+
+      function printEventObject(event) {
+        console.log(event);
+      }
+
+      function sayHello() {
+        console.log("Hello!");
+      }
+
+      var $propBtn = document.querySelector("#prop_btn");
+      $propBtn.onclick = printEventObject;
+
+      var $blankBtn = document.querySelector("#blank_btn");
+
+      $blankBtn.addEventListener("click", printEventObject);
+      $blankBtn.addEventListener("click", sayHello);
+    </script>
+  </body>
+</html>
