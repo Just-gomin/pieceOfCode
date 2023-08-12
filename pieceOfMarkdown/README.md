@@ -48,7 +48,7 @@
 #### 하이라이트 예시
 
 - <span style="background-color:red;">\<span style="background-color:red;">하이라이트 예시 텍스트\</span></span>
-- <span style="background-color:red;">\<span style="background-color:red;">하이라이트 예시 텍스트\</span></span>
+- <span style="background-color:#db0202;">\<span style="background-color:#db0202;">하이라이트 예시 텍스트\</span></span>
 - <span style="background-color:orange;">\<span style="background-color:orange;">하이라이트 예시 텍스트\</span></span>
 - <span style="background-color:yellow;">\<span style="background-color:yellow;">하이라이트 예시 텍스트\</span></span>
 - <span style="background-color:#e7fc26;">\<span style="background-color:#e7fc26;">하이라이트 예시 텍스트\</span></span>
