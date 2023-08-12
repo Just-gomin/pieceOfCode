@@ -70,9 +70,9 @@
 
 ### 인라인(in-line) 코드
 
-```markdown
-<code>[내용]</code>
-```
+| Markdown Syntax |         HTML          | Rendered Output |
+| :-------------: | :-------------------: | :-------------: |
+|    \`[내용]`    | \<code>[내용]\</code> |    `[내용]`     |
 
 #### 주로 쓰는 인라인(in-line) 코드
 
@@ -80,8 +80,20 @@
 
 ### 코드 블럭
 
+#### Markdown
+
 ````markdown
-    ```[language]
-        [내용]
-    ```
+```[language]
+  [내용]
+```
 ````
+
+#### HTML
+
+```html
+<pre>
+  <code>
+    [내용]
+  </code>
+</pre>
+```
