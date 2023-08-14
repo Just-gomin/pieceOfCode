@@ -1,0 +1,222 @@
+<script>
+  const log = console.log;
+
+  class Product {
+    constructor(name, price) {
+      this.name = name;
+      this.price = price;
+    }
+  }
+
+  const products = [
+    new Product("반팔티", 15000),
+    new Product("긴팔티", 20000),
+    new Product("핸드폰케이스", 15000),
+    new Product("후드티", 30000),
+    new Product("바지", 25000),
+  ];
+</script>
+
+<!-- 
+    1. map
+-->
+
+<script>
+  log("1. Before map ---------------");
+  let names = [];
+  for (const p of products) {
+    names.push(p.name);
+  }
+  log(names);
+
+  let prices = [];
+  for (const p of products) {
+    prices.push(p.price);
+  }
+  log(prices);
+</script>
+
+<script>
+  log("1. map ---------------");
+  const map = (f, iter) => {
+    let res = [];
+    for (const a of iter) {
+      res.push(f(a));
+    }
+    return res;
+  };
+
+  log(map((p) => p.name, products));
+  log(map((p) => p.price, products));
+</script>
+
+<!-- 
+    1.1 이터러블 프로토콜을 따른 map의 다형성
+-->
+
+<script>
+  log("1.1. map ---------------");
+  log([1, 2, 3].map((a) => a + 1));
+  //   log(document.querySelectorAll("*").map((a) => a.nodeName)); // ERROR!!! => document.querySelectorAll는 .map을 지원하지 않음
+  log(map((a) => a.nodeName, document.querySelectorAll("*"))); // document.querySelectorAll는 이터러블/이터레이터 프로토콜을 따름
+
+  function* gen() {
+    yield 1;
+    yield 2;
+    yield 3;
+    yield 4;
+  }
+  log(map((a) => a * a, gen()));
+
+  const m = new Map();
+  m.set("a", 10);
+  m.set("b", 20);
+  m.set("c", 30);
+  const it = m[Symbol.iterator]();
+  log(it.next());
+  log(it.next());
+  log(it.next());
+  log(new Map(map(([k, v]) => [k, v ** 2], m)));
+</script>
+
+<!-- 
+    2. filter
+-->
+
+<script>
+  log("2. Before filter ---------------");
+  let under20000 = [];
+  for (const p of products) {
+    if (p.price < 20000) under20000.push(p);
+  }
+  log(...under20000);
+
+  let over20000 = [];
+  for (const p of products) {
+    if (p.price >= 20000) over20000.push(p);
+  }
+  log(...over20000);
+</script>
+
+<script>
+  log("2. filter ---------------");
+  const filter = (f, iter) => {
+    let res = [];
+    for (const a of iter) {
+      if (f(a)) res.push(a);
+    }
+    return res;
+  };
+
+  log(...filter((p) => p.price < 20000, products));
+  log(...filter((p) => p.price > 20000, products));
+</script>
+
+<!-- 
+    2.1 filter의 다형성
+-->
+<script>
+  log(...filter((a) => a % 2, [1, 2, 3, 4]));
+  log(
+    ...filter(
+      (a) => a % 2,
+      (function* () {
+        yield 1;
+        yield 2;
+        yield 3;
+        yield 4;
+        yield 5;
+        yield 6;
+      })()
+    )
+  );
+</script>
+
+<!-- 
+    3. reduce
+-->
+
+<script>
+  log("3. Before reduce ---------------");
+  const nums = [0, 1, 2, 3, 4, 5, 6];
+
+  let total = 0;
+  for (const n of nums) {
+    total += n;
+  }
+  log(total);
+</script>
+
+<script>
+  log("3. reduce ---------------");
+  const strictReduce = (f, acc, iter) => {
+    for (const a of iter) acc = f(acc, a);
+    return acc;
+  };
+
+  const add = (a, b) => a + b;
+  const sub = (a, b) => a - b;
+
+  log(strictReduce(add, 0, nums));
+  log(strictReduce(sub, 0, nums));
+
+  const reduce = (f, acc, iter) => {
+    if (!iter) {
+      iter = acc[Symbol.iterator]();
+      acc = iter.next().value;
+    }
+    for (const a of iter) acc = f(acc, a);
+    return acc;
+  };
+
+  log(reduce(add, nums));
+  log(reduce(sub, nums));
+  log(reduce((total_price, p) => total_price + p.price, 0, products));
+</script>
+
+<!-- 
+    4. map, filter, reduce 응용
+-->
+
+<script>
+  log("4. ---------------");
+  log(map((p) => p.price, products));
+
+  log(
+    map(
+      (p) => p.price,
+      filter((p) => p.price < 20000, products)
+    )
+  );
+
+  log(
+    reduce(
+      add,
+      0,
+      map(
+        (p) => p.price,
+        filter((p) => p.price < 20000, products)
+      )
+    )
+  );
+
+  log(
+    reduce(
+      add,
+      0,
+      filter(
+        (n) => n < 20000,
+        map((p) => p.price, products)
+      )
+    )
+  );
+</script>
+
+<!-- 
+    # 함수형 프로그래밍적 사고
+    - 원하는 데이터를 얻어 내기 위해 순차적으로 함수를 호출해 각 단계에 맞는 데이터의 꼴을 만들기 위해 노력한다.
+    - ex) 
+        1. 최종적으로 값을 누적 하고 싶다면 최 외곽에 reduce를 호출한다.
+        2. 값들은 특정 조건을 만족하는 값들만 필요하다면 filter를 호출한다.
+        3. 원하는 값을 얻기 위해 데이터의 구조분해가 필요하다면, map을 호출한다.
+-->
