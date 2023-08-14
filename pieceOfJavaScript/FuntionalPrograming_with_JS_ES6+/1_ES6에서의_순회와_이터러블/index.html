@@ -1,0 +1,152 @@
+<!-- Section 1 ES6에서의 순회와 이터러블: 이터레이터 프로토콜 -->
+
+<script>
+  log = console.log;
+</script>
+
+<!-- 
+    1. 기존과 달라지 ES6에서의 리스트 순회
+    - for i++
+    - for of
+ -->
+
+<script>
+  log("1. ---------------");
+  // ES5
+  const list = [1, 2, 3];
+  for (var i = 0; i < list.length; i++) {
+    log(list[i]);
+  }
+
+  const str = "abc";
+  for (var i = 0; i < str.length; i++) {
+    log(str[i]);
+  }
+
+  // ES6
+  for (const n of list) {
+    log(n);
+  }
+
+  for (const c of str) {
+    log(c);
+  }
+</script>
+
+<!-- 
+    1-1. Array를 통해 알아보기
+ -->
+
+<script>
+  log("1.1 Array ----------");
+  const arr = [1, 2, 3];
+  for (const a of arr) log(a);
+</script>
+
+<!-- 
+    1-2. Set을 통해 알아보기
+ -->
+
+<script>
+  log("1.2 Set ----------");
+  const set = new Set([1, 2, 3]);
+  for (const a of set) log(a);
+</script>
+
+<!-- 
+    1-3. Map을 통해 알아보기
+ -->
+
+<script>
+  log("1.3 Map ----------");
+  const map = new Map([
+    ["a", 1],
+    ["b", 2],
+    ["c", 3],
+  ]);
+  for (const a of map) log(a);
+</script>
+
+<!-- 
+    2. 이터러블/이터레이터 프로토콜
+    - 이터러블: 이터레이터를 리턴하는 [Symbol.iterator]() 를 가진 값
+    - 이터레이터: { value, done } 객체를 리턴하는 next() 를 가진 값
+    - 이터러블/이터레이터 프로토콜: 이터러블을 for...of, 전개 연산자 등과 함께 동작하도록한 규약
+ -->
+
+<script>
+  log("2. Array Iterator ----------");
+  log(arr);
+  const arrIter = arr[Symbol.iterator]();
+  arrIter.next();
+  for (const a of arrIter) log(a);
+
+  log("2. Set Iterator ----------");
+  log(set.keys());
+  log(set.values());
+  for (const sk of set.keys()) log(sk);
+  for (const sv of set.values()) log(sv);
+  const setIter = set[Symbol.iterator]();
+  setIter.next();
+  for (const a of setIter) log(a);
+
+  log("2. Map Iterator ----------");
+  log(map.keys());
+  log(map.values());
+  for (const mk of map.keys()) log(mk);
+  for (const mv of map.values()) log(mv);
+  for (const me of map.entries()) log(me);
+  const mapIter = map[Symbol.iterator]();
+  mapIter.next();
+  for (const a of mapIter) log(a);
+</script>
+
+<!-- 
+    2-1. 사용자 정의 이터러블
+ -->
+
+<script>
+  log("2-1. Custom Iterator ----------");
+  const iterable = {
+    [Symbol.iterator]() {
+      let i = 3;
+      return {
+        next() {
+          return i === 0 ? { done: true } : { value: i--, done: false };
+        },
+        [Symbol.iterator]() {
+          return this;
+        },
+      };
+    },
+  };
+
+  let iterator = iterable[Symbol.iterator]();
+  log(iterator.next());
+  log(iterator.next());
+  log(iterator.next());
+  log(iterator.next());
+  log(iterator.next());
+  for (const a of iterable) log(a);
+  for (const a of iterator) log(a);
+
+  const arr2 = [1, 2, 3];
+  for (const a of arr2) log(a);
+  let iter2 = arr2[Symbol.iterator]();
+  iter2.next();
+  log(iter2[Symbol.iterator]() === iter2); // Iterator의 Iterator가 자기 자신을 반환하는 경우: Well-formed Iterator
+</script>
+
+<!-- 
+    3. 전개 연산자
+    - 전개 연산자도 이터레이터/이터러블 프로토콜을 따르고 있다.
+ -->
+
+<script>
+  log("3. 전개 연산자 ----------");
+  const arr3 = [1, 2];
+  log([...arr3]);
+  let iter3 = arr3[Symbol.iterator]();
+  iter3.next();
+  log([...iter3]);
+</script>
