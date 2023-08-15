@@ -13,57 +13,66 @@
     </script>
     <script>
       class Product {
-        constructor(name, price, quantity) {
+        constructor(name, price, quantity, isSelected) {
           this.name = name;
           this.price = price;
           this.quantity = quantity;
+          this.isSelected = isSelected;
         }
       }
 
       const products = [
-        new Product("반팔티", 15000, 1),
-        new Product("긴팔티", 20000, 2),
-        new Product("핸드폰케이스", 15000, 3),
-        new Product("후드티", 30000, 4),
-        new Product("바지", 25000, 5),
+        new Product("반팔티", 15000, 1, true),
+        new Product("긴팔티", 20000, 2, false),
+        new Product("핸드폰케이스", 15000, 3, true),
+        new Product("후드티", 30000, 4, false),
+        new Product("바지", 25000, 5, false),
       ];
 
       const add = (a, b) => a + b;
-
-      // 1. ---------------
-      //   // 총 수량 1
-      //   const totalQuantity = pipe(
-      //     map((p) => p.quantity),
-      //     reduce(add)
-      //   );
-
-      //   //   총 금액 1
-      //   const totalPrice = pipe(
-      //     map((p) => p.price * p.quantity),
-      //     reduce(add)
-      //   );
-
-      // 2. ---------------
-      //   const sum = (f, iter) => go(iter, map(f), reduce(add));
-
-      // 총 수량 2
-      //   const totalQuantity = (products) => sum((p) => p.quantity, products);
-
-      // 총 금액 2
-      //   const totalPrice = (products) =>
-      //     sum((p) => p.price * p.quantity, products);
-
-      // 3. ---------------
       const sum = curry((f, iter) => go(iter, map(f), reduce(add)));
 
-      //   총 수량 3
       const totalQuantity = sum((p) => p.quantity);
-
-      //   총 금액 3
       const totalPrice = sum((p) => p.price * p.quantity);
 
-      log(totalQuantity(products));
-      log(totalPrice(products));
+      document.querySelector("#cart").innerHTML = `
+          <table>
+              <tr>
+                  <th>선택</th>
+                  <th>이름</th>
+                  <th>가격</th>
+                  <th>수량</th>
+                  <th>총 가격</th>
+              </tr>
+              ${go(
+                products,
+                sum(
+                  (product) => `
+                        <tr>
+                            <td><input type="checkbox" ${
+                              product.isSelected ? "checked" : ""
+                            }></td>
+                            <td>${product.name}</td>
+                            <td>${product.price}</td>
+                            <td><input type="number" value="${
+                              product.quantity
+                            }"></td>
+                            <td>${product.price * product.quantity}</td>
+                        </tr>
+                    `
+                )
+              )}
+              <tr>
+                  <td colspan="3">합계</td>
+                  <td>${totalQuantity(
+                    filter((product) => product.isSelected, products)
+                  )}</td>
+                  <td>${totalPrice(
+                    filter((product) => product.isSelected, products)
+                  )}</td>
+              </tr>
+          </table>
+      `;
     </script>
   </body>
 </html>
