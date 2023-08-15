@@ -1,8 +1,10 @@
+// 함수를 인자로 받아 인자가 두 개 일때 까지 대기 하는 함수를 만드는 함수
 const curry =
     (f) =>
         (a, ..._) =>
             _.length ? f(a, ..._) : (..._) => f(a, ..._);
 
+// 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 수행하는 함수
 const map = curry((f, iter) => {
     let res = [];
     for (const a of iter) {
@@ -11,6 +13,7 @@ const map = curry((f, iter) => {
     return res;
 });
 
+// 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 조건을 만족하는 데이터를 추출하는 함수
 const filter = curry((f, iter) => {
     let res = [];
     for (const a of iter) {
@@ -19,6 +22,7 @@ const filter = curry((f, iter) => {
     return res;
 });
 
+// 함수 f와 누계, 이터러블을 받아, 이터러블 각각에 대해 함수 f를 수행하고 누적하는 함수
 const reduce = curry((f, acc, iter) => {
     if (!iter) {
         iter = acc[Symbol.iterator]();
@@ -28,8 +32,10 @@ const reduce = curry((f, acc, iter) => {
     return acc;
 });
 
+// 이터러블과 함수들을 받아 이터러블에 대해 순차 적으로 함수들을 수행하는 함수
 const go = (...args) => reduce((a, f) => f(a), args);
 
+// 함수들을 받아 순차 적으로 함수들을 수행하는 함수를 정의하는 함수
 const pipe =
     (f, ...fs) =>
         (...as) =>
