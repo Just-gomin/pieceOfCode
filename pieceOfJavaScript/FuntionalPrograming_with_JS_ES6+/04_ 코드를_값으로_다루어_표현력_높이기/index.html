@@ -36,6 +36,8 @@
 <!-- 
     1. go
     - 함수들을 전달해, 값을 즉시 평가할 때 사용.
+    => 함수를 처리 순서에 맞게 위에서 아래로 호출 할 수 있어 가독성이 좋다.
+    - "실행" 함수
 -->
 <script>
   log("1. ---------------");
@@ -48,7 +50,7 @@
   //   };
 
   // reduce를 이용하면 간단하다
-  const go = (...args) => reduce((a, f) => f(a), args);
+  //   const go = (...args) => reduce((a, f) => f(a), args);
 
   go(
     0,
@@ -62,6 +64,7 @@
 <!-- 
     2. pipe
     - 함수들이 나열되어 있는 함수를 만드는 함수
+    - "정의" 함수
 -->
 <script>
   log("2. ---------------");
@@ -73,10 +76,10 @@
   //       go(a, ...args);
 
   // 첫번째 함수가 변수 여러개 받을 수 있는 함수
-  const pipe =
-    (f, ...fs) =>
-    (...as) =>
-      go(f(...as), ...fs);
+  //   const pipe =
+  //     (f, ...fs) =>
+  //     (...as) =>
+  //       go(f(...as), ...fs);
 
   const f1 = pipe(
     (a) => a + 1,
@@ -110,6 +113,7 @@
     )
   );
 
+  // curry 적용 전
   go(
     products,
     (products) => map((p) => p.price, products),
@@ -125,10 +129,6 @@
 -->
 <script>
   log("4. ---------------");
-  const curry =
-    (f) =>
-    (a, ..._) =>
-      _.length ? f(a, ..._) : (..._) => f(a, ..._);
 
   const multi = curry((a, b) => a * b);
   log(multi(1));
@@ -144,6 +144,23 @@
 -->
 <script>
   log("5. ---------------");
+  // curry 적용 후 1
+  go(
+    products,
+    (products) => map((p) => p.price)(products),
+    (prices) => filter((n) => n < 20000)(prices),
+    (prices) => reduce(add)(prices),
+    log
+  );
+
+  // curry 적용 후 2 => 코드가 많이 간결해진다.
+  go(
+    products,
+    map((p) => p.price),
+    filter((n) => n < 20000),
+    reduce(add),
+    log
+  );
 </script>
 
 <!-- 
@@ -151,4 +168,29 @@
 -->
 <script>
   log("6. ---------------");
+  const totalPrice = pipe(
+    map((p) => p.price),
+    reduce(add)
+  );
+
+  const baseTotalPrice = (predi) => pipe(filter(predi), totalPrice);
+
+  go(
+    products,
+    filter((p) => p.price < 20000),
+    totalPrice,
+    log
+  );
+
+  go(
+    products,
+    baseTotalPrice((p) => p.price < 20000),
+    log
+  );
+
+  go(
+    products,
+    baseTotalPrice((p) => p.price >= 20000),
+    log
+  );
 </script>
