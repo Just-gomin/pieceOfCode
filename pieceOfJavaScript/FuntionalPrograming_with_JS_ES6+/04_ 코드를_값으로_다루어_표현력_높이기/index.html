@@ -1,0 +1,154 @@
+<script src="../lib/fx.js"></script>
+<script>
+  const log = console.log;
+
+  class Product {
+    constructor(name, price) {
+      this.name = name;
+      this.price = price;
+    }
+  }
+
+  const products = [
+    new Product("반팔티", 15000),
+    new Product("긴팔티", 20000),
+    new Product("핸드폰케이스", 15000),
+    new Product("후드티", 30000),
+    new Product("바지", 25000),
+  ];
+
+  const add = (a, b) => a + b;
+  const sub = (a, b) => a - b;
+
+  log("0. Before go&curry ---------------");
+  log(
+    reduce(
+      add,
+      0,
+      filter(
+        (n) => n < 20000,
+        map((p) => p.price, products)
+      )
+    )
+  );
+</script>
+
+<!-- 
+    1. go
+    - 함수들을 전달해, 값을 즉시 평가할 때 사용.
+-->
+<script>
+  log("1. ---------------");
+
+  // 내가 생각한 go...
+  //   const go = (...args) => {
+  //     if (args.length === 1) return args[0];
+  //     const [a, f, ...remain] = args;
+  //     return go(f(a), ...remain);
+  //   };
+
+  // reduce를 이용하면 간단하다
+  const go = (...args) => reduce((a, f) => f(a), args);
+
+  go(
+    0,
+    (a) => a + 1,
+    (a) => a + 10,
+    (a) => a + 100,
+    log
+  );
+</script>
+
+<!-- 
+    2. pipe
+    - 함수들이 나열되어 있는 함수를 만드는 함수
+-->
+<script>
+  log("2. ---------------");
+
+  // 첫번째 함수가 변수 한개만 받을 수 있는 함수
+  //   const pipe =
+  //     (...args) =>
+  //     (a) =>
+  //       go(a, ...args);
+
+  // 첫번째 함수가 변수 여러개 받을 수 있는 함수
+  const pipe =
+    (f, ...fs) =>
+    (...as) =>
+      go(f(...as), ...fs);
+
+  const f1 = pipe(
+    (a) => a + 1,
+    (a) => a + 10,
+    (a) => a + 100
+  );
+
+  const f2 = pipe(
+    add,
+    (a) => a + 1,
+    (a) => a + 10,
+    (a) => a + 100
+  );
+
+  log(f1(0));
+  log(f2(0, 1));
+</script>
+
+<!-- 
+    3. go를 사용하여 읽기 좋은 코드로 만들기
+-->
+<script>
+  log("3. ---------------");
+
+  reduce(
+    add,
+    0,
+    filter(
+      (n) => n < 20000,
+      map((p) => p.price, products)
+    )
+  );
+
+  go(
+    products,
+    (products) => map((p) => p.price, products),
+    (prices) => filter((n) => n < 20000, prices),
+    (prices) => reduce(add, prices),
+    log
+  );
+</script>
+
+<!-- 
+    4. curry
+    - 인자를 받아 두었다가, 2개 이상이 되면 실행해주는 함수
+-->
+<script>
+  log("4. ---------------");
+  const curry =
+    (f) =>
+    (a, ..._) =>
+      _.length ? f(a, ..._) : (..._) => f(a, ..._);
+
+  const multi = curry((a, b) => a * b);
+  log(multi(1));
+  log(multi(1)(2));
+
+  const multi3 = multi(3);
+  log(multi3(1));
+  log(multi3(2));
+</script>
+
+<!-- 
+    5. go + curry를 사용하여 더 읽기 좋은 코드 만들기
+-->
+<script>
+  log("5. ---------------");
+</script>
+
+<!-- 
+    6. 함수 조합으로 함수 만들기
+-->
+<script>
+  log("6. ---------------");
+</script>
