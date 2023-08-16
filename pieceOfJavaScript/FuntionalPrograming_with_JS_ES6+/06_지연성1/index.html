@@ -67,3 +67,32 @@
   go(L.range(100000), take(5), reduce(add), log);
   console.timeEnd("");
 </script>
+
+<!--
+    # 이터러블 중심 프로그래밍에서의 지연 평가 (Lazy Evalutaion)
+    - 제때 계산법
+    - 느긋한 계산법
+    - 제너레이터/이터레이터 프로토콜을 기반으로 구현
+    => 값을 미리 생성하는게 아니라 필요할 때 생성
+    => 값 생성과 연산을 보다 효율적으로 진행
+-->
+
+<!--
+    5. L.map
+-->
+<script>
+  log("5. ---------------");
+
+  var it = L.map((a) => a + 10, [1, 2, 3]);
+  log(...it);
+</script>
+
+<!--
+    6. L.filter
+-->
+<script>
+  log("6. ---------------");
+
+  var it = L.filter((a) => a % 2, [1, 2, 3]);
+  log(...it);
+</script>
