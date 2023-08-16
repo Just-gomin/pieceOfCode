@@ -6,7 +6,14 @@ const curry =
         (a, ..._) =>
             _.length ? f(a, ..._) : (..._) => f(a, ..._);
 
+// 이터러블과 함수들을 받아 이터러블에 대해 순차 적으로 함수들을 수행하는 함수
+const go = (...args) => reduce((a, f) => f(a), args);
 
+// 함수들을 받아 순차 적으로 함수들을 수행하는 함수를 정의하는 함수
+const pipe =
+    (f, ...fs) =>
+        (...as) =>
+            go(f(...as), ...fs);
 
 // 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 수행하는 함수
 const map = curry((f, iter) => {
@@ -35,15 +42,6 @@ const reduce = curry((f, acc, iter) => {
     for (const a of iter) acc = f(acc, a);
     return acc;
 });
-
-// 이터러블과 함수들을 받아 이터러블에 대해 순차 적으로 함수들을 수행하는 함수
-const go = (...args) => reduce((a, f) => f(a), args);
-
-// 함수들을 받아 순차 적으로 함수들을 수행하는 함수를 정의하는 함수
-const pipe =
-    (f, ...fs) =>
-        (...as) =>
-            go(f(...as), ...fs);
 
 // 0 ~ l-1 까지 숫자가 담긴 배열을 생성
 const range = (l) => {

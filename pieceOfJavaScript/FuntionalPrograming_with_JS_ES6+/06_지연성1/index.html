@@ -1,8 +1,6 @@
 <script src="../lib/fx.js"></script>
 <script src="../lib/calculation.js"></script>
-<script>
-  const log = console.log;
-</script>
+<script></script>
 
 <!-- 
     1. range
@@ -10,17 +8,6 @@
 -->
 <script>
   log("1. ---------------");
-  const range = (l) => {
-    let i = -1;
-    let res = [];
-    while (++i < l) {
-      //   log(`${i},range`);
-      res.push(i);
-    }
-
-    return res;
-  };
-
   var list = range(5); // 배열
   //   log(list);
   //   log(reduce(add, list));
@@ -31,14 +18,6 @@
 -->
 <script>
   log("2. ---------------");
-  const L = {};
-  L.range = function* (l) {
-    let i = -1;
-    while (++i < l) {
-      //   log(`${i},L.range`);
-      yield i;
-    }
-  };
 
   var list = L.range(5); // 이터러블
   //   log(list);
@@ -74,14 +53,7 @@
 -->
 <script>
   log("4. ---------------");
-  const take = curry((l, iter) => {
-    let res = [];
-    for (const a of iter) {
-      res.push(a);
-      if (res.length === l) return res;
-    }
-    return res;
-  });
+
   log(take(5, range(100)));
   log(take(5, L.range(100)));
   test("take - range", 10, () => take(5, range(100000))); // range를 통해 무조건 100000 크기의 배열을 생성하고 거기서 5개를 추출
