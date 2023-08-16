@@ -1,0 +1,158 @@
+<script>
+  const log = console.log;
+</script>
+
+<script>
+  const curry =
+    (f) =>
+    (a, ..._) =>
+      _.length ? f(a, ..._) : (..._) => f(a, ..._);
+
+  const go = (...args) => reduce((a, f) => f(a), args);
+
+  const pipe =
+    (f, ...fs) =>
+    (...as) =>
+      go(f(...as), ...fs);
+
+  const take = curry((l, iter) => {
+    log(`enter take`);
+    let res = [];
+    iter = iter[Symbol.iterator]();
+    let cur;
+    while (!(cur = iter.next()).done) {
+      const a = cur.value;
+      log(`${a}, take`);
+      res.push(a);
+      if (res.length === l) return res;
+    }
+    return res;
+  });
+</script>
+
+<!--
+    7. range, map, filter, take, reduce 중첩 사용
+-->
+<script>
+  const range = (l) => {
+    log(`enter range`);
+    let i = -1;
+    let res = [];
+    while (++i < l) {
+      log(`${i}, range`);
+      res.push(i);
+    }
+
+    return res;
+  };
+
+  const map = curry((f, iter) => {
+    log(`enter map`);
+    let res = [];
+    iter = iter[Symbol.iterator]();
+    let cur;
+    while (!(cur = iter.next()).done) {
+      const a = cur.value;
+      log(`${a}, map`);
+      res.push(f(a));
+    }
+    return res;
+  });
+
+  const filter = curry((f, iter) => {
+    log(`enter filter`);
+    let res = [];
+    iter = iter[Symbol.iterator]();
+    let cur;
+    while (!(cur = iter.next()).done) {
+      const a = cur.value;
+      log(`${a}, filter`);
+      if (f(a)) res.push(a);
+    }
+    return res;
+  });
+
+  const reduce = curry((f, acc, iter) => {
+    log(`enter reduce`);
+    if (!iter) {
+      iter = acc[Symbol.iterator]();
+      acc = iter.next().value;
+    } else {
+      iter = iter[Symbol.iterator]();
+    }
+    let cur;
+    while (!(cur = iter.next()).done) {
+      const a = cur.value;
+      log(`${a}, reduce`);
+      acc = f(acc, a);
+    }
+    return acc;
+  });
+
+  log("7. ---------------");
+
+  console.time("");
+  go(
+    range(1000),
+    map((n) => n + 10),
+    filter((n) => n % 2),
+    take(2),
+    log
+  );
+  console.timeEnd("");
+</script>
+
+<!--
+    8. L.range, L.map, L.filter, take, reduce 중첩 사용
+-->
+<script>
+  const L = {};
+  L.range = function* (l) {
+    log(`enter L.range`);
+    let i = -1;
+    while (++i < l) {
+      log(`${i}, L.range`);
+      yield i;
+    }
+  };
+
+  L.map = curry(function* (f, iter) {
+    log(`enter L.map`);
+    iter = iter[Symbol.iterator]();
+    let cur;
+    while (!(cur = iter.next()).done) {
+      const a = cur.value;
+      log(`${a}, L.map`);
+      yield f(a);
+    }
+  });
+
+  L.filter = curry(function* (f, iter) {
+    log(`enter L.filter`);
+    iter = iter[Symbol.iterator]();
+    let cur;
+    while (!(cur = iter.next()).done) {
+      const a = cur.value;
+      log(`${a}, L.filter`);
+      if (f(a)) yield a;
+    }
+  });
+
+  log("8. ---------------");
+
+  console.time("");
+  go(
+    L.range(1000),
+    L.map((n) => n + 10),
+    L.filter((n) => n % 2),
+    take(2),
+    log
+  );
+  console.timeEnd("");
+</script>
+
+<!--
+    # 엄격한 계산과 느긋한 계산의 효율성 비교
+    - 엄격한 계산은 모든 값을 생성하고, 아래의 함수로 값을 전달하기 때문에 그 수가 많아 질수록 시간 또한 늘어나게 된다.
+    - 느긋한 계산은 필요한 값만 생성하고, 함수들을 진행하기 때문에 수가 아무리 많아도 시간은 일정하게 소요된다.
+-->
