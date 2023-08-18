@@ -1,0 +1,41 @@
+<script src="./lib/fx.js"></script>
+
+<script>
+  const takeAll = take(Infinity);
+</script>
+
+<!--
+    3. L.map + take 로 map 만들기
+-->
+<script>
+  L.map = curry(function* (f, iter) {
+    for (const a of iter) {
+      yield f(a);
+    }
+  });
+
+  // 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 수행하는 함수
+  const map = curry(pipe(L.map, takeAll));
+
+  log(map((a) => a + 10, range(4)));
+</script>
+
+<!--
+    4. L.filter + take로 filter 만들기
+-->
+<script>
+  L.filter = curry(function* (f, iter) {
+    for (const a of iter) {
+      if (f(a)) yield a;
+    }
+  });
+
+  const filter = curry(pipe(L.filter, takeAll));
+
+  go(
+    range(10),
+    filter((n) => n % 3),
+    take(2),
+    log
+  );
+</script>
