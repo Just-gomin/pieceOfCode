@@ -15,23 +15,52 @@ const pipe =
         (...as) =>
             go(f(...as), ...fs);
 
-// 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 수행하는 함수
-const map = curry((f, iter) => {
+// iterable을 받아 l개 만큼 뽑아내 반환
+const take = curry((l, iter) => {
     let res = [];
     for (const a of iter) {
-        res.push(f(a));
+        res.push(a);
+        if (res.length === l) return res;
     }
     return res;
 });
 
-// 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 조건을 만족하는 데이터를 추출하는 함수
-const filter = curry((f, iter) => {
-    let res = [];
-    for (const a of iter) {
-        if (f(a)) res.push(a);
+// 전부 다 반환
+const takeAll = take(Infinity);
+
+// ---------------
+//  Lazy
+// ---------------
+const L = {};
+
+L.range = function* (l) {
+    let i = -1;
+    while (++i < l) {
+        yield i;
     }
-    return res;
+};
+
+L.map = curry(function* (f, iter) {
+    for (const a of iter) {
+        yield f(a);
+    }
 });
+
+L.filter = curry(function* (f, iter) {
+    for (const a of iter) {
+        if (f(a)) yield a;
+    }
+});
+
+// ---------------
+//  Concurrency
+// ---------------
+
+// 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 수행하는 함수
+const map = curry(pipe(L.map, takeAll));
+
+// 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 조건을 만족하는 데이터를 추출하는 함수
+const filter = curry(pipe(L.filter, takeAll));
 
 // 함수 f와 누계, 이터러블을 받아, 이터러블 각각에 대해 함수 f를 수행하고 누적하는 함수
 const reduce = curry((f, acc, iter) => {
@@ -50,36 +79,5 @@ const range = (l) => {
     while (++i < l) {
         res.push(i);
     }
-
     return res;
 };
-
-// iterable을 받아 l개 만큼 뽑아내 반환
-const take = curry((l, iter) => {
-    let res = [];
-    for (const a of iter) {
-        res.push(a);
-        if (res.length === l) return res;
-    }
-    return res;
-});
-
-// ---------------
-//  Lazy
-// ---------------
-const L = {};
-L.range = function* (l) {
-    let i = -1;
-    while (++i < l) {
-        //   log(`${i},L.range`);
-        yield i;
-    }
-};
-
-L.map = curry(function* (f, iter) {
-    for (const a of iter) yield f(a);
-});
-
-L.filter = curry(function* (f, iter) {
-    for (const a of iter) if (f(a)) yield a;
-});
