@@ -1,0 +1,83 @@
+<script src="../lib/fx.js"></script>
+
+<!--
+    1. 결과를 만드는 함수 reduce, take & Array.prototype.join 보다 다형성이 높은 join
+-->
+<script>
+  log("1. ---------------");
+  const join = curry((sep = ",", iter) =>
+    reduce((a, b) => `${a}${sep}${b}`, iter)
+  );
+
+  //   const queryStr = (obj) =>
+  //     go(
+  //       obj,
+  //       Object.entries,
+  //       map(([k, v]) => `${k}=${v}`),
+  //       reduce((a, b) => `${a}&${b}`)
+  //     );
+
+  //   const queryStr = pipe(
+  //     Object.entries,
+  //     map(([k, v]) => `${k}=${v}`),
+  //     join("&")
+  //   );
+
+  L.entries = function* (obj) {
+    for (const k in obj) yield [k, obj[k]];
+  };
+
+  const queryStr = pipe(
+    L.entries,
+    L.map(([k, v]) => `${k}=${v}`),
+    join("&")
+  );
+
+  log(queryStr({ limit: 10, offset: 10, type: "notice" }));
+
+  function* a() {
+    yield 1;
+    yield 2;
+    yield 3;
+    yield 4;
+    yield 5;
+  }
+  log(join(" - ", a()));
+</script>
+
+<!--
+    2. take, find
+-->
+<script>
+  log("2. ---------------");
+  const users = [
+    { age: 31 },
+    { age: 32 },
+    { age: 28 },
+    { age: 25 },
+    { age: 27 },
+    { age: 38 },
+    { age: 33 },
+    { age: 23 },
+    { age: 29 },
+    { age: 30 },
+  ];
+
+  //   const find = (f, iter) => go(iter, filter(f), take(1), ([a]) => a);
+  const find = curry((f, iter) => go(iter, L.filter(f), take(1), ([a]) => a));
+  log(find((u) => u.age < 30)(users));
+
+  go(
+    users,
+    map((u) => u.age),
+    find((n) => n < 30),
+    log
+  );
+
+  go(
+    users,
+    L.map((u) => u.age),
+    find((n) => n < 30),
+    log
+  );
+</script>

@@ -76,10 +76,10 @@ L.range = function* (l) {
     }
 };
 
-L.map = function* (f, iter) {
+L.map = curry(function* (f, iter) {
     for (const a of iter) yield f(a);
-};
+});
 
-L.filter = function* (f, iter) {
+L.filter = curry(function* (f, iter) {
     for (const a of iter) if (f(a)) yield a;
-};
+});
