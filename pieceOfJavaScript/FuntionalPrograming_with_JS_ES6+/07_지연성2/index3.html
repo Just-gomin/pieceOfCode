@@ -1,0 +1,130 @@
+<script src="../lib/fx.js"></script>
+
+<!--
+    5. L.flatten
+-->
+<script>
+  const isIterable = (a) => a && a[Symbol.iterator];
+
+  L.flatten = function* (iter) {
+    for (const a of iter) {
+      //   if (isIterable(a)) {
+      //     for (const b of a) {
+      //       yield b;
+      //     }
+      //   } else yield a;
+
+      if (isIterable(a)) yield* a;
+      else yield a;
+    }
+  };
+
+  //   go([[1, 2], 3, 4, 5], L.flatten, takeAll, log);
+
+  const flatten = pipe(L.flatten, takeAll);
+
+  //   go([[1, 2], 3, 4, 5], flatten, takeAll, log);
+
+  L.deepFlat = function* f(iter) {
+    for (const a of iter) {
+      if (isIterable(a)) yield* f(a);
+      else yield a;
+    }
+  };
+
+  //   log(...L.deepFlat([[[1, 2]], 3, 4, [5], 6]));
+</script>
+
+<!--
+    # yeild* iterable === for(const val of iterable) yeild val;
+-->
+
+<!--
+    6. L.flatMap
+-->
+<script>
+  L.flatMap = curry(pipe(L.map, L.flatten));
+  const flatMap = curry(pipe(L.map, flatten));
+
+  //   log([[1, 2], 3, 4, [5], 6].flatMap((a) => a * a));
+  //   log(...L.flatMap((a) => a, [[1, 2], 3, 4, [5], 6]));
+</script>
+
+<!--
+    7. 2차원 배열 다루기
+-->
+<script>
+  const arr = [
+    [1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [9, 10],
+  ];
+
+  //   go(
+  //     arr,
+  //     L.flatten,
+  //     L.filter((a) => a % 2),
+  //     take(3),
+  //     log
+  //   ); // 1,2,3,4,5 까지만 순회 후 값 출력
+</script>
+
+<!--
+    8. 이터러블 중심의 실무적인 코드
+-->
+<script>
+  const user = (name, age) => {
+    return { name: name, age: age };
+  };
+
+  const users = [];
+  let userA1 = user("a", 21);
+  userA1.family = [
+    user("a1", 20),
+    user("a2", 18),
+    user("a3", 50),
+    user("a4", 49),
+  ];
+
+  let userB1 = user("b", 33);
+  userB1.family = [
+    user("b1", 60),
+    user("b2", 55),
+    user("b3", 27),
+    user("b4", 29),
+  ];
+
+  let userC1 = user("c", 49);
+  userC1.family = [
+    user("c1", 45),
+    user("c2", 18),
+    user("c3", 16),
+    user("c4", 20),
+  ];
+
+  let userD1 = user("d", 25);
+  userD1.family = [
+    user("d1", 17),
+    user("d2", 19),
+    user("d3", 18),
+    user("d4", 20),
+  ];
+
+  users.push(userA1, userB1, userC1, userD1);
+
+  go(
+    users,
+    // L.map((u) => u.family),
+    // L.flatten,
+    L.flatMap((u) => u.family),
+    L.filter((u) => u.age < 20),
+    L.map((u) => u.name),
+    take(4),
+    log
+  );
+</script>
+
+<!--
+    # 위의 방식은 어떤 데이터 유형이든, 그에 서브 함수들을 잘 작성하면 범용적으로 사용 가능하다.
+-->
