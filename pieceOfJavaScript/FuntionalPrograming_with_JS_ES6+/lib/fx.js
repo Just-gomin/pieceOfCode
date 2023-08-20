@@ -28,6 +28,9 @@ const take = curry((l, iter) => {
 // 전부 다 반환
 const takeAll = take(Infinity);
 
+// 이터러블인지 확인
+const isIterable = (a) => a && a[Symbol.iterator];
+
 // ---------------
 //  Lazy
 // ---------------
@@ -51,6 +54,25 @@ L.filter = curry(function* (f, iter) {
         if (f(a)) yield a;
     }
 });
+
+// 중첩된 이터러블을 1 depth로 만드는 함수
+L.flatten = function* (iter) {
+    for (const a of iter) {
+        if (isIterable(a)) yield* a;
+        else yield a;
+    }
+};
+
+// n 중첩된 이터러블을 1 depth로 만드는 함수
+L.deepFlat = function* f(iter) {
+    for (const a of iter) {
+        if (isIterable(a)) yield* f(a);
+        else yield a;
+    }
+};
+
+// map을 이용해 각각의 항목에 함수를 적용하고, 1 depth로 만드는 함수
+L.flatMap = curry(pipe(L.map, L.flatten));
 
 // ---------------
 //  Concurrency
@@ -81,3 +103,7 @@ const range = (l) => {
     }
     return res;
 };
+
+const flatten = pipe(L.flatten, takeAll);
+
+const flatMap = curry(pipe(L.map, flatten));
