@@ -1,0 +1,126 @@
+<script src="../lib/fx.js"></script>
+
+<!--
+    1. callback과 Promise
+-->
+<script>
+  // ---------------
+  // # 일급
+  // ---------------
+
+  // Callback 이용
+  function add10(a, callback) {
+    setTimeout(() => callback(a + 10), 100);
+  }
+
+  //   add10(5, (res) => {
+  //     log(res);
+  //   });
+
+  // Promise 이용
+  function add20(a) {
+    return new Promise((resolve) => setTimeout(() => resolve(a + 20), 100));
+  }
+
+  //   add20(5).then(log);
+
+  //   add10(5, (res) => {
+  //     add10(res, (res) => {
+  //       add10(res, (res) => {
+  //         add10(res, (res) => {
+  //           log(res);
+  //         });
+  //       });
+  //     });
+  //   });
+
+  //   add20(5).then(add20).then(add20).then(add20).then(log);
+</script>
+
+<!--
+    # Callback 과 Promise의 가장 큰 차이점은, Promise는 return이 가능하다는 것이다.
+    - Promise는 함수의 사용에 있어 더 가독성이 좋다.
+    - 💡 Promise는 비동기 상황을 일급 값으로 다룬다는 점에서 아주 중요하다. 💡
+        - 값을 가지고 추후에 조작할 수 있다.
+-->
+
+<!--
+    2. 값으로서의 Promise 활용
+-->
+<script>
+  const delay100 = (a) =>
+    new Promise((resolve) => setTimeout(() => resolve(a), 100));
+
+  const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
+  const add5 = (a) => a + 5;
+
+  //   go1(go1(10, add5), log);
+  //   go1(go1(delay100(10), add5), log);
+</script>
+
+<!--
+    3. 합성 관점에서의 Promise와 모나드
+    - 모나드 : 함수 합성을 안전하게 할 수 있도록하는 도구
+-->
+<script type="module">
+  const f = (a) => a + 1;
+  const g = (a) => a * a;
+
+  //   log(g(f(1)));
+  //   log(g(f()));
+  // => 함수가 안전하게 합성되지 못했다. 입력이 없으나 함수가 끝까지 실행되어 안전하지 못한 연산 진행
+
+  //   [1]
+  //     .map(f)
+  //     .map(g)
+  //     .forEach((r) => log(r));
+  //   []
+  //     .map(f)
+  //     .map(g)
+  //     .forEach((r) => log(r));
+  // => Array가 함수가 안전하게 합성될 수 있도록 하는 모나드. 값이 없으니 연산을 진행하지 않았다.
+
+  //   Promise.resolve(2).then(f).then(g).then(log);
+  //   new Promise((resolve) => setTimeout(() => resolve(2), 100))
+  //     .then(f)
+  //     .then(g)
+  //     .then(log);
+  // => Promise가 특정 상황에서 안전하게 함수를 합성할 수 있도록 돕는 모나드.
+</script>
+
+<!--
+    4. Kleisli Composition
+    - 오류가 있을 수 있는 상황에서 안전하게 함수를 합성 할 수 있게하는 규칙
+
+    - f, g
+    - f(g(x)) = f(g(x))
+    - f(g(x)) = g(x) => g(x)를 실행하며 오류가 발생해도 그 결과가 같다
+-->
+<script>
+  let users = [
+    { id: 1, name: "aa" },
+    { id: 2, name: "bb" },
+    { id: 3, name: "cc" },
+  ];
+
+  const getUserByID = (id) => find((u) => u.id === id, users);
+
+  const f1 = ({ name }) => name;
+  const g1 = getUserByID;
+  const fg1 = (id) => f1(g1(id));
+
+  log(fg1(1)); // 여러가지 상황에의해 안전하게 합성되지 못할 수 있다.
+
+  const getUserByID2 = (id) =>
+    find((u) => u.id === id, users) || Promise.reject("없어요!");
+  const g2 = getUserByID2;
+
+  const fg2 = (id) =>
+    Promise.resolve(id)
+      .then(g2)
+      .then(f1)
+      .catch((a) => a);
+
+  fg2(1).then(log);
+  fg2().then(log); // 오류가 발생해도 안전하게 합성된다.
+</script>
