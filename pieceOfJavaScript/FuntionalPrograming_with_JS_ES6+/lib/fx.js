@@ -55,6 +55,10 @@ L.filter = curry(function* (f, iter) {
     }
 });
 
+L.entries = function* (obj) {
+    for (const k in obj) yield [k, obj[k]];
+};
+
 // 중첩된 이터러블을 1 depth로 만드는 함수
 L.flatten = function* (iter) {
     for (const a of iter) {
@@ -103,6 +107,12 @@ const range = (l) => {
     }
     return res;
 };
+
+const join = curry((sep = ",", iter) =>
+    reduce((a, b) => `${a}${sep}${b}`, iter)
+);
+
+const find = curry((f, iter) => go(iter, L.filter(f), take(1), ([a]) => a));
 
 const flatten = pipe(L.flatten, takeAll);
 

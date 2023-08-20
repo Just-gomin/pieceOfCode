@@ -5,9 +5,9 @@
 -->
 <script>
   log("1. ---------------");
-  const join = curry((sep = ",", iter) =>
-    reduce((a, b) => `${a}${sep}${b}`, iter)
-  );
+  // const join = curry((sep = ",", iter) =>
+  //   reduce((a, b) => `${a}${sep}${b}`, iter)
+  // );
 
   //   const queryStr = (obj) =>
   //     go(
@@ -23,9 +23,9 @@
   //     join("&")
   //   );
 
-  L.entries = function* (obj) {
-    for (const k in obj) yield [k, obj[k]];
-  };
+  // L.entries = function* (obj) {
+  //   for (const k in obj) yield [k, obj[k]];
+  // };
 
   const queryStr = pipe(
     L.entries,
@@ -64,7 +64,7 @@
   ];
 
   //   const find = (f, iter) => go(iter, filter(f), take(1), ([a]) => a);
-  const find = curry((f, iter) => go(iter, L.filter(f), take(1), ([a]) => a));
+  // const find = curry((f, iter) => go(iter, L.filter(f), take(1), ([a]) => a));
   log(find((u) => u.age < 30)(users));
 
   go(
