@@ -32,14 +32,20 @@ export class FormattedLog {
         const makeDividerMsg = (divider) => `${blank.repeat(this.dividerGap)}${divider}${blank.repeat(this.dividerGap)}`;
 
         msg += header;
-        msg += `${blank.repeat((this.headerSize - header.length) > 0 ? this.headerSize - header.length : 0)}`;
-        msg += makeDividerMsg(this.headerBodyDivider);
 
-        msg += body;
-        msg += `${blank.repeat((this.bodySize - body.length) > 0 ? this.bodySize - body.length : 0)}`;
-        msg += makeDividerMsg(this.bodyTailDivider);
+        if (body) {
+            msg += `${blank.repeat((this.headerSize - header.length) > 0 ? this.headerSize - header.length : 0)}`;
+            msg += makeDividerMsg(this.headerBodyDivider);
 
-        msg += tail;
+            msg += body;
+        }
+
+        if (tail) {
+            msg += `${blank.repeat((this.bodySize - body.length) > 0 ? this.bodySize - body.length : 0)}`;
+            msg += makeDividerMsg(this.bodyTailDivider);
+
+            msg += tail;
+        }
 
         console.log(msg);
     };
