@@ -20,20 +20,36 @@ log("< JS Array Functions And Result >");
 preNewLine("< Return, Check Origin >");
 r1 = numArr;
 r2 = strArr;
-fLog.log("r1 = numArr", `r1: [${r1}]`, `numArr: [${numArr}]`);
-fLog.log("r2 = strArr", `r2: [${r2}]`, `strArr: [${strArr}]`);
+fLog.log(
+    "r1 = numArr",
+    `numArr: [${numArr}]`,
+    `r1: [${r1}]`,
+);
+fLog.log(
+    "r2 = strArr",
+    `strArr: [${strArr}]`,
+    `r2: [${r2}]`,
+);
 initializeArr();
 
 preNewLine("< Map, Return >");
 r1 = numArr.map((i) => i - 1);
 r2 = strArr.map((c) => +c);
 r2 = strArr.map((c) => Number.parseInt(c));
-fLog.log("r1 = numArr.map((i) => i - 1)", `r1: [${r1}]`, `numArr: [${numArr}]`);
-fLog.log("r2 = strArr.map((c) => +c)", `r2: [${r2}]`, `strArr: [${strArr}]`);
+fLog.log(
+    "r1 = numArr.map((i) => i - 1)",
+    `numArr: [${numArr}]`,
+    `r1: [${r1}]`,
+);
+fLog.log(
+    "r2 = strArr.map((c) => +c)",
+    `strArr: [${strArr}]`,
+    `r2: [${r2}]`,
+);
 fLog.log(
     "r2 = strArr.map((c) => Number.parseInt(c))",
+    `strArr: [${strArr}]`,
     `r2: [${r2}]`,
-    `strArr: [${strArr}]`
 );
 initializeArr();
 
