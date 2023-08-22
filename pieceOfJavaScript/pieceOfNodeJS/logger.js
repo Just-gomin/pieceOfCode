@@ -6,6 +6,10 @@ export const postNewLine = (msg) => {
     console.log(`${msg}\n`);
 };
 
+export const logWithNewLines = (...msg) => {
+    console.log(msg.join('\n'));
+}
+
 export class FormattedLog {
     constructor(
         headerSize = 40,
