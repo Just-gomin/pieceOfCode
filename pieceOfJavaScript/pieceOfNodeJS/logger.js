@@ -1,9 +1,9 @@
 export const log = console.log;
 export const preNewLine = (msg) => {
-    console.log("\n", msg);
+    console.log(`\n${msg}`);
 };
 export const postNewLine = (msg) => {
-    console.log(msg, "\n");
+    console.log(`${msg}\n`);
 };
 
 export class FormattedLog {
