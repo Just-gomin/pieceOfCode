@@ -9,6 +9,9 @@ const curry =
 // 이터러블과 함수들을 받아 이터러블에 대해 순차 적으로 함수들을 수행하는 함수
 const go = (...args) => reduce((a, f) => f(a), args);
 
+// 처음 들어온 인자가 Promise라면, 대기한 뒤 함수 수행
+const go1 = (a, f) => a instanceof Promise ? a.then(f) : f(a);
+
 // 함수들을 받아 순차 적으로 함수들을 수행하는 함수를 정의하는 함수
 const pipe =
     (f, ...fs) =>
@@ -94,8 +97,13 @@ const reduce = curry((f, acc, iter) => {
         iter = acc[Symbol.iterator]();
         acc = iter.next().value;
     }
-    for (const a of iter) acc = f(acc, a);
-    return acc;
+    return go1(acc, function recur(acc) {
+        for (const a of iter) {
+            acc = f(acc, a);
+            if (acc instanceof Promise) return acc.then(recur);
+        }
+        return acc;
+    });
 });
 
 // 0 ~ l-1 까지 숫자가 담긴 배열을 생성

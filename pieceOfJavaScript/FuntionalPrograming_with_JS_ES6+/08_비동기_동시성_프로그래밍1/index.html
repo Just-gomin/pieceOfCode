@@ -51,7 +51,7 @@
   const delay100 = (a) =>
     new Promise((resolve) => setTimeout(() => resolve(a), 100));
 
-  const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
+  // const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
   const add5 = (a) => a + 5;
 
   //   go1(go1(10, add5), log);
@@ -123,4 +123,39 @@
 
   fg2(1).then(log);
   fg2().then(log); // 오류가 발생해도 안전하게 합성된다.
+</script>
+
+<!--
+  5. go, pipe, reduce에서 비동기 제어
+-->
+<script>
+  go(
+    Promise.resolve(1),
+    (a) => Promise.resolve(a + 10),
+    (a) => a + 100,
+    (a) => a + 1000,
+    (a) => Promise.resolve(a + 10000),
+    log
+  );
+
+  go(
+    Promise.resolve(1),
+    (a) => Promise.resolve(a + 10),
+    (a) => Promise.reject("Error!!!"),
+    (a) => a + 100,
+    (a) => a + 1000,
+    (a) => Promise.resolve(a + 10000),
+    log
+  ).catch((e) => log(e));
+</script>
+
+<!--
+  6. Promise.then의 중요한 규칙
+  - Promise가 아무리 중첩되어도, then 구문 내부에 반환되는 값은 Promise가 아니다.
+-->
+<script>
+  Promise.resolve(Promise.resolve(Promise.resolve(1))).then((a) => {
+    log(a instanceof Promise);
+    log(a);
+  });
 </script>
