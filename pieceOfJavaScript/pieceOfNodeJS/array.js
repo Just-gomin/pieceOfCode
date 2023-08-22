@@ -99,7 +99,7 @@ initializeArr();
 preNewLine("< Check Origin >");
 fLog.log(
     "numArr.concat()",
-    `origin: [${numArr}]`,
+    `origin: [${numArr}], [${numArr2}]`,
     `returned: [${numArr.concat(numArr2)}]`,
 );
 initializeArr();
@@ -305,6 +305,18 @@ fLog.log(
     "strArr.sort()",
     `origin: [${strArr}]`,
     `returned: [${strArr.sort()}]`,
+);
+initializeArr();
+
+fLog.log(
+    "numArr.sort((a, b) => a - b))",
+    `origin: [${numArr}]`,
+    `returned: [${numArr.sort((a, b) => a - b)}]`,
+);
+fLog.log(
+    "strArr.sort((a, b) => a - b))",
+    `origin: [${strArr}]`,
+    `returned: [${strArr.sort((a, b) => a - b)}]`,
 );
 initializeArr();
 
