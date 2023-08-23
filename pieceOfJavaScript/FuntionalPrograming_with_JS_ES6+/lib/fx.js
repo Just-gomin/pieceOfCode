@@ -101,6 +101,33 @@ L.flatMap = curry(pipe(L.map, L.flatten));
 //  Concurrency
 // ---------------
 
+const C = {};
+
+function noop() { }
+
+// Promise 처리 중간에 reject가 발생하는 경우, 추후 처리할 수 있도록 조치
+const catchNoop = ([...arr]) => (
+    arr.forEach((a) => (a instanceof Promise ? a.catch(noop) : a)), arr
+);
+
+// 병렬적으로 처리 시켜 한번에 결과를 반환한다.
+C.reduce = curry((f, acc, iter) =>
+    iter ? reduce(f, acc, catchNoop(iter)) : reduce(f, catchNoop(acc))
+);
+
+C.take = curry((l, iter) => take(l, catchNoop(iter)));
+
+C.takeAll = C.take(Infinity);
+
+C.map = curry(pipe(L.map, C.takeAll));
+
+C.filter = curry(pipe(L.filter, C.takeAll));
+
+
+// ---------------
+//  Strict
+// ---------------
+
 // 함수 f와 이터러블을 받아, 이터러블 각각에 대해 함수 f를 반복해 수행하는 함수
 const map = curry(pipe(L.map, takeAll));
 

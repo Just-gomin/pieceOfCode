@@ -99,18 +99,18 @@
     5. 지연된 함수열을 병력적으로 평가하기 - C.reduce, C.take
 -->
 <script>
-  const C = {};
-  function noop() {}
-  const catchNoop = ([...arr]) => (
-    arr.forEach((a) => (a instanceof Promise ? a.catch(noop) : a)), arr
-  ); // Promise 처리 중간에 reject가 발생하는 경우, 추후 처리할 수 있도록 조치
+  //   const C = {};
+  //   function noop() {}
+  //   const catchNoop = ([...arr]) => (
+  //     arr.forEach((a) => (a instanceof Promise ? a.catch(noop) : a)), arr
+  //   ); // Promise 처리 중간에 reject가 발생하는 경우, 추후 처리할 수 있도록 조치
 
-  C.reduce = curry((f, acc, iter) =>
-    iter ? reduce(f, acc, catchNoop(iter)) : reduce(f, catchNoop(acc))
-  ); // 병렬적으로 처리 시켜 한번에 결과를 반환한다.
+  //   C.reduce = curry((f, acc, iter) =>
+  //     iter ? reduce(f, acc, catchNoop(iter)) : reduce(f, catchNoop(acc))
+  //   ); // 병렬적으로 처리 시켜 한번에 결과를 반환한다.
 
-  C.take = curry((l, iter) => take(l, catchNoop(iter)));
-  C.takeAll = C.take(Infinity);
+  //   C.take = curry((l, iter) => take(l, catchNoop(iter)));
+  //   C.takeAll = C.take(Infinity);
 
   const delay500 = (a) => {
     log("hi - ");
@@ -152,8 +152,8 @@
     6. 즉시 병렬적으로 평가하기 - C.map, C.filter
 -->
 <script>
-  C.map = curry(pipe(L.map, C.takeAll));
-  C.filter = curry(pipe(L.filter, C.takeAll));
+  //   C.map = curry(pipe(L.map, C.takeAll));
+  //   C.filter = curry(pipe(L.filter, C.takeAll));
 
   //   C.map((a) => delay500(a * a), [1, 2, 3, 4]).then(log);
   //   C.filter((a) => delay500(a % 2), [1, 2, 3, 4]).then(log);
