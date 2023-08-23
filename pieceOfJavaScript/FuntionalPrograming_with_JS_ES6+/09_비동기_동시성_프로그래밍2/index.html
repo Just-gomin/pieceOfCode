@@ -1,0 +1,116 @@
+<script src="../lib/fx.js"></script>
+
+<!--
+    1. 지연평가 + Promise - L.map, map, take
+-->
+<script>
+  /*
+  go(
+    range(4),
+    L.map((a) => Promise.resolve(a + 10)),
+    take(2),
+    log
+  );
+
+  go(
+    [Promise.resolve(1), 2, Promise.resolve(3)],
+    L.map((a) => Promise.resolve(a + 10)),
+    take(2),
+    log
+  );
+
+  go(
+    [Promise.resolve(1), 2, Promise.resolve(3)],
+    L.map((a) => a + 2),
+    take(2),
+    log
+  );
+
+  go(
+    [Promise.resolve(1), 2, Promise.resolve(3)],
+    map((a) => a + 10),
+    take(2),
+    log
+  );
+
+  go(
+    [Promise.resolve(1), 2, Promise.resolve(3)],
+    map((a) => a + 10),
+    takeAll,
+    log
+  );
+  */
+</script>
+
+<!--
+    2. Kleisli Composition - L.filter, filter, nop, take
+-->
+<script>
+  //   go(
+  //     range(6),
+  //     L.map((a) => Promise.resolve(a * a)),
+  //     L.filter((a) => a % 2),
+  //     take(2),
+  //     log
+  //   );
+</script>
+
+<!--
+    3. reduce에서 nop 지원
+-->
+<script>
+  //   go(
+  //     [1, 2, 3, 4],
+  //     L.map((a) => a * a),
+  //     L.filter((a) => a % 2),
+  //     reduce(add),
+  //     log
+  //   );
+</script>
+
+<!--
+    4. 지연 평가 + Promise의 효율성
+-->
+<script>
+  go(
+    [1, 2, 3, 4, 5, 6, 7, 8],
+    L.map((a) => {
+      log("up", a);
+      return new Promise((resolve) => setTimeout(() => resolve(a * a), 1000));
+    }),
+    L.filter((a) => a % 2),
+    take(5),
+    log
+  );
+
+  go(
+    [1, 2, 3, 4, 5, 6, 7, 8],
+    L.map((a) => {
+      log("down", a);
+      return new Promise((resolve) => setTimeout(() => resolve(a * a), 1000));
+    }),
+    L.filter((a) => a % 2),
+    take(2),
+    log
+  );
+</script>
+
+<!--
+    5. 지연된 함수열을 병력적으로 평가하기 - C.reduce, C.take
+-->
+<script></script>
+
+<!--
+    6. 즉시 병렬적으로 평가하기 - C.map, C.filter
+-->
+<script></script>
+
+<!--
+    7. 즉시, 지연, Promise, 병렬적 조합하기
+-->
+<script></script>
+
+<!--
+    8. Node.js에서 SQL 병렬 평가로 얻은 효율
+-->
+<script></script>
