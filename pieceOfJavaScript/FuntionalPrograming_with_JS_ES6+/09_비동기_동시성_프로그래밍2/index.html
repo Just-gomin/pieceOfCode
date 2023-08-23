@@ -72,45 +72,162 @@
     4. 지연 평가 + Promise의 효율성
 -->
 <script>
-  go(
-    [1, 2, 3, 4, 5, 6, 7, 8],
-    L.map((a) => {
-      log("up", a);
-      return new Promise((resolve) => setTimeout(() => resolve(a * a), 1000));
-    }),
-    L.filter((a) => a % 2),
-    take(5),
-    log
-  );
+  //   go(
+  //     [1, 2, 3, 4, 5, 6, 7, 8],
+  //     L.map((a) => {
+  //       log("up", a);
+  //       return new Promise((resolve) => setTimeout(() => resolve(a * a), 1000));
+  //     }),
+  //     L.filter((a) => a % 2),
+  //     take(5),
+  //     log
+  //   );
 
-  go(
-    [1, 2, 3, 4, 5, 6, 7, 8],
-    L.map((a) => {
-      log("down", a);
-      return new Promise((resolve) => setTimeout(() => resolve(a * a), 1000));
-    }),
-    L.filter((a) => a % 2),
-    take(2),
-    log
-  );
+  //   go(
+  //     [1, 2, 3, 4, 5, 6, 7, 8],
+  //     L.map((a) => {
+  //       log("down", a);
+  //       return new Promise((resolve) => setTimeout(() => resolve(a * a), 1000));
+  //     }),
+  //     L.filter((a) => a % 2),
+  //     take(2),
+  //     log
+  //   );
 </script>
 
 <!--
     5. 지연된 함수열을 병력적으로 평가하기 - C.reduce, C.take
 -->
-<script></script>
+<script>
+  const C = {};
+  function noop() {}
+  const catchNoop = ([...arr]) => (
+    arr.forEach((a) => (a instanceof Promise ? a.catch(noop) : a)), arr
+  ); // Promise 처리 중간에 reject가 발생하는 경우, 추후 처리할 수 있도록 조치
+
+  C.reduce = curry((f, acc, iter) =>
+    iter ? reduce(f, acc, catchNoop(iter)) : reduce(f, catchNoop(acc))
+  ); // 병렬적으로 처리 시켜 한번에 결과를 반환한다.
+
+  C.take = curry((l, iter) => take(l, catchNoop(iter)));
+  C.takeAll = C.take(Infinity);
+
+  const delay500 = (a) => {
+    log("hi - ");
+    return new Promise((resolve) => setTimeout(() => resolve(a), 500));
+  };
+
+  //   console.time("");
+  //   go(
+  //     [1, 2, 3, 4, 5, 6, 7, 8],
+  //     L.map((a) => delay500(a * a)),
+  //     L.filter((a) => a % 2),
+  //     reduce(add),
+  //     log,
+  //     () => console.timeEnd("")
+  //   );
+
+  //   console.time("");
+  //   go(
+  //     [1, 2, 3, 4, 5, 6, 7, 8],
+  //     L.map((a) => delay500(a * a)),
+  //     L.filter((a) => a % 2),
+  //     C.reduce(add),
+  //     log,
+  //     () => console.timeEnd("")
+  //   );
+
+  //   go(
+  //     [1, 2, 3, 4, 5, 6, 7, 8],
+  //     L.map((a) => delay500(a * a)),
+  //     L.filter((a) => delay500(a % 2)),
+  //     L.map((a) => delay500(a * a)),
+  //     C.take(2),
+  //     C.reduce(add),
+  //     log
+  //   );
+</script>
 
 <!--
     6. 즉시 병렬적으로 평가하기 - C.map, C.filter
 -->
-<script></script>
+<script>
+  C.map = curry(pipe(L.map, C.takeAll));
+  C.filter = curry(pipe(L.filter, C.takeAll));
+
+  //   C.map((a) => delay500(a * a), [1, 2, 3, 4]).then(log);
+  //   C.filter((a) => delay500(a % 2), [1, 2, 3, 4]).then(log);
+</script>
 
 <!--
     7. 즉시, 지연, Promise, 병렬적 조합하기
+    - 상황에 맞게 전략을 세워 명시적으로 수행하도록 할 수 있다.
 -->
-<script></script>
+<script>
+  const delay300 = (a, name) => {
+    log(`${name}: ${a}`);
+    return new Promise((resolve) => setTimeout(() => resolve(a), 300));
+  };
 
-<!--
-    8. Node.js에서 SQL 병렬 평가로 얻은 효율
--->
-<script></script>
+  /*
+  console.time("Test All");
+  go(
+    [1, 2, 3, 4, 5, 6, 7, 8],
+    map((a) => delay300(a * a, "map 1")),
+    filter((a) => delay300(a % 2, "filter 2")),
+    map((a) => delay300(a * a, "map 3")),
+    take(2),
+    reduce(add),
+    log,
+    () => console.timeEnd("Test All")
+  );
+
+  console.time("Test Each");
+  go(
+    [1, 2, 3, 4, 5, 6, 7, 8],
+    L.map((a) => delay300(a * a, "map 1")),
+    L.filter((a) => delay300(a % 2, "filter 2")),
+    L.map((a) => delay300(a * a, "map 3")),
+    take(2),
+    reduce(add),
+    log,
+    () => console.timeEnd("Test Each")
+  );
+
+  console.time("Test All + Each");
+  go(
+    [1, 2, 3, 4, 5, 6, 7, 8],
+    C.map((a) => delay300(a * a, "map 1")),
+    L.filter((a) => delay300(a % 2, "filter 2")),
+    L.map((a) => delay300(a * a, "map 3")),
+    take(2),
+    reduce(add),
+    log,
+    () => console.timeEnd("Test All + Each")
+  );
+
+  console.time("Test All + Each 2");
+  go(
+    [1, 2, 3, 4, 5, 6, 7, 8],
+    L.map((a) => delay300(a * a, "map 1")),
+    C.filter((a) => delay300(a % 2, "filter 2")),
+    L.map((a) => delay300(a * a, "map 3")),
+    take(2),
+    reduce(add),
+    log,
+    () => console.timeEnd("Test All + Each 2")
+  );
+  */
+
+  console.time("Test All + Each 3");
+  go(
+    [1, 2, 3, 4, 5, 6, 7, 8],
+    L.map((a) => delay300(a * a, "map 1")),
+    L.filter((a) => delay300(a % 2, "filter 2")),
+    L.map((a) => delay300(a * a, "map 3")),
+    C.take(2),
+    reduce(add),
+    log,
+    () => console.timeEnd("Test All + Each 3")
+  );
+</script>
