@@ -264,4 +264,23 @@
 
 ### 3.4.1 비주얼 스튜디오 코드 설치
 
--
+- 설치 경로: <https://code.visualstudio.com/download>
+
+### 3.4.2 내장 터미널
+
+- <code style="color:#db0202; background-color:#d1cfcf; padding:2px;">ctrl + `</code> 를 눌러 VSCode 하단에 터미널을 열 수 있다.
+
+### 3.4.3 Code Runner 확장 플러그인
+
+- 내장 터미널을 이용해 실행하고자 하는 파일을 실행할 수도 있지만, Code Runner를 이용하면 단축키 및 우클릭만으로도 실행 시킬 수 있다.
+
+  |운영체제|단축키|
+  |:--:|:--|
+  |윈도우| Ctrl + Alt + N|
+  |macOS| control + option + N|
+
+### 3.4.4 Live Server 확장 플러그인
+
+- HTML 파일의 소스코드를 수정할 때마다 수정 사항을 브라우저에 자동으로 반영해주는 플러그인이다.
+- 설치하면 VSCode 하단에 "Go Live" 버튼이 생긴다.
+- 실행하고자 하는 HTML 파일을 열고 버튼을 누르거나, 우클릭 후 "Open with Live Server"를 눌러 실행시킨다.
