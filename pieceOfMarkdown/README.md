@@ -59,6 +59,7 @@
 
 #### 주로 쓰는 하이라이팅 코드
 
+> \<mark>[내용]\</mark> </br>
 > <[tag] style="background-color:#e7fc26;">[내용]<[/tag]>
 
 #### 하이라이트 예시
@@ -75,7 +76,9 @@
 - <span style="color:white; background-color:purple;">\<span style="color:white; background-color:purple;">하이라이트 예시 텍스트\</span></span>
 - <span style="color:white; background-color:black;">\<span style="color:white; background-color:black;">하이라이트 예시 텍스트\</span></span>
 - <span style="color:white; background-color:grey;">\<span style="color:white; background-color:grey;">하이라이트 예시 텍스트\</span></span>
-- <span style="background-color:white;">\<span style="background-color:white;">하이라이트 예시 텍스트\</span></span>
+- <span style="color:black; background-color:white;">\<span style="color:black; background-color:white;">하이라이트 예시 텍스트\</span></span>
+- <mark style="background-color:orange;">\<mark style="background-color:orange;"> 하이라이트 예시 텍스트 with mark tag\</mark></mark>
+- <mark>\<mark>하이라이트 예시 텍스트 with mark tag\</mark></mark>
 
 ### 텍스트 꾸밀 때 쓰는 tag&colors
 
@@ -92,7 +95,7 @@
 
 #### 주로 쓰는 인라인(in-line) 코드
 
-> <code style="color:#db0202; background-color:#d1cfcf; padding:4px;">\<code style="color:#db0202; background-color:#d1cfcf; padding:4px;">[내용]\</code></code>
+> <code style="color:#db0202; background-color:#d1cfcf; padding:2px;">\<code style="color:#db0202; background-color:#d1cfcf; padding:2px;">[내용]\</code></code>
 
 ### 코드 블럭
 
