@@ -80,6 +80,12 @@
 - <mark style="background-color:orange;">\<mark style="background-color:orange;"> 하이라이트 예시 텍스트 with mark tag\</mark></mark>
 - <mark>\<mark>하이라이트 예시 텍스트 with mark tag\</mark></mark>
 
+### 밑줄
+
+```markdown
+<U>[내용]</U>
+```
+
 ### 텍스트 꾸밀 때 쓰는 tag&colors
 
 - tag : p, span, code, ...
