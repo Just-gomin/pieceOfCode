@@ -13,10 +13,12 @@
         "target": "ES6", // 특정 버전의 JavaScript로 타입스크립트를 컴파일
         "lib": [
             "ES6",
-            "DOM"
+            // "DOM"
         ], // JavaScript가 실행될 환경을 정의한다. 브라우저에서 사용하기 위해 "DOM"을 추가 한다면, ts파일에서 document에 대한 API 정보(자동완성)를 제공받을 수 있다.
         "strict": true, // 모든 타입을 검사하는 기능 사용 여부 설정
-        "allowJs": true, // 프로젝트에서 JavaScript를 사용 여부 설정
+        // "allowJs": true, // 프로젝트에서 JavaScript를 사용 여부 설정
         // "checkJs": true, // JavaScript 파일에 대한 타입을 확인할 지 여부
+        "esModuleInterop": true, // JavaScript의 commonJS 모듈 사용 가능 여부
+        "module": "CommonJS", // 어떤 형태의 모듈이 생성될지 지정
     }
 }
