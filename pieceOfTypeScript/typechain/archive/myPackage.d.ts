@@ -5,7 +5,7 @@
  *
  * Declaration이란 의미에서 d.ts로 파일 확장자를 지정한다.
  */
-declare module "myPackage" {
-  function init(config: string): boolean;
-  function exit(code: number): number;
-}
+// declare module "myPackage" {
+//   function init(config: string): boolean;
+//   function exit(code: number): number;
+// }
