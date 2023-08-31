@@ -1,0 +1,12 @@
+// TypeScript를 사용하기 위해 정의하는 설정 파일
+{
+    // include 안에는 JavaScript로 컴파일하고 싶은 모든 디렉터리를 포함시킨다.
+    "include": [
+        "src"
+    ],
+    // compilerOptions
+    "compilerOptions": {
+        "outDir": "build", // JavaScript로 생성된 디렉터리를 저장할 경로
+        "target": "ES6", // 특정 버전의 JavaScript로 타입스크립트를 컴파일
+    }
+}
