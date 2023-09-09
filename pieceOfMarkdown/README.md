@@ -202,3 +202,15 @@
 
    1. [내용1]
    2. [내용2]
+
+## Diagram & Charting
+
+- Mermaid 활용
+
+```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+```
