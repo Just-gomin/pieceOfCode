@@ -1,4 +1,4 @@
-import { log, preNewLine, FormattedLog } from "./logger.js";
+import { log, preNewLine, FormattedLog } from "../logger.js";
 
 const fLog = new FormattedLog(70, ">>", 70, "||", 3);
 
@@ -34,18 +34,22 @@ initializeArr();
 
 preNewLine("< Map, Return >");
 r1 = numArr.map((i) => i - 1);
-r2 = strArr.map((c) => +c);
-r2 = strArr.map((c) => Number.parseInt(c));
 fLog.log(
     "r1 = numArr.map((i) => i - 1)",
     `numArr: [${numArr}]`,
     `r1: [${r1}]`,
 );
+initializeArr();
+
+r2 = strArr.map((c) => +c);
 fLog.log(
     "r2 = strArr.map((c) => +c)",
-    `strArr: [${strArr}]`,
+    `strArr: [${strArr}], `,
     `r2: [${r2}]`,
 );
+initializeArr();
+
+r2 = strArr.map((c) => Number.parseInt(c));
 fLog.log(
     "r2 = strArr.map((c) => Number.parseInt(c))",
     `strArr: [${strArr}]`,
