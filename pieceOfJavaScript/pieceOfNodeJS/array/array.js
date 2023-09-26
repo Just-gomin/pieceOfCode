@@ -325,6 +325,18 @@ fLog.log(
 initializeArr();
 
 fLog.log(
+    "numArr.sort((a, b) => b - a))",
+    `origin: [${numArr}]`,
+    `returned: [${numArr.sort((a, b) => b - a)}]`,
+);
+fLog.log(
+    "strArr.sort((a, b) => b - a))",
+    `origin: [${strArr}]`,
+    `returned: [${strArr.sort((a, b) => b - a)}]`,
+);
+initializeArr();
+
+fLog.log(
     "numArr.splice(3)",
     `origin: [${numArr}]`,
     `returned: [${numArr.splice(3)}]`,
