@@ -1,18 +1,32 @@
 let array;
 
+// --------------------
+// Array constructor
+// --------------------
+
 array = Array(); // [], length: 0
 
 array = Array(10); // [ <10 empty items> ], length: 10
 
+array = Array('a'); // [ 'a' ], length: 1
+
 array = Array(10, 20, 30); // [ 10, 20, 30 ], length: 3
 
 array = Array([10, 20, 30]); // [ [ 10, 20, 30 ] ], length: 1
+
+// --------------------
+// Array.of constructor
+// --------------------
 
 array = Array.of(); // [], length: 0
 
 array = Array.of(1); // [ 1 ], length: 1
 
 array = Array.of(10, 20, 30); // [ 10, 20, 30 ], length: 3
+
+// --------------------
+// Array.from constructor
+// --------------------
 
 // array = Array.from(); // TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))
 
