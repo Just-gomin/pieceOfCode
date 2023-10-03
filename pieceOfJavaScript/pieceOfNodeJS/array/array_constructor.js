@@ -6,13 +6,27 @@ let array;
 
 array = Array(); // [], length: 0
 
+array = new Array(); // [], length: 0
+
 array = Array(10); // [ <10 empty items> ], length: 10
+
+array = new Array(10); // [ <10 empty items> ], length: 10
 
 array = Array('a'); // [ 'a' ], length: 1
 
+array = new Array('a'); // [ 'a' ], length: 1
+
 array = Array(10, 20, 30); // [ 10, 20, 30 ], length: 3
 
+array = new Array(10, 20, 30); // [ 10, 20, 30 ], length: 3
+
 array = Array([10, 20, 30]); // [ [ 10, 20, 30 ] ], length: 1
+
+array = new Array([10, 20, 30]); // [ [ 10, 20, 30 ] ], length: 1
+
+array = Array(...[10, 20, 30]); // [ 10, 20, 30 ], length: 3
+
+array = new Array(...[10, 20, 30]); // [ 10, 20, 30 ], length: 3
 
 // --------------------
 // Array.of constructor
