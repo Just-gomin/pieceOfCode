@@ -36,8 +36,12 @@ array = Array.from([10, 20, 30]); // [ 10, 20, 30 ] , length: 3
 
 array = Array.from({ length: 5 }); // [ undefined, undefined, undefined, undefined, undefined ], length: 5
 
-array = Array.from({ length: 5 }, (v, k) => v); // [ undefined, undefined, undefined, undefined, undefined ] , length: 5
+array = Array.from({ length: 5, 0: 0, 1: 1, 2: 2, 4: 4 }); // [ 0, 1, 2, undefined, 4 ], length: 5
 
-array = Array.from({ length: 5 }, (v, k) => k); // [ 0, 1, 2, 3, 4 ] , length: 5
+array = Array.from({ length: 5 }, (v, k) => v); // [ undefined, undefined, undefined, undefined, undefined ], length: 5
+
+array = Array.from({ length: 5 }, (v, k) => k); // [ 0, 1, 2, 3, 4 ], length: 5
+
+array = Array.from({ length: 5, 0: 0, 1: 1, 2: 2, 3: 3, 4: 4 }, (v, k) => v + k); // [0, 2, 4, 6, 8], length: 5
 
 console.log(array, `, length: ${array.length}`);
