@@ -24,6 +24,10 @@ array = Array.of(1); // [ 1 ], length: 1
 
 array = Array.of(10, 20, 30); // [ 10, 20, 30 ], length: 3
 
+array = Array.of([10, 20, 30]); // [ [ 10, 20, 30 ] ], length: 1
+
+array = Array.of(...[10, 20, 30]); // [ 10, 20, 30 ], length: 3
+
 // --------------------
 // Array.from constructor
 // --------------------
