@@ -62,4 +62,6 @@ array = Array.from({ length: 5 }, (v, k) => k); // [ 0, 1, 2, 3, 4 ], length: 5
 
 array = Array.from({ length: 5, 0: 0, 1: 1, 2: 2, 3: 3, 4: 4 }, (v, k) => v + k); // [0, 2, 4, 6, 8], length: 5
 
+array = Array.from([1, 2, 3, 4, 5], (v, k) => v + k); // [ 1, 3, 5, 7, 9 ] , length: 5
+
 console.log(array, `, length: ${array.length}`);
