@@ -13,9 +13,17 @@
 
 - [DesignPatter](./pieceOfDesignPattern/)
 
+### 👉 DesignPattern Book
+
+- [헤드 퍼스트 디자인 패턴](./pieceOfDesignPattern/Head-First-Design-Pattern/)
+
 ## 📌 JavaScript & TypeScript
 
 - [JavaScript](./pieceOfJavaScript/)
+
+### 👉 JavaScript Book
+
+- [모던 자바스크립트 딥다이브](./pieceOfJavaScript/Mordern-JavaScript-Deep-Dive/)
 
 ## 📌 Dart & Flutter
 
