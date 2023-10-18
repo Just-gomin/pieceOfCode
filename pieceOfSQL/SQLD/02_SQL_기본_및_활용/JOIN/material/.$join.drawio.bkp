@@ -1,0 +1,139 @@
+<mxfile host="Electron" modified="2023-09-22T04:34:07.610Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="AM4yGh2ey_hnmE5qw_iR" version="21.7.5" type="device" pages="4">
+  <diagram name="JOIN의_종류" id="bDgBl5sPsiLC1mhiMHxO">
+    <mxGraphModel dx="1175" dy="825" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="LJpSSvs-1JSIScKcz2On-20" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="720" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-1" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;" vertex="1" parent="1">
+          <mxGeometry x="280" y="120" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-2" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;" vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-3" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;LEFT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="180" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-4" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;RIGHT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="440" y="180" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-5" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;INNER JOIN&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-7" value="" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.pointed_oval;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="345" y="130" width="110" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-9" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="120" y="360" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-10" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="360" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-11" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;LEFT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="120" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-12" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;RIGHT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-13" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;LEFT OUTER JOIN&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="120" y="320" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-16" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="520" y="360" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-15" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=none;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="440" y="360" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-17" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;LEFT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="440" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-18" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;RIGHT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="600" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="LJpSSvs-1JSIScKcz2On-19" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;RIGHT OUTER JOIN&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="440" y="320" width="240" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="h_VaCX9is6NI3U8yz89i" name="LEFT_OUTER_JOIN">
+    <mxGraphModel dx="940" dy="660" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yx5ATThLZ2hMHE02eqi4-6" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="40" width="320" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="yx5ATThLZ2hMHE02eqi4-1" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="240" y="120" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="yx5ATThLZ2hMHE02eqi4-2" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="320" y="120" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="yx5ATThLZ2hMHE02eqi4-3" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;LEFT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="240" y="180" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yx5ATThLZ2hMHE02eqi4-4" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;RIGHT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="400" y="180" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yx5ATThLZ2hMHE02eqi4-5" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;LEFT OUTER JOIN&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="240" y="80" width="240" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cEDtP5JAqDDRpp3505r_" name="RIGHT_OUTER_JOIN">
+    <mxGraphModel dx="940" dy="660" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Fnc62h6ioznni527ONt7-7" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="240" y="80" width="320" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="Fnc62h6ioznni527ONt7-1" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="360" y="160" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="Fnc62h6ioznni527ONt7-2" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=none;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="280" y="160" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="Fnc62h6ioznni527ONt7-3" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;LEFT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="220" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Fnc62h6ioznni527ONt7-4" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;RIGHT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="440" y="220" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Fnc62h6ioznni527ONt7-5" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;RIGHT OUTER JOIN&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="120" width="240" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="2iMpJawsyx12jJ9RjoH_" name="FULL_OUTER_JOIN">
+    <mxGraphModel dx="940" dy="660" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="W7c-K8YdYDfydE8YHNEC-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="240" y="80" width="320" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="W7c-K8YdYDfydE8YHNEC-2" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=50;" vertex="1" parent="1">
+          <mxGeometry x="360" y="160" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="W7c-K8YdYDfydE8YHNEC-3" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=50;" vertex="1" parent="1">
+          <mxGeometry x="280" y="160" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="W7c-K8YdYDfydE8YHNEC-4" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;LEFT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="220" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="W7c-K8YdYDfydE8YHNEC-5" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;RIGHT TABLE&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="440" y="220" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="W7c-K8YdYDfydE8YHNEC-6" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;FULL OUTER JOIN&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="280" y="120" width="240" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
