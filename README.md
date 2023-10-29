@@ -61,6 +61,7 @@
 ### 👉 커뮤니티 & QnA, etc.
 
 - [StackOverflow](https://stackoverflow.com/)
+- [codenary](https://www.codenary.co.kr/)
 - [Careerly](https://careerly.co.kr/home)
 - [OKKY](https://okky.kr/)
 
