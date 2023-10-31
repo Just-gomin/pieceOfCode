@@ -8,10 +8,10 @@ class sampleClass {
     }
 }
 
-let sampleArr = [];
+let sampleArr = new Array();
 
 const initialize = () => {
-    sampleArr = [];
+    sampleArr = new Array();
     for (let i = 0; i < 10; i++) {
         sampleArr.push(new sampleClass(i + 1));
     }
@@ -28,9 +28,8 @@ fLog.log('after for..of loop', sampleArr.map(v => v.value));
 initialize();
 preNewLine("<<Change affect of for..in loop>>");
 fLog.log('Origin', sampleArr.map(v => v.value));
-for (const key in sampleArr) {
-    sampleArr[key].value += 2; // key: [INDEX], sampleArr[key]: sampleClass { value: [VALUE] }
-
+for (const property in sampleArr) {
+    sampleArr[property].value += 2; // property: [INDEX], sampleArr[property]: sampleClass { value: [VALUE] }
 }
 fLog.log('Changed', sampleArr.map(v => v.value));
 
@@ -39,7 +38,6 @@ preNewLine("<<Change affect of for loop>>");
 fLog.log('Origin', sampleArr.map(v => v.value));
 for (let index = 0; index < sampleArr.length; index++) {
     sampleArr[index].value += 2; // index: [INDEX], sampleArr[index]: [VALUE]
-
 }
 fLog.log('Changed', sampleArr.map(v => v.value));
 
