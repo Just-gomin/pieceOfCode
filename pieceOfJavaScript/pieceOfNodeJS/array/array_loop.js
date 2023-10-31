@@ -8,18 +8,73 @@ class sampleClass {
     }
 }
 
-const sampleArr = [];
+let sampleArr = [];
 
 const initialize = () => {
+    sampleArr = [];
     for (let i = 0; i < 10; i++) {
-        sampleArr.push(new sampleClass(i));
+        sampleArr.push(new sampleClass(i + 1));
     }
 }
 
 initialize();
-
 preNewLine("<<Change affect of for..of loop>>");
 fLog.log('origin', sampleArr.map(v => v.value));
-for (const sample of sampleArr) sample.value += 2;
+for (const sample of sampleArr) {
+    sample.value += 2;
+}
 fLog.log('after for..of loop', sampleArr.map(v => v.value));
-// Array keep status after the change process through for..of loop.
+
+initialize();
+preNewLine("<<Change affect of for..in loop>>");
+fLog.log('Origin', sampleArr.map(v => v.value));
+for (const key in sampleArr) {
+    sampleArr[key].value += 2; // key: [INDEX], sampleArr[key]: sampleClass { value: [VALUE] }
+
+}
+fLog.log('Changed', sampleArr.map(v => v.value));
+
+initialize();
+preNewLine("<<Change affect of for loop>>");
+fLog.log('Origin', sampleArr.map(v => v.value));
+for (let index = 0; index < sampleArr.length; index++) {
+    sampleArr[index].value += 2; // index: [INDEX], sampleArr[index]: [VALUE]
+
+}
+fLog.log('Changed', sampleArr.map(v => v.value));
+
+initialize();
+preNewLine("<<Change affect of while loop>>");
+fLog.log('Origin', sampleArr.map(v => v.value));
+let whileIndex = 0;
+while (whileIndex < sampleArr.length) {
+    sampleArr[whileIndex].value += 2; // whileIndex: [whileINDEX], sampleArr[whileIndex]: [VALUE]
+    whileIndex++;
+}
+fLog.log('Changed', sampleArr.map(v => v.value));
+
+initialize();
+preNewLine("<<Change affect of do while loop>>");
+fLog.log('Origin', sampleArr.map(v => v.value));
+let doWhileIndex = 0;
+do {
+    sampleArr[doWhileIndex].value += 2; // doWhileIndex: [Index], sampleArr[doWhileIndex]: [VALUE]
+    doWhileIndex++;
+} while (doWhileIndex < sampleArr.length);
+fLog.log('Changed', sampleArr.map(v => v.value));
+
+initialize();
+preNewLine("<<Change affect of map loop>>");
+fLog.log('Origin', sampleArr.map(v => v.value));
+sampleArr.map((v, i, arr) => {
+    v.value += 2;
+});
+fLog.log('Changed', sampleArr.map(v => v.value));
+
+initialize();
+preNewLine("<<Change affect of forEach loop>>");
+fLog.log('Origin', sampleArr.map(v => v.value));
+sampleArr.forEach((v, i, arr) => {
+    v.value += 2;
+});
+fLog.log('Changed', sampleArr.map(v => v.value));
