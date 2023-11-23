@@ -26,6 +26,7 @@ class LoginScreen extends StatelessWidget {
                   'asset/img/misc/logo.png',
                   width: MediaQuery.of(context).size.width / 3 * 2,
                 ),
+                const SizedBox(height: 16.0),
                 CustomTextFormField(
                   hintText: "이메일을 입력해주세요",
                   onChanged: (String value) {},
