@@ -1,3 +1,4 @@
+import 'package:actual_flutter/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,9 +15,7 @@ class _App extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'NotoSans',
       ),
-      home: Scaffold(
-        body: Container(),
-      ),
+      home: LoginScreen(),
     );
   }
 }
