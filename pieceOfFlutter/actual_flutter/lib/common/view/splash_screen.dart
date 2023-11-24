@@ -1,7 +1,7 @@
 import 'package:actual_flutter/common/const/colors.dart';
 import 'package:actual_flutter/common/const/data.dart';
 import 'package:actual_flutter/common/layout/default_layout.dart';
-import 'package:actual_flutter/common/view/rood_tab.dart';
+import 'package:actual_flutter/common/view/root_tab.dart';
 import 'package:actual_flutter/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
