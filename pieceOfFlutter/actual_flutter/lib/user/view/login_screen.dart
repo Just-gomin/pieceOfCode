@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:actual_flutter/common/component/custom_text_form_field.dart';
 import 'package:actual_flutter/common/const/colors.dart';
 import 'package:actual_flutter/common/layout/default_layout.dart';
+import 'package:actual_flutter/common/view/rood_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -81,6 +82,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
                       );
+
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const RootTab(),
+                        ),
+                      );
+
                       print(resp.data);
                     } catch (e) {
                       print(e);
