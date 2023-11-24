@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:actual_flutter/common/component/custom_text_form_field.dart';
 import 'package:actual_flutter/common/const/colors.dart';
+import 'package:actual_flutter/common/const/data.dart';
 import 'package:actual_flutter/common/layout/default_layout.dart';
 import 'package:actual_flutter/common/view/rood_tab.dart';
 import 'package:dio/dio.dart';
@@ -83,13 +84,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
 
+                      final accesseToken = resp.data['accessToken'];
+                      final refreshToken = resp.data['refreshToken'];
+
+                      await storage.write(key: ACCESS_TOKEN_KEY, value: accesseToken);
+                      await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => const RootTab(),
                         ),
                       );
-
-                      print(resp.data);
                     } catch (e) {
                       print(e);
                     }
