@@ -48,6 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
           },
         ),
       );
+      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.data['accessToken']);
       isAuthorized = true;
     } catch (e) {
       isAuthorized = false;
