@@ -110,26 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () async {
-                    String refreshToken =
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTcwMDgxNzg5NCwiZXhwIjoxNzAwOTA0Mjk0fQ.zirV978vg5uYhWmi2zrf_zKXz8fKBDwlTAbzAxQfvR8";
-
-                    final url = 'http://$ip/auth/token';
-
-                    try {
-                      final resp = await dio.post(
-                        url,
-                        options: Options(
-                          headers: {
-                            "authorization": "Bearer $refreshToken",
-                          },
-                        ),
-                      );
-                      print(resp.data);
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
+                  onPressed: () {},
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
                   ),

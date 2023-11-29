@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:actual_flutter/common/const/colors.dart';
 import 'package:actual_flutter/common/const/data.dart';
 import 'package:actual_flutter/common/layout/default_layout.dart';
 import 'package:actual_flutter/common/view/root_tab.dart';
 import 'package:actual_flutter/user/view/login_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,11 +27,35 @@ class _SplashScreenState extends State<SplashScreen> {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
-    final isUnauthorized = refreshToken == null || accessToken == null;
+    final dio = Dio();
+
+    // localhost
+    const emulatorIP = '10.0.0.2:3000';
+    const simulatorIP = '127.0.0.1:3000';
+
+    final ip = Platform.isAndroid ? emulatorIP : simulatorIP;
+
+    final url = 'http://$ip/auth/token';
+
+    bool isAuthorized = false;
+
+    try {
+      final resp = await dio.post(
+        url,
+        options: Options(
+          headers: {
+            "authorization": "Bearer $refreshToken",
+          },
+        ),
+      );
+      isAuthorized = true;
+    } catch (e) {
+      isAuthorized = false;
+    }
 
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (_) => isUnauthorized ? LoginScreen() : RootTab(),
+        builder: (_) => isAuthorized ? RootTab() : LoginScreen(),
       ),
       (route) => false,
     );
