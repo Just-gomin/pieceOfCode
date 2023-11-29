@@ -1,5 +1,6 @@
 import 'package:actual_flutter/common/const/data.dart';
 import 'package:actual_flutter/restaurant/component/restaurant_card.dart';
+import 'package:actual_flutter/restaurant/model/restaurant_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -34,27 +35,11 @@ class RestaurantScreen extends StatelessWidget {
               return ListView.separated(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  final item = snapshot.data![index];
-
-                  return Center(
-                    child: RestaurantCard(
-                      image: Image.network(
-                        'http://$ip${item['thumbUrl']}',
-                        fit: BoxFit.cover,
-                      ),
-                      name: item['name'],
-                      tags: List<String>.from(item['tags']),
-                      ratingsCount: item['ratingsCount'],
-                      ratings: item['ratings'],
-                      deliveryTime: item['deliveryTime'],
-                      deliveryFee: item['deliveryFee'],
-                    ),
-                  );
+                  final item = RestaurantModel.fromJson(json: snapshot.data![index]);
+                  return Center(child: RestaurantCard.fromModel(model: item));
                 },
                 separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 16.0,
-                  );
+                  return const SizedBox(height: 16.0);
                 },
               );
             }
