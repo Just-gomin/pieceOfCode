@@ -1,47 +1,73 @@
+import "package:actual_flutter/common/const/colors.dart";
+import "package:actual_flutter/common/const/data.dart";
 import "package:actual_flutter/common/layout/default_layout.dart";
 import "package:actual_flutter/product/component/product_card.dart";
 import "package:actual_flutter/restaurant/component/restaurant_card.dart";
+import "package:actual_flutter/restaurant/model/restaurant_detail_model.dart";
+import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 
 class RestaurantDetailScreen extends StatelessWidget {
-  const RestaurantDetailScreen({super.key});
+  final String id;
+
+  const RestaurantDetailScreen({
+    super.key,
+    required this.id,
+  });
+
+  Future<Map<String, dynamic>> getRestaurantDetail() async {
+    final dio = Dio();
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+
+    final resp = await dio.get(
+      'http://$ip/restaurant/$id',
+      options: Options(headers: {
+        'authorization': 'Bearer $accessToken',
+      }),
+    );
+
+    return resp.data;
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      title: "불타는 떡볶이",
-      child: CustomScrollView(
-        slivers: [
-          renderTop(),
-          renderLabel(),
-          renderProducts(),
-        ],
-      ),
+        title: "불타는 떡볶이",
+        child: FutureBuilder<Map<String, dynamic>>(
+          future: getRestaurantDetail(),
+          builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: PRIMARY_COLOR,
+                ),
+              );
+            }
+            final restaurantDetail = RestaurantDetailModel.fromJson(json: snapshot.data!);
 
-      // Column(
-      //   children: [
-
-      //     const Padding(
-      //       padding: EdgeInsets.symmetric(horizontal: 16.0),
-      //       child: ProductCard(),
-      //     ),
-      //   ],
-      // ),
-    );
+            return CustomScrollView(
+              slivers: [
+                renderTop(restaurantDetail: restaurantDetail),
+                renderLabel(),
+                renderProducts(products: restaurantDetail.products),
+              ],
+            );
+          },
+        ));
   }
 
-  SliverToBoxAdapter renderTop() {
+  SliverToBoxAdapter renderTop({required RestaurantDetailModel restaurantDetail}) {
     return SliverToBoxAdapter(
       child: RestaurantCard(
-        image: Image.asset('asset/img/food/ddeok_bok_gi.jpg'),
-        name: '불타는 떡볶이',
-        tags: ['떡볶이', '맛있음', '치즈'],
-        ratingsCount: 100,
-        deliveryTime: 20,
-        deliveryFee: 3000,
-        ratings: 4.76,
+        image: Image.network(restaurantDetail.thumbUrl),
+        name: restaurantDetail.name,
+        tags: restaurantDetail.tags,
+        ratingsCount: restaurantDetail.ratingsCount,
+        deliveryTime: restaurantDetail.deliveryTime,
+        deliveryFee: restaurantDetail.deliveryFee,
+        ratings: restaurantDetail.ratings,
         isDetail: true,
-        detail: "맛있는 떡볶이",
+        detail: restaurantDetail.detail,
       ),
     );
   }
@@ -61,18 +87,22 @@ class RestaurantDetailScreen extends StatelessWidget {
     );
   }
 
-  SliverPadding renderProducts() {
+  SliverPadding renderProducts({required List<RestaurantProductModel> products}) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, child) {
-            return const Padding(
-              padding: EdgeInsets.only(top: 16.0),
-              child: ProductCard(),
+          (context, index) {
+            final RestaurantProductModel product = products[index];
+
+            return Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ProductCard.fromModel(
+                model: product,
+              ),
             );
           },
-          childCount: 10,
+          childCount: products.length,
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:actual_flutter/common/const/colors.dart';
 import 'package:actual_flutter/common/const/data.dart';
 import 'package:actual_flutter/restaurant/component/restaurant_card.dart';
 import 'package:actual_flutter/restaurant/model/restaurant_model.dart';
@@ -31,7 +32,11 @@ class RestaurantScreen extends StatelessWidget {
           future: paginateRestaurant(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Container();
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: PRIMARY_COLOR,
+                ),
+              );
             } else {
               return ListView.separated(
                 itemCount: snapshot.data!.length,
@@ -40,7 +45,9 @@ class RestaurantScreen extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => RestaurantDetailScreen(),
+                        builder: (_) => RestaurantDetailScreen(
+                          id: item.id,
+                        ),
                       ));
                     },
                     child: RestaurantCard.fromModel(model: item),
