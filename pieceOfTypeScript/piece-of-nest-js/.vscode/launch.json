@@ -1,0 +1,51 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // 참고: https://dev.to/gentax/nestjs-right-settings-for-debugging-kl0
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug [LOCAL]",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "start:local"
+            ],
+            "autoAttachChildProcesses": true,
+            "restart": true,
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug [DEV]",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "start:dev"
+            ],
+            "autoAttachChildProcesses": true,
+            "restart": true,
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug [PROD]",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "start:prod"
+            ],
+            "autoAttachChildProcesses": true,
+            "restart": true,
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "console": "integratedTerminal"
+        }
+    ]
+}
