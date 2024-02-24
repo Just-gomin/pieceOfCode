@@ -27,24 +27,32 @@ class _BaseScreenState extends State<BaseScreen> {
         title: Text(widget.title),
         actions: [
           Builder(builder: (context) {
-            return IconButton(
-              onPressed: () {
-                if (!isBottomSheetOpen) {
-                  isBottomSheetOpen = true;
-                  Scaffold.of(context).showBottomSheet(
-                    (BuildContext context) {
-                      return MarkDownBottomSheet(
-                        markdownFilePath: widget.documentFilePath,
+            return !isBottomSheetOpen
+                ? IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).showBottomSheet(
+                        (BuildContext context) {
+                          return MarkDownBottomSheet(
+                            markdownFilePath: widget.documentFilePath,
+                          );
+                        },
                       );
+
+                      setState(() {
+                        isBottomSheetOpen = true;
+                      });
                     },
+                    icon: const Icon(Icons.info_outline_rounded),
+                  )
+                : IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      setState(() {
+                        isBottomSheetOpen = false;
+                      });
+                    },
+                    icon: const Icon(Icons.close),
                   );
-                } else {
-                  Navigator.of(context).pop();
-                  isBottomSheetOpen = false;
-                }
-              },
-              icon: const Icon(Icons.info_outline_rounded),
-            );
           }),
         ],
       ),
