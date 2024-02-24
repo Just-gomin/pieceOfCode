@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:piece_of_flutter/src/app/widgets/widgets.dart';
 
-class BaseScreen extends StatelessWidget {
+class BaseScreen extends StatefulWidget {
   const BaseScreen({
     super.key,
     required this.title,
@@ -14,28 +14,41 @@ class BaseScreen extends StatelessWidget {
   final Widget body;
 
   @override
+  State<BaseScreen> createState() => _BaseScreenState();
+}
+
+class _BaseScreenState extends State<BaseScreen> {
+  bool isBottomSheetOpen = false;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
         actions: [
           Builder(builder: (context) {
             return IconButton(
               onPressed: () {
-                Scaffold.of(context).showBottomSheet(
-                  (BuildContext context) {
-                    return MarkDownBottomSheet(
-                      markdownFilePath: documentFilePath,
-                    );
-                  },
-                );
+                if (!isBottomSheetOpen) {
+                  isBottomSheetOpen = true;
+                  Scaffold.of(context).showBottomSheet(
+                    (BuildContext context) {
+                      return MarkDownBottomSheet(
+                        markdownFilePath: widget.documentFilePath,
+                      );
+                    },
+                  );
+                } else {
+                  Navigator.of(context).pop();
+                  isBottomSheetOpen = false;
+                }
               },
               icon: const Icon(Icons.info_outline_rounded),
             );
           }),
         ],
       ),
-      body: body,
+      body: widget.body,
     );
   }
 }
