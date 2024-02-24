@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:piece_of_flutter/src/app/widgets/markdown_render.dart';
 
 class MarkDownBottomSheet extends StatelessWidget {
