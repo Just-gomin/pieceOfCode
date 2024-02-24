@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piece_of_flutter/src/app/pages/home_page.dart';
 
 class PieceOfFlutter extends StatelessWidget {
   const PieceOfFlutter({super.key});
@@ -6,12 +7,9 @@ class PieceOfFlutter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(),
-        body: const Center(
-          child: Text("Hi"),
-        ),
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      home: const HomePage(),
     );
   }
 }
