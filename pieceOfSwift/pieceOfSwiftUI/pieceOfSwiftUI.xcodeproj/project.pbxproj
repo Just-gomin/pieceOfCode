@@ -15,6 +15,7 @@
 		AE3456432BAD674400C11C6E /* pieceOfSwiftUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3456422BAD674400C11C6E /* pieceOfSwiftUIUITests.swift */; };
 		AE3456452BAD674400C11C6E /* pieceOfSwiftUIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3456442BAD674400C11C6E /* pieceOfSwiftUIUITestsLaunchTests.swift */; };
 		AE3456542BAD6B5100C11C6E /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AE3456532BAD6B5100C11C6E /* .gitignore */; };
+		AE3456562BAD6CD800C11C6E /* AddingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3456552BAD6CD800C11C6E /* AddingText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		AE3456422BAD674400C11C6E /* pieceOfSwiftUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pieceOfSwiftUIUITests.swift; sourceTree = "<group>"; };
 		AE3456442BAD674400C11C6E /* pieceOfSwiftUIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pieceOfSwiftUIUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AE3456532BAD6B5100C11C6E /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		AE3456552BAD6CD800C11C6E /* AddingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				AE3456272BAD674300C11C6E /* pieceOfSwiftUIApp.swift */,
 				AE3456292BAD674300C11C6E /* ContentView.swift */,
+				AE3456552BAD6CD800C11C6E /* AddingText.swift */,
 				AE34562B2BAD674400C11C6E /* Assets.xcassets */,
 				AE34562D2BAD674400C11C6E /* Preview Content */,
 			);
@@ -261,6 +264,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE3456562BAD6CD800C11C6E /* AddingText.swift in Sources */,
 				AE34562A2BAD674300C11C6E /* ContentView.swift in Sources */,
 				AE3456282BAD674300C11C6E /* pieceOfSwiftUIApp.swift in Sources */,
 			);
