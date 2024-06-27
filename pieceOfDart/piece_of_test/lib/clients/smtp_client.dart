@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:piece_of_test/domain/models/email.dart';
-import 'package:piece_of_test/domain/result.dart';
+import 'package:piece_of_test/domain/models/result.dart';
 
 class SmtpClient {
   FutureOr<Result> sendEmail({

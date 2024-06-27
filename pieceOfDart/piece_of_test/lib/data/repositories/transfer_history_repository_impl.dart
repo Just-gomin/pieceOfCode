@@ -19,7 +19,9 @@ class TransferHistoryRepositoryImpl extends TransferHistoryRepository {
   Future<TransferHistory> save({
     required TransferHistory transferHistory,
   }) async {
-    _transferHistoryTable.insert(transferHistory);
-    return transferHistory;
+    TransferHistory newTransferHistory = await _transferHistoryTable.insert(
+      transferHistory,
+    );
+    return newTransferHistory;
   }
 }

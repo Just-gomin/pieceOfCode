@@ -1,5 +1,4 @@
-import 'package:piece_of_test/domain/models/bank_account.dart';
-import 'package:piece_of_test/domain/result.dart';
+import 'package:piece_of_test/domain/models/models.dart';
 import 'package:piece_of_test/domain/use_cases/use_case.dart';
 
 abstract class TransferBankUseCase extends UseCase<Future<Result<String>>,

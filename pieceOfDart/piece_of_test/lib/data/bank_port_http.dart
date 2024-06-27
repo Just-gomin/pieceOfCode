@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:piece_of_test/domain/repositories/repositories.dart';
 import 'package:piece_of_test/clients/clients.dart';
-import 'package:piece_of_test/domain/result.dart';
+import 'package:piece_of_test/domain/models/models.dart';
 
 class BankPortHttp extends BankPort {
   final HttpClient httpClient;
@@ -13,37 +13,34 @@ class BankPortHttp extends BankPort {
 
   @override
   FutureOr<Result> deposit({
-    required String bankCode,
-    required String accountNumber,
+    required BankAccount bankAccount,
     required double amount,
   }) async {
     return await httpClient.deposit(
-      bankCode: bankCode,
-      accountNumber: accountNumber,
+      bankCode: bankAccount.bankCode,
+      accountNumber: bankAccount.accountNumber,
       amount: amount,
     );
   }
 
   @override
   FutureOr<double> getBalance({
-    required String bankCode,
-    required String accountNumber,
+    required BankAccount bankAccount,
   }) async {
     return await httpClient.getBalance(
-      bankCode: bankCode,
-      accountNumber: accountNumber,
+      bankCode: bankAccount.bankCode,
+      accountNumber: bankAccount.accountNumber,
     );
   }
 
   @override
   FutureOr<Result> withdraw({
-    required String bankCode,
-    required String accountNumber,
+    required BankAccount bankAccount,
     required double amount,
   }) async {
     return await httpClient.withdraw(
-      bankCode: bankCode,
-      accountNumber: accountNumber,
+      bankCode: bankAccount.bankCode,
+      accountNumber: bankAccount.accountNumber,
       amount: amount,
     );
   }

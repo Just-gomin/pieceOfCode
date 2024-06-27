@@ -1,15 +1,17 @@
 class Result<T> {
-  final bool isSuccess;
+  late final bool _isSuccess;
   final T? data;
   final String? message;
   final Exception? exception;
 
   Result({
-    required this.isSuccess,
+    bool isSuccess = false,
     this.data,
     this.message,
     this.exception,
-  });
+  }) {
+    _isSuccess = isSuccess;
+  }
 
   factory Result.success(T data) {
     return Result(
@@ -24,5 +26,9 @@ class Result<T> {
       message: message,
       exception: exception,
     );
+  }
+
+  bool isSuccess() {
+    return _isSuccess;
   }
 }

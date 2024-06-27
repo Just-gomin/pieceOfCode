@@ -20,7 +20,16 @@ class TransferHistoryTable {
     return _database.where(where).toList();
   }
 
-  Future<void> insert(TransferHistory transferHistory) async {
-    _database.add(transferHistory);
+  Future<TransferHistory> insert(TransferHistory transferHistory) async {
+    TransferHistory newTransferHistory = TransferHistory(
+      id: _database.length.toString(),
+      fromBankCode: transferHistory.fromBankCode,
+      fromBankAccountNumber: transferHistory.fromBankAccountNumber,
+      toBankCode: transferHistory.toBankCode,
+      toBankAccountNumber: transferHistory.toBankAccountNumber,
+      amount: transferHistory.amount,
+    );
+    _database.add(newTransferHistory);
+    return newTransferHistory;
   }
 }

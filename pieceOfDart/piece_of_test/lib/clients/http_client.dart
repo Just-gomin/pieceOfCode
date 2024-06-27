@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:piece_of_test/domain/result.dart';
+import 'package:piece_of_test/domain/models/result.dart';
 
 /// 은행 API 호출 인터페이스
 class HttpClient {

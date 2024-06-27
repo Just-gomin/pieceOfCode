@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:piece_of_test/clients/clients.dart';
 import 'package:piece_of_test/domain/models/models.dart';
-import 'package:piece_of_test/domain/result.dart';
 
 class EmailPortSmtp {
   final SmtpClient smtpClient;
