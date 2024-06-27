@@ -1,6 +1,6 @@
 import 'package:piece_of_test/data/transfer_history_table.dart';
-import 'package:piece_of_test/domain/models/transfer_history.dart';
-import 'package:piece_of_test/domain/repositories/transfer_history_repository.dart';
+import 'package:piece_of_test/domain/models/models.dart';
+import 'package:piece_of_test/domain/repositories/repositories.dart';
 
 class TransferHistoryRepositoryImpl extends TransferHistoryRepository {
   final TransferHistoryTable _transferHistoryTable = TransferHistoryTable();

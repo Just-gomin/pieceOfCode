@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:piece_of_test/domain/repositories/bank_port.dart';
+import 'package:piece_of_test/domain/repositories/repositories.dart';
 import 'package:piece_of_test/clients/clients.dart';
 import 'package:piece_of_test/domain/result.dart';
 

@@ -1,4 +1,4 @@
-import 'package:piece_of_test/domain/models/transfer_history.dart';
+import 'package:piece_of_test/domain/models/models.dart';
 
 class TransferHistoryTable {
   factory TransferHistoryTable() => _instance;
