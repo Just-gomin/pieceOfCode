@@ -1,4 +1,12 @@
+import 'package:piece_of_dart/timestamp.dart';
+
 void main() {
+  // testDateTimeConstructor();
+  // testDateTimeComparison();
+  testTimeStampAndDateTime();
+}
+
+void testDateTimeConstructor() {
   DateTime now = DateTime.now();
 
   print(DateTime(
@@ -9,8 +17,6 @@ void main() {
   print(now.toString());
   print(DateTime.parse('2021-01-01 08:00'));
   // print(DateTime.parse('2021-01-01 8:00')); // Error
-
-  testDateTimeComparison();
 }
 
 void testDateTimeComparison() {
@@ -35,4 +41,13 @@ void testDateTimeComparison() {
   print(now.isBefore(now)); // false
   print(now.isAfter(now)); // false
   print(now.isAtSameMomentAs(now)); // true
+}
+
+void testTimeStampAndDateTime() {
+  DateTime now = DateTime.now();
+  Timestamp timestamp = Timestamp(now.microsecondsSinceEpoch, 0);
+  DateTime dateTime =
+      DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+  print(dateTime.toString());
+  print(timestamp.toDate().toString());
 }
