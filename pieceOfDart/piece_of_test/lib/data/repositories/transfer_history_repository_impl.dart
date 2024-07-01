@@ -1,9 +1,13 @@
-import 'package:piece_of_test/data/transfer_history_table.dart';
 import 'package:piece_of_test/domain/models/models.dart';
 import 'package:piece_of_test/domain/repositories/repositories.dart';
+import 'package:piece_of_test/domain/transfer_history_table.dart';
 
 class TransferHistoryRepositoryImpl extends TransferHistoryRepository {
-  final TransferHistoryTable _transferHistoryTable = TransferHistoryTable();
+  final TransferHistoryTable _transferHistoryTable;
+
+  TransferHistoryRepositoryImpl({
+    required TransferHistoryTable transferHistoryTable,
+  }) : _transferHistoryTable = transferHistoryTable;
 
   @override
   Future<TransferHistory?> findById({

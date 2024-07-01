@@ -20,4 +20,15 @@ class Email {
   }) {
     this.sentAt = sentAt ?? DateTime.now();
   }
+
+  @override
+  int get hashCode => sentAt.hashCode;
+
+  @override
+  bool operator ==(covariant Email other) {
+    return from == other.from &&
+        to == other.to &&
+        subject == other.subject &&
+        body == other.body;
+  }
 }

@@ -28,53 +28,60 @@ class TransferBankUseCaseImpl extends TransferBankUseCase {
       );
     }
 
-    // FROM 계좌의 잔액이 충분한지 검사
-    final balanceOfFromBankAccount = await bankPort.getBalance(
-      bankAccount: from,
-    );
-    if (amount > balanceOfFromBankAccount) {
+    try {
+      // FROM 계좌의 잔액이 충분한지 검사
+      final balanceOfFromBankAccount = await bankPort.getBalance(
+        bankAccount: from,
+      );
+      if (amount > balanceOfFromBankAccount) {
+        return Result.failure(
+          '잔액 부족',
+          Exception('잔액 부족으로 송금 불가'),
+        );
+      }
+
+      // FROM 계좌에서 송금액만큼 출금
+      bankPort.withdraw(bankAccount: from, amount: amount);
+
+      // TO 계좌에 송금액만큼 입금
+      Result<dynamic> response = await bankPort.deposit(
+        bankAccount: to,
+        amount: amount,
+      );
+
+      return response.isSuccess()
+          ? () async {
+              final TransferHistory transferHistory =
+                  await transferHistoryRepository.save(
+                transferHistory: TransferHistory(
+                  fromBankCode: from.bankCode,
+                  fromBankAccountNumber: from.accountNumber,
+                  toBankCode: to.bankCode,
+                  toBankAccountNumber: to.accountNumber,
+                  amount: amount,
+                ),
+              );
+              emailPort.sendEmail(
+                email: Email(
+                  from: '우리 서비스 이메일 주소',
+                  to: '고객 이메일 주소',
+                  subject: '송금 성공',
+                  body: '송금 성공',
+                ),
+              );
+              return Result<String>.success(transferHistory.id);
+            }()
+          : () async {
+              return Result<String>.failure(
+                '송금 실패',
+                Exception(response.message),
+              );
+            }();
+    } catch (e) {
       return Result.failure(
-        '잔액 부족',
-        Exception('잔액 부족으로 송금 불가'),
+        '알 수 없는 오류',
+        Exception(e.toString()),
       );
     }
-
-    // FROM 계좌에서 송금액만큼 출금
-    bankPort.withdraw(bankAccount: from, amount: amount);
-
-    // TO 계좌에 송금액만큼 입금
-    Result<dynamic> response = await bankPort.deposit(
-      bankAccount: to,
-      amount: amount,
-    );
-
-    return response.isSuccess()
-        ? () async {
-            final TransferHistory transferHistory =
-                await transferHistoryRepository.save(
-              transferHistory: TransferHistory(
-                fromBankCode: from.bankCode,
-                fromBankAccountNumber: from.accountNumber,
-                toBankCode: to.bankCode,
-                toBankAccountNumber: to.accountNumber,
-                amount: amount,
-              ),
-            );
-            emailPort.sendEmail(
-              email: Email(
-                from: '우리 서비스 이메일 주소',
-                to: '고객 이메일 주소',
-                subject: '송금 성공',
-                body: '송금 성공',
-              ),
-            );
-            return Result<String>.success(transferHistory.id);
-          }()
-        : () async {
-            return Result<String>.failure(
-              '송금 실패',
-              Exception(response.message),
-            );
-          }();
   }
 }
