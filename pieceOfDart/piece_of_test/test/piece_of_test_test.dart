@@ -34,19 +34,6 @@ void main() {
     body: '송금 성공',
   );
 
-  final Email emailToFromBankAccount = Email(
-    from: 'myService@test.com',
-    to: 'from@fromBankAccount.com',
-    subject: '송금 안내',
-    body: '금액이 출금되었습니다.',
-  );
-  final Email emailToToBankAccount = Email(
-    from: 'myService@test.com',
-    to: 'to@toBankAccount.com',
-    subject: '송금 안내',
-    body: '금액이 입금되었습니다.',
-  );
-
   group('test code sampling', () {
     setUp(() {
       TransferHistoryTableFake().deleteAll();
