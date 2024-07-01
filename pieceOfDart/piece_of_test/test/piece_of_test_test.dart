@@ -6,10 +6,10 @@ import 'package:piece_of_test/data/transfer_history_table_fake.dart';
 import 'package:piece_of_test/piece_of_test.dart';
 import 'package:test/test.dart';
 
-@GenerateNiceMocks([
-  MockSpec<TransferHistoryRepository>(),
-  MockSpec<BankPort>(),
-  MockSpec<EmailPort>(),
+@GenerateMocks([
+  TransferHistoryRepository,
+  BankPort,
+  EmailPort,
 ])
 import 'piece_of_test_test.mocks.dart';
 
