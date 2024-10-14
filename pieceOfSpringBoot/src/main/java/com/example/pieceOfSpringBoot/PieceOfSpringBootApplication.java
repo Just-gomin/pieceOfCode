@@ -7,8 +7,10 @@ import java.util.UUID;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 @SpringBootApplication
 public class PieceOfSpringBootApplication {
 
@@ -28,12 +34,17 @@ public class PieceOfSpringBootApplication {
 
 }
 
+@Entity
 class Coffee {
 	// 특정 커피 종류의 고유값
-	private final String id;
+	@Id
+	private String id;
 
 	// 커피(종류)명
 	private String name;
+
+	public Coffee() {
+	}
 
 	public Coffee(String id, String name) {
 		this.id = id;
@@ -52,61 +63,67 @@ class Coffee {
 		return this.name;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
 }
 
-@RestController
-class RestApiDemoController {
-	private List<Coffee> coffees = new ArrayList<>();
+interface CoffeeRepository extends CrudRepository<Coffee, String> {
+}
 
-	public RestApiDemoController() {
-		coffees.addAll(List.of(
+@Component
+class DataLoader {
+	private final CoffeeRepository coffeeRepository;
+
+	public DataLoader(CoffeeRepository coffeeRepository) {
+		this.coffeeRepository = coffeeRepository;
+	}
+
+	@PostConstruct
+	private void loadData() {
+		coffeeRepository.saveAll(List.of(
 				new Coffee("Cage Cereza"),
 				new Coffee("Cage Ganador"),
 				new Coffee("Cage Lareno"),
 				new Coffee("Cage Tres Pontas")));
 	}
+}
+
+@RestController
+class RestApiDemoController {
+	private final CoffeeRepository coffeeRepository;
+
+	public RestApiDemoController(CoffeeRepository coffeeRepository) {
+		this.coffeeRepository = coffeeRepository;
+	}
 
 	@RequestMapping(value = "/coffees", method = RequestMethod.GET)
 	Iterable<Coffee> getCoffees() {
-		return coffees;
+		return coffeeRepository.findAll();
 	}
 
 	@GetMapping("/coffees/{id}")
 	Optional<Coffee> getCoffeeById(@PathVariable String id) {
-		for (Coffee c : coffees) {
-			if (c.getId().equals(id)) {
-				return Optional.of(c);
-			}
-		}
-		return Optional.empty();
+		return coffeeRepository.findById(id);
 	}
 
 	@PostMapping("/coffeess")
 	Coffee postCoffee(@RequestBody Coffee coffee) {
-		coffees.add(coffee);
-		return coffee;
+		return coffeeRepository.save(coffee);
 	}
 
 	@PutMapping("/coffees/{id}")
 	ResponseEntity<Coffee> putCoffeeById(@PathVariable String id, @RequestBody Coffee coffee) {
-		int coffeeIndex = -1;
-
-		for (Coffee c : coffees) {
-			if (c.getId().equals(id)) {
-				coffeeIndex = coffees.indexOf(c);
-				coffees.set(coffeeIndex, coffee);
-			}
-		}
-
-		return (coffeeIndex == -1) ? new ResponseEntity<>(postCoffee(coffee), HttpStatus.CREATED)
-				: new ResponseEntity<>(coffee, HttpStatus.OK);
+		return new ResponseEntity<>(coffeeRepository.save(coffee),
+				coffeeRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/coffees/{id}")
 	void deleteCoffeeById(@PathVariable String id) {
-		coffees.removeIf(c -> c.getId().equals(id));
+		coffeeRepository.deleteById(id);
 	}
 }
