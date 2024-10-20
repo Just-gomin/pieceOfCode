@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.repository.CrudRepository;
@@ -124,5 +125,25 @@ class RestApiDemoController {
 	@DeleteMapping("/coffees/{id}")
 	void deleteCoffeeById(@PathVariable String id) {
 		coffeeRepository.deleteById(id);
+	}
+}
+
+@RestController
+@RequestMapping("/greeting")
+class GreetingController {
+	@Value("${greeting-name: Mirage}")
+	private String name;
+
+	@Value("${greeting-coffee: ${greeting-name} is drinking Cafe Ganador}")
+	private String coffee;
+
+	@GetMapping
+	String getGreeting() {
+		return name;
+	}
+
+	@GetMapping("/coffee")
+	String getNameAndCoffee(){
+		return coffee;
 	}
 }
