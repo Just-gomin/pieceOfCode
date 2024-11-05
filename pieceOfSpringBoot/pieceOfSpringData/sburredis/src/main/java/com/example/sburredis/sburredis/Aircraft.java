@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.time.Instant;
 
 @Data // Lombok getter, setter, equals(), hashCode(), toString() 메서드 생성
 @NoArgsConstructor // Lombok에 매개변수가 없는 생성자 생성하도록 지시
 @AllArgsConstructor // Lombok에 각 멤버 변수의 매개변수가 있는 생성자를 만들도록 지시, 모든 멤버 변수에 인수 제공
+@RedisHash
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Aircraft {
     @Id // 멤버 변수가 데이터베이스 항목/레코드의 고유 식별자를 가지도록 지정
