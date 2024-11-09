@@ -35,7 +35,7 @@ class _ContainerPageState extends State<ContainerPage> {
 
   Widget _body(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -54,12 +54,6 @@ class _ContainerPageState extends State<ContainerPage> {
                 decoration: BoxDecoration(
                   shape: shape,
                   color: color,
-                  // gradient: LinearGradient(
-                  //   colors: [
-                  //     Colors.amber,
-                  //     Colors.white,
-                  //   ],
-                  // ),
                 ),
               ),
             ),
@@ -149,6 +143,14 @@ class _ContainerPageState extends State<ContainerPage> {
               },
             ),
           ]),
+
+          const Padding(
+            padding: EdgeInsets.only(top: 16.0),
+            child: Text(
+              "BoxDecoration",
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
 
           // Shape
           field(context, widgets: [
