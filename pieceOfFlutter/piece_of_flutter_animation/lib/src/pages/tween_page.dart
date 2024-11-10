@@ -44,6 +44,12 @@ class __BuildBodyState extends State<_BuildBody> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: AnimatedBuilder(
