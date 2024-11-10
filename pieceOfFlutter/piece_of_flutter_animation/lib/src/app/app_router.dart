@@ -36,5 +36,14 @@ GoRouter appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: TickerPage.path,
+      name: TickerPage.name,
+      pageBuilder: (context, state) {
+        return const NoTransitionPage<TickerPage>(
+          child: TickerPage(),
+        );
+      },
+    )
   ],
 );
