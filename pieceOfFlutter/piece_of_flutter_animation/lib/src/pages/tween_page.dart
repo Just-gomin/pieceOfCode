@@ -35,8 +35,8 @@ class __BuildBodyState extends State<_BuildBody> with TickerProviderStateMixin {
       vsync: this,
     );
     _colorAnimation = ColorTween(
-      begin: Colors.red,
-      end: Colors.yellow,
+      begin: const Color(0xFF7C7365),
+      end: Colors.orange,
     ).animate(_controller);
 
     // _controller.repeat(); // 반복할 때, end에서 바로 begin으로 초기화 하여 반복

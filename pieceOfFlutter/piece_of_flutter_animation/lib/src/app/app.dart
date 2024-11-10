@@ -11,7 +11,7 @@ class PieceOfFlutterAnimationApp extends StatelessWidget {
       routerConfig: appRouter,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0x007C7365),
+          seedColor: const Color(0xFF7C7365),
         ),
         useMaterial3: true,
       ),
