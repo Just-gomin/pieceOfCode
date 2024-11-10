@@ -7,6 +7,9 @@ import 'package:piece_of_flutter_animation/src/widgets/widgets.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  static String get path => '/';
+  static String get name => '$HomePage';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
