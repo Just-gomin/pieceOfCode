@@ -7,6 +7,10 @@ const Menu animationBase = Menu(
       title: 'Tween(트윈)',
       path: '/tween',
     ),
+    Menu(
+      title: 'Curve(곡선)',
+      path: '/curve',
+    ),
   ],
 );
 

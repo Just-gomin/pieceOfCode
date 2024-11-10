@@ -105,7 +105,10 @@ class _BuildListItem extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
-      title: Text(menu.title),
+      title: Text(
+        menu.title,
+        style: const TextStyle(fontWeight: FontWeight.w500),
+      ),
       onTap: () {
         context.push(menu.path!);
       },

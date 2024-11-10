@@ -21,5 +21,14 @@ GoRouter appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: CurvePage.path,
+      name: CurvePage.name,
+      pageBuilder: (context, state) {
+        return const NoTransitionPage<CurvePage>(
+          child: CurvePage(),
+        );
+      },
+    ),
   ],
 );
