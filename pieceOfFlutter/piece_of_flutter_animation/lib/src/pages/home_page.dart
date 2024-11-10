@@ -24,17 +24,22 @@ class _BuildBody extends StatelessWidget {
 
   final List<Menu> menuList = [
     animationBase,
+    animationSamples,
   ];
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        for (Menu menu in menuList)
-          _BuildSectionWithItems(
-            menu: menu,
-          ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          for (Menu menu in menuList) ...[
+            _BuildSectionWithItems(
+              menu: menu,
+            ),
+          ],
+        ],
+      ),
     );
   }
 }
@@ -67,11 +72,23 @@ class _BuildSectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[200],
       padding: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(
+            width: 4,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+      ),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     );
   }
@@ -85,10 +102,15 @@ class _BuildListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
       title: Text(menu.title),
       onTap: () {
         context.push(menu.path!);
       },
+      hoverColor: Theme.of(context).primaryColor,
+      splashColor: Theme.of(context).primaryColor.withAlpha(128),
     );
   }
 }
