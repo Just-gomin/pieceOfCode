@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "name": "Debug Local",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define",
+                "env=local",
+            ],
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "Debug Develop",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define",
+                "env=develop",
+            ],
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "Debug Release",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define",
+                "env=release",
+            ],
+            "program": "lib/main.dart"
+        },
+    ]
+}
