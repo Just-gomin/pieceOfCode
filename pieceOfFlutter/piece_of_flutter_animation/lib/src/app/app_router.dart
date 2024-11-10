@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:piece_of_flutter_animation/src/app/menu_tree.dart';
 import 'package:piece_of_flutter_animation/src/pages/pages.dart';
 
 GoRouter appRouter = GoRouter(
@@ -7,8 +8,13 @@ GoRouter appRouter = GoRouter(
       path: HomePage.path,
       name: HomePage.name,
       pageBuilder: (context, state) {
-        return const NoTransitionPage<HomePage>(
-          child: HomePage(),
+        return NoTransitionPage<HomePage>(
+          child: HomePage(
+            menuList: [
+              animationBase,
+              animationSamples,
+            ],
+          ),
         );
       },
     ),

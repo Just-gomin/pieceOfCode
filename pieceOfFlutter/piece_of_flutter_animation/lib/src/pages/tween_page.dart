@@ -4,14 +4,15 @@ import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
 class TweenPage extends StatelessWidget {
   const TweenPage({super.key});
 
+  static String get title => 'Tween(트윈)';
   static String get path => '/tween';
   static String get name => '$TweenPage';
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: MyAppBar(title: 'Tween(트윈)'),
-      body: _BuildBody(),
+    return Scaffold(
+      appBar: MyAppBar(title: TweenPage.title),
+      body: const _BuildBody(),
     );
   }
 }

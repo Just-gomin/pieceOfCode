@@ -1,15 +1,16 @@
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
+import 'package:piece_of_flutter_animation/src/pages/pages.dart';
 
-const Menu animationBase = Menu(
+final Menu animationBase = Menu(
   title: 'Animation Concepts',
   subMenu: [
     Menu(
-      title: 'Tween(트윈)',
-      path: '/tween',
+      title: TweenPage.title,
+      path: TweenPage.path,
     ),
     Menu(
-      title: 'Curve(곡선)',
-      path: '/curve',
+      title: CurvePage.title,
+      path: CurvePage.path,
     ),
   ],
 );

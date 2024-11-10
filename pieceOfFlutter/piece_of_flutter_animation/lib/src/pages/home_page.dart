@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:piece_of_flutter_animation/src/data/menu_tree.dart';
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
 import 'package:piece_of_flutter_animation/src/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+    required this.menuList,
+  });
 
+  static String get title => 'HOME';
   static String get path => '/';
   static String get name => '$HomePage';
+
+  final List<Menu> menuList;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: 'Home'),
-      body: _BuildBody(),
+      appBar: MyAppBar(title: HomePage.title),
+      body: _BuildBody(menuList: menuList),
     );
   }
 }
 
 class _BuildBody extends StatelessWidget {
-  _BuildBody();
+  const _BuildBody({
+    required this.menuList,
+  });
 
-  final List<Menu> menuList = [
-    animationBase,
-    animationSamples,
-  ];
+  final List<Menu> menuList;
 
   @override
   Widget build(BuildContext context) {
