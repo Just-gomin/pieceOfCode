@@ -87,7 +87,7 @@ class _BuildListItem extends StatelessWidget {
     return ListTile(
       title: Text(menu.title),
       onTap: () {
-        context.go(menu.path!);
+        context.push(menu.path!);
       },
     );
   }

@@ -12,5 +12,14 @@ GoRouter appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: TweenPage.path,
+      name: TweenPage.name,
+      pageBuilder: (context, state) {
+        return const NoTransitionPage<TweenPage>(
+          child: TweenPage(),
+        );
+      },
+    ),
   ],
 );

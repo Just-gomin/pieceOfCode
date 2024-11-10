@@ -1,7 +1,7 @@
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
 
 const Menu animationBase = Menu(
-  title: 'Animation 기초',
+  title: 'Animation 개념',
   subMenu: [
     Menu(
       title: 'Tween(트윈)',
