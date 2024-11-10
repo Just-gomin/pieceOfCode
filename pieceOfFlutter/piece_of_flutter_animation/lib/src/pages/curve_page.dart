@@ -12,6 +12,7 @@ class CurvePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: CurvePage.title),
+      body: const _BuildBody(),
     );
   }
 }
@@ -23,9 +24,50 @@ class _BuildBody extends StatefulWidget {
   State<_BuildBody> createState() => __BuildBodyState();
 }
 
-class __BuildBodyState extends State<_BuildBody> {
+class __BuildBodyState extends State<_BuildBody> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    );
+
+    final CurvedAnimation curve = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.slowMiddle,
+    );
+
+    _colorAnimation = ColorTween(
+      begin: const Color(0xFF7C7365),
+      end: Colors.orange,
+    ).animate(curve);
+
+    _controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Center(
+      child: AnimatedBuilder(
+        animation: _colorAnimation,
+        builder: (context, child) {
+          return Container(
+            width: 200,
+            height: 200,
+            color: _colorAnimation.value,
+          );
+        },
+      ),
+    );
   }
 }
