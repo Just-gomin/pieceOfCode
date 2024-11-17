@@ -52,7 +52,7 @@ public class PlaneFinderService {
         if (positions.size() > 0) {
             positions.forEach(System.out::println);
 
-            repo.deleteAll();
+//            repo.deleteAll();
             return repo.saveAll(positions);
         } else {
             System.out.println("\n>>> No positions to report, generating and providing sample data.\n");
@@ -63,7 +63,7 @@ public class PlaneFinderService {
     private Iterable<Aircraft> saveSamplePositions() {
         final Random rnd = new Random();
 
-        repo.deleteAll();
+//        repo.deleteAll();
 
         for (int i = 0; i < rnd.nextInt(10); i++) {
             repo.save(generator.generate());

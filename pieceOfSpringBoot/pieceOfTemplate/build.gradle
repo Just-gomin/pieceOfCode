@@ -4,6 +4,10 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.6'
 }
 
+ext {
+	set('springCloudVersion', "2022.0.0")  // 사용하려는 Spring Cloud 버전
+}
+
 group = 'com.position.aircrafts'
 version = '0.0.1-SNAPSHOT'
 
@@ -28,6 +32,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '3.3.5'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream', version: '4.1.3'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka', version: '4.1.3'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-rabbit', version: '4.1.3'
+	implementation group: 'org.springframework.kafka', name: 'spring-kafka', version: '3.2.4'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -35,6 +44,12 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.104.Final:osx-aarch_64'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 tasks.named('test') {
