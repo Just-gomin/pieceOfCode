@@ -16,6 +16,10 @@ final Menu animationBase = Menu(
       title: TickerPage.title,
       path: TickerPage.path,
     ),
+    Menu(
+      title: CanvasPage.title,
+      path: CanvasPage.path,
+    )
   ],
 );
 
