@@ -1,6 +1,7 @@
 package com.thehecklers.planefinder;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
 public class PositionReporter {
     private final PlaneFinderService planeFinderService;
 
-    @Bean
+    @PollableBean
     Supplier<Iterable<Aircraft>> reportPositions(){
         return () -> {
             try {
