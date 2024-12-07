@@ -17,42 +17,44 @@ GoRouter appRouter = GoRouter(
           ),
         );
       },
-    ),
-    GoRoute(
-      path: TweenPage.path,
-      name: TweenPage.name,
-      pageBuilder: (context, state) {
-        return const NoTransitionPage<TweenPage>(
-          child: TweenPage(),
-        );
-      },
-    ),
-    GoRoute(
-      path: CurvePage.path,
-      name: CurvePage.name,
-      pageBuilder: (context, state) {
-        return const NoTransitionPage<CurvePage>(
-          child: CurvePage(),
-        );
-      },
-    ),
-    GoRoute(
-      path: TickerPage.path,
-      name: TickerPage.name,
-      pageBuilder: (context, state) {
-        return const NoTransitionPage<TickerPage>(
-          child: TickerPage(),
-        );
-      },
-    ),
-    GoRoute(
-      path: CanvasPage.path,
-      name: CanvasPage.name,
-      pageBuilder: (context, state) {
-        return const NoTransitionPage<CanvasPage>(
-          child: CanvasPage(),
-        );
-      },
+      routes: <GoRoute>[
+        GoRoute(
+          path: TweenPage.path,
+          name: TweenPage.name,
+          pageBuilder: (context, state) {
+            return const NoTransitionPage<TweenPage>(
+              child: TweenPage(),
+            );
+          },
+        ),
+        GoRoute(
+          path: CurvePage.path,
+          name: CurvePage.name,
+          pageBuilder: (context, state) {
+            return const NoTransitionPage<CurvePage>(
+              child: CurvePage(),
+            );
+          },
+        ),
+        GoRoute(
+          path: TickerPage.path,
+          name: TickerPage.name,
+          pageBuilder: (context, state) {
+            return const NoTransitionPage<TickerPage>(
+              child: TickerPage(),
+            );
+          },
+        ),
+        GoRoute(
+          path: CanvasPage.path,
+          name: CanvasPage.name,
+          pageBuilder: (context, state) {
+            return const NoTransitionPage<CanvasPage>(
+              child: CanvasPage(),
+            );
+          },
+        ),
+      ],
     ),
   ],
 );

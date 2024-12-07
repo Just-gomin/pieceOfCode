@@ -143,7 +143,7 @@ class _BuildListItemState extends State<_BuildListItem> {
           ),
         ),
         onTap: () {
-          context.push(widget.menu.path!);
+          context.goNamed(widget.menu.name);
         },
         hoverColor: Theme.of(context).primaryColor,
         splashColor: Theme.of(context).primaryColor.withAlpha(128),
