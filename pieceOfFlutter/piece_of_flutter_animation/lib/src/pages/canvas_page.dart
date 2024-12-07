@@ -5,7 +5,8 @@ class CanvasPage extends StatelessWidget {
   const CanvasPage({super.key});
 
   static String get title => 'Canvas(캔버스)';
-  static String get path => 'canvas/';
+  static String get path => '/canvas';
+  static String get name => '$CanvasPage';
 
   @override
   Widget build(BuildContext context) {
