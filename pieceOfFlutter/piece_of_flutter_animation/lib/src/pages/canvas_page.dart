@@ -28,7 +28,10 @@ class _BuildBody extends StatelessWidget {
       alignment: Alignment.center,
       child: CustomPaint(
         painter: _MyPainter(),
-        child: Container(),
+        child: const SizedBox(
+          width: 400,
+          height: 400,
+        ),
       ),
     );
   }
@@ -37,18 +40,21 @@ class _BuildBody extends StatelessWidget {
 class _MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint backgroundPaint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = MyColors.primary
-      ..isAntiAlias = false;
-    Rect backgroundRect = Rect.fromLTWH(
-      0,
-      0,
-      size.width,
-      size.height,
-    );
+    for (int i = 1; i < 10; i++) {
+      final Paint backgroundPaint = Paint()
+        ..style = PaintingStyle.fill
+        ..color = MyColors.primary.withOpacity((11 - i) / 10)
+        ..isAntiAlias = false;
 
-    canvas.drawRect(backgroundRect, backgroundPaint);
+      // Left와 Top은 좌측 상단이 (0,0)으로 시작.
+      Rect backgroundRect = Rect.fromLTWH(
+        size.width / 10 * (i - 1),
+        size.height / 10 * (i - 1),
+        size.width / 10,
+        size.height / 10,
+      );
+      canvas.drawRect(backgroundRect, backgroundPaint);
+    }
   }
 
   @override
