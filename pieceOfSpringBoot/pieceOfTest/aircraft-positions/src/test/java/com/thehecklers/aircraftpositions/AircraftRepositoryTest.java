@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,10 +45,17 @@ class AircraftRepositoryTest {
 
     @AfterEach
     void tearDown() {
+        repository.deleteAll();
     }
 
     @Test
     void testFindAll() {
         assertEquals(List.of(ac1, ac2), repository.findAll());
+    }
+
+    @Test
+    void testFindById() {
+        assertEquals(Optional.of(ac1), repository.findById(ac1.getId()));
+        assertEquals(Optional.of(ac2), repository.findById(ac2.getId()));
     }
 }
