@@ -26,12 +26,35 @@ class _BuildBody extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       alignment: Alignment.center,
-      child: CustomPaint(
-        painter: _MyPainter(),
-        child: const SizedBox(
-          width: 400,
-          height: 400,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CustomPaint(
+            painter: _MyPainter(),
+            child: Container(
+              width: 600,
+              height: 600,
+              alignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                border: Border.all(),
+              ),
+              child: const Text("This is canvas example."),
+            ),
+          ),
+          const SizedBox(width: 40),
+          SizedBox(
+            width: 400,
+            child: ListView(
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('drawArc'),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
