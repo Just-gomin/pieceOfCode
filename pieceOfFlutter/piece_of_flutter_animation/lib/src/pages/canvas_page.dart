@@ -31,7 +31,7 @@ class _BuildBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomPaint(
-            painter: _MyPainter(),
+            painter: _DRRectPainter(),
             child: Container(
               width: 600,
               height: 600,
@@ -49,7 +49,7 @@ class _BuildBody extends StatelessWidget {
               children: <Widget>[
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text('drawArc'),
+                  child: const Text('drawArc'),
                 ),
               ],
             ),
@@ -82,6 +82,38 @@ class _MyPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    throw UnimplementedError();
+    return false;
+  }
+}
+
+class _DRRectPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final outerRRect = RRect.fromRectAndCorners(
+      Rect.fromLTWH(50, 50, size.width - 100, size.height - 100),
+      topLeft: const Radius.circular(10),
+      topRight: const Radius.circular(10),
+      bottomLeft: const Radius.circular(10),
+      bottomRight: const Radius.circular(10),
+    );
+
+    final innerRRect = RRect.fromRectAndCorners(
+      Rect.fromLTWH(66, 66, size.width - 132, size.height - 132),
+      topLeft: const Radius.circular(30),
+      topRight: const Radius.circular(30),
+      bottomLeft: const Radius.circular(30),
+      bottomRight: const Radius.circular(30),
+    );
+
+    final paint = Paint()
+      ..color = MyColors.primary
+      ..style = PaintingStyle.fill;
+
+    canvas.drawDRRect(outerRRect, innerRRect, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
