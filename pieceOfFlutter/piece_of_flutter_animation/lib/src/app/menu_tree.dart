@@ -29,7 +29,13 @@ final NavigationMenu animationBase = NavigationMenu(
       path: CanvasPage.path,
       name: '$CanvasPage',
       menuItem: null,
-    )
+    ),
+    NavigationMenu(
+      title: CanvasWithAnimationPage.title,
+      path: CanvasWithAnimationPage.path,
+      name: CanvasWithAnimationPage.name,
+      menuItem: null,
+    ),
   ],
 );
 

@@ -126,10 +126,6 @@ class _BuildBodyState extends State<_BuildBody> {
             title: '$VerticesPainter',
             menuItem: VerticesPainter(),
           ),
-          Menu<CustomPainter>(
-            title: '$WavePainter',
-            menuItem: WavePainter(animationValue: 10),
-          ),
         ];
 
         return Container(
@@ -539,44 +535,4 @@ class VerticesPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class WavePainter extends CustomPainter {
-  final double animationValue;
-
-  WavePainter({
-    required this.animationValue,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.blue
-      ..style = PaintingStyle.fill;
-
-    final path = Path()..moveTo(_defaultPadding, _defaultPadding);
-
-    for (var i = _defaultPadding; i < _defaultPadding + _maxObjectWidth; i++) {
-      path.lineTo(
-        i,
-        size.height / 2 +
-            math.sin((i / size.width + animationValue) * 2 * math.pi) * 40,
-      );
-    }
-
-    path.lineTo(
-      _maxObjectWidth + _defaultPadding,
-      _maxObjectHeight + _defaultPadding,
-    );
-    path.lineTo(
-      _defaultPadding,
-      _maxObjectHeight + _defaultPadding,
-    );
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

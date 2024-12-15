@@ -54,6 +54,15 @@ GoRouter appRouter = GoRouter(
             );
           },
         ),
+        GoRoute(
+          path: CanvasWithAnimationPage.path,
+          name: CanvasWithAnimationPage.name,
+          pageBuilder: (context, state) {
+            return const NoTransitionPage<CanvasWithAnimationPage>(
+              child: CanvasWithAnimationPage(),
+            );
+          },
+        ),
       ],
     ),
   ],
