@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:piece_of_flutter_animation/src/constants/constants.dart';
 import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
 
@@ -32,29 +32,20 @@ class _BuildBody extends StatefulWidget {
 }
 
 class _BuildBodyState extends State<_BuildBody> {
-  final List<Menu<CustomPainter>> menuList = <Menu<CustomPainter>>[
-    Menu<CustomPainter>(title: '$ArcPainter', menuItem: ArcPainter()),
-    Menu<CustomPainter>(title: '$CirclePainter', menuItem: CirclePainter()),
-    Menu<CustomPainter>(title: '$ColorPainter', menuItem: ColorPainter()),
-    Menu<CustomPainter>(
-        title: '$ColorFillPainter', menuItem: ColorFillPainter()),
-    Menu<CustomPainter>(title: '$DRRectPainter', menuItem: DRRectPainter()),
-    Menu<CustomPainter>(title: '$ImagePainter', menuItem: ImagePainter()),
-    Menu<CustomPainter>(title: '$LinePainter', menuItem: LinePainter()),
-    Menu<CustomPainter>(title: '$OvalPainter', menuItem: OvalPainter()),
-    Menu<CustomPainter>(title: '$PathPainter', menuItem: PathPainter()),
-    Menu<CustomPainter>(title: '$PointsPainter', menuItem: PointsPainter()),
-    Menu<CustomPainter>(
-        title: '$RectanglePainter', menuItem: RectanglePainter()),
-    Menu<CustomPainter>(
-        title: '$RoundRectPainter', menuItem: RoundRectPainter()),
-    Menu<CustomPainter>(title: '$ShadowPainter', menuItem: ShadowPainter()),
-    Menu<CustomPainter>(title: '$VerticesPainter', menuItem: VerticesPainter()),
-  ];
+  Future<ui.Image> loadImage() async {
+    final Completer completer = Completer<ui.Image>();
+    final ImageStream imageStream = const NetworkImage(
+      'https://storage.googleapis.com/cms-storage-bucket/a9d6ce81aee44ae017ee.png',
+    ).resolve(const ImageConfiguration());
+    imageStream.addListener(ImageStreamListener((info, _) {
+      completer.complete(info.image);
+    }));
+    final ui.Image image = await completer.future;
+    return image;
+  }
 
-  late String title = menuList[0].title;
-
-  late CustomPainter painter = menuList[0].menuItem;
+  String title = '$ArcPainter';
+  CustomPainter painter = ArcPainter();
 
   void setMenu({
     required String title,
@@ -68,51 +59,87 @@ class _BuildBodyState extends State<_BuildBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CustomPaint(
-            painter: painter,
-            child: Container(
-              width: 600,
-              height: 600,
-              alignment: Alignment.bottomCenter,
-              decoration: BoxDecoration(
-                border: Border.all(),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('This is "$title" example.'),
-              ),
-            ),
-          ),
-          const SizedBox(width: 40),
-          SizedBox(
-            width: 400,
-            child: ListView(
-              children: <Widget>[
-                for (Menu<CustomPainter> menuItem in menuList)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setMenu(
-                          title: menuItem.title,
-                          painter: menuItem.menuItem,
-                        );
-                      },
-                      child: Text(menuItem.title),
+    return FutureBuilder(
+      future: loadImage(),
+      builder: (BuildContext context, AsyncSnapshot<ui.Image> data) {
+        if (!data.hasData) return const SizedBox();
+        final List<Menu<CustomPainter>> menuList = <Menu<CustomPainter>>[
+          Menu<CustomPainter>(title: '$ArcPainter', menuItem: ArcPainter()),
+          Menu<CustomPainter>(
+              title: '$CirclePainter', menuItem: CirclePainter()),
+          Menu<CustomPainter>(title: '$ColorPainter', menuItem: ColorPainter()),
+          Menu<CustomPainter>(
+              title: '$ColorFillPainter', menuItem: ColorFillPainter()),
+          Menu<CustomPainter>(
+              title: '$DRRectPainter', menuItem: DRRectPainter()),
+          Menu<CustomPainter>(
+              title: '$ImagePainter',
+              menuItem: ImagePainter(image: data.data!)),
+          Menu<CustomPainter>(title: '$LinePainter', menuItem: LinePainter()),
+          Menu<CustomPainter>(title: '$OvalPainter', menuItem: OvalPainter()),
+          Menu<CustomPainter>(title: '$PathPainter', menuItem: PathPainter()),
+          Menu<CustomPainter>(
+              title: '$PointsPainter', menuItem: PointsPainter()),
+          Menu<CustomPainter>(
+              title: '$RectanglePainter', menuItem: RectanglePainter()),
+          Menu<CustomPainter>(
+              title: '$RoundRectPainter', menuItem: RoundRectPainter()),
+          Menu<CustomPainter>(
+              title: '$ShadowPainter', menuItem: ShadowPainter()),
+          Menu<CustomPainter>(
+              title: '$VerticesPainter', menuItem: VerticesPainter()),
+        ];
+
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomPaint(
+                  painter: painter,
+                  child: Container(
+                    width: 600,
+                    height: 600,
+                    alignment: Alignment.bottomCenter,
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('This is "$title" example.'),
                     ),
                   ),
+                ),
+                const SizedBox(width: 40),
+                SizedBox(
+                  width: 200,
+                  child: ListView(
+                    children: <Widget>[
+                      for (Menu<CustomPainter> menuItem in menuList)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              setMenu(
+                                title: menuItem.title,
+                                painter: menuItem.menuItem,
+                              );
+                            },
+                            child: Text(menuItem.title),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -140,7 +167,7 @@ class CirclePainter extends CustomPainter {
       ..color = Colors.red
       ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(Offset(100, 100), 50, paint);
+    canvas.drawCircle(const Offset(100, 100), 50, paint);
   }
 
   @override
@@ -216,20 +243,17 @@ class DRRectPainter extends CustomPainter {
 }
 
 class ImagePainter extends CustomPainter {
-  ImagePainter();
+  ImagePainter({
+    required this.image,
+  });
+
+  final ui.Image image;
 
   @override
   void paint(Canvas canvas, Size size) async {
-    final ByteData data = await NetworkAssetBundle(
-      Uri.parse(
-        'https://storage.googleapis.com/cms-storage-bucket/847ae81f5430402216fd.svg',
-      ),
-    ).load('');
-    final Uint8List bytes = data.buffer.asUint8List();
-    final ui.Codec codec = await ui.instantiateImageCodec(bytes);
-    final ui.FrameInfo fi = await codec.getNextFrame();
-    final ui.Image image = fi.image;
-    canvas.drawImage(image, Offset.zero, Paint());
+    final double dx = (size.width - image.width) / 2;
+    final double dy = (size.height - image.height) / 2;
+    canvas.drawImage(image, Offset(dx, dy), Paint());
   }
 
   @override
@@ -243,7 +267,7 @@ class LinePainter extends CustomPainter {
       ..color = Colors.black
       ..strokeWidth = 4;
 
-    canvas.drawLine(Offset(20, 20), Offset(100, 100), paint);
+    canvas.drawLine(const Offset(20, 20), const Offset(100, 100), paint);
   }
 
   @override
@@ -257,7 +281,7 @@ class OvalPainter extends CustomPainter {
       ..color = Colors.purple
       ..style = PaintingStyle.fill;
 
-    final rect = Rect.fromLTWH(50, 50, 150, 100);
+    const rect = Rect.fromLTWH(50, 50, 150, 100);
     canvas.drawOval(rect, paint);
   }
 
@@ -295,10 +319,10 @@ class PointsPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final points = [
-      Offset(50, 50),
-      Offset(100, 100),
-      Offset(150, 50),
-      Offset(200, 100),
+      const Offset(50, 50),
+      const Offset(100, 100),
+      const Offset(150, 50),
+      const Offset(200, 100),
     ];
 
     canvas.drawPoints(ui.PointMode.points, points, paint);
@@ -315,7 +339,7 @@ class RectanglePainter extends CustomPainter {
       ..color = Colors.red
       ..style = PaintingStyle.fill;
 
-    final rect = Rect.fromLTWH(50, 50, 100, 80);
+    const rect = Rect.fromLTWH(50, 50, 100, 80);
     canvas.drawRect(rect, paint);
   }
 
@@ -330,7 +354,7 @@ class RoundRectPainter extends CustomPainter {
       ..color = Colors.green
       ..style = PaintingStyle.fill;
 
-    final rrect = RRect.fromLTRBR(50, 50, 150, 150, Radius.circular(20));
+    final rrect = RRect.fromLTRBR(50, 50, 150, 150, const Radius.circular(20));
     canvas.drawRRect(rrect, paint);
   }
 
@@ -342,7 +366,7 @@ class ShadowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path()
-      ..addOval(Rect.fromCircle(center: Offset(100, 100), radius: 50));
+      ..addOval(Rect.fromCircle(center: const Offset(100, 100), radius: 50));
 
     canvas.drawShadow(path, Colors.black, 4, true);
     canvas.drawPath(path, Paint()..color = Colors.blue);
@@ -358,9 +382,9 @@ class VerticesPainter extends CustomPainter {
     final vertices = ui.Vertices(
       VertexMode.triangles,
       [
-        Offset(50, 50),
-        Offset(150, 50),
-        Offset(100, 150),
+        const Offset(50, 50),
+        const Offset(150, 50),
+        const Offset(100, 150),
       ],
       colors: [
         Colors.red,
