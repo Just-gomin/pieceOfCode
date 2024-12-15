@@ -18,8 +18,32 @@ class CanvasPage extends StatelessWidget {
   }
 }
 
-class _BuildBody extends StatelessWidget {
+class _BuildBody extends StatefulWidget {
   const _BuildBody();
+
+  @override
+  State<_BuildBody> createState() => _BuildBodyState();
+}
+
+class _BuildBodyState extends State<_BuildBody> {
+  final List<MenuItem> menuList = <MenuItem>[
+    MenuItem(title: '$_MyPainter', painter: _MyPainter()),
+    MenuItem(title: '$_DRRectPainter', painter: _DRRectPainter()),
+  ];
+
+  late String title = menuList[0].title;
+
+  late CustomPainter painter = menuList[0].painter;
+
+  void setMenu({
+    required String title,
+    required CustomPainter painter,
+  }) {
+    setState(() {
+      this.title = title;
+      this.painter = painter;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +55,7 @@ class _BuildBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomPaint(
-            painter: _DRRectPainter(),
+            painter: painter,
             child: Container(
               width: 600,
               height: 600,
@@ -39,7 +63,10 @@ class _BuildBody extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(),
               ),
-              child: const Text("This is canvas example."),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('This is "$title" example.'),
+              ),
             ),
           ),
           const SizedBox(width: 40),
@@ -47,10 +74,19 @@ class _BuildBody extends StatelessWidget {
             width: 400,
             child: ListView(
               children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('drawArc'),
-                ),
+                for (MenuItem menuItem in menuList)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setMenu(
+                          title: menuItem.title,
+                          painter: menuItem.painter,
+                        );
+                      },
+                      child: Text(menuItem.title),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -58,6 +94,16 @@ class _BuildBody extends StatelessWidget {
       ),
     );
   }
+}
+
+class MenuItem {
+  MenuItem({
+    required this.title,
+    required this.painter,
+  });
+
+  final String title;
+  final CustomPainter painter;
 }
 
 class _MyPainter extends CustomPainter {
