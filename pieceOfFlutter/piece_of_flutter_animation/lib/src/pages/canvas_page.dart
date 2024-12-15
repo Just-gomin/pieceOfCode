@@ -8,6 +8,12 @@ import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
 
 import '../domain/models/menus/menus.dart';
 
+const double _defaultPadding = 16;
+const double _canvasWidth = _defaultPadding * 40;
+const double _canvasHeight = _defaultPadding * 40;
+const double _maxObjectWidth = _canvasWidth - 2 * _defaultPadding;
+const double _maxObjectHeight = _canvasHeight - 2 * _defaultPadding;
+
 class CanvasPage extends StatelessWidget {
   const CanvasPage({super.key});
 
@@ -91,7 +97,7 @@ class _BuildBodyState extends State<_BuildBody> {
         ];
 
         return Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(_defaultPadding),
           alignment: Alignment.center,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -99,24 +105,31 @@ class _BuildBodyState extends State<_BuildBody> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CustomPaint(
-                  painter: painter,
-                  child: Container(
-                    width: 600,
-                    height: 600,
-                    alignment: Alignment.bottomCenter,
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('This is "$title" example.'),
-                    ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                        ),
+                        child: CustomPaint(
+                          painter: painter,
+                          size: const ui.Size(_canvasHeight, _canvasHeight),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(_defaultPadding / 2),
+                        child: Text('This is [$title] example'),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 40),
+                const SizedBox(width: _defaultPadding * 2),
                 SizedBox(
-                  width: 200,
+                  width: _canvasWidth / 3,
                   child: ListView(
                     children: <Widget>[
                       for (Menu<CustomPainter> menuItem in menuList)
@@ -147,13 +160,40 @@ class _BuildBodyState extends State<_BuildBody> {
 class ArcPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    const Rect rect = Rect.fromLTWH(
+      _defaultPadding,
+      _defaultPadding,
+      _maxObjectWidth,
+      _maxObjectHeight,
+    );
+
     final paint = Paint()
       ..color = MyColors.primary
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4;
 
-    const Rect rect = Rect.fromLTWH(50, 50, 150, 150);
-    canvas.drawArc(rect, 0, math.pi / 2, false, paint);
+    canvas.drawArc(rect, -math.pi / 2, -math.pi / 2, false, paint);
+    canvas.drawArc(
+      rect,
+      -math.pi,
+      -math.pi / 2,
+      false,
+      paint..color = Colors.blueAccent,
+    );
+    canvas.drawArc(
+      rect,
+      -math.pi * 1.5,
+      -math.pi / 2,
+      false,
+      paint..color = Colors.redAccent,
+    );
+    canvas.drawArc(
+      rect,
+      0,
+      -math.pi / 2,
+      false,
+      paint..color = Colors.greenAccent,
+    );
   }
 
   @override
@@ -164,10 +204,16 @@ class CirclePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.red
+      ..color = MyColors.primary
       ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(const Offset(100, 100), 50, paint);
+    const double radius = _maxObjectWidth / 2;
+
+    canvas.drawCircle(
+      Offset(size.width / 2, size.height / 2),
+      radius,
+      paint,
+    );
   }
 
   @override
@@ -203,7 +249,9 @@ class ColorPainter extends CustomPainter {
 class ColorFillPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawColor(Colors.yellow, BlendMode.src);
+    // Clip을 해주지 않으면 전체 화면에 색상이 칠해진다.
+    canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
+    canvas.drawColor(MyColors.primary, BlendMode.src);
   }
 
   @override
@@ -264,10 +312,14 @@ class LinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black
+      ..color = MyColors.primary
       ..strokeWidth = 4;
 
-    canvas.drawLine(const Offset(20, 20), const Offset(100, 100), paint);
+    canvas.drawLine(
+      const Offset(_defaultPadding, _defaultPadding),
+      Offset(size.width - _defaultPadding, size.height - _defaultPadding),
+      paint,
+    );
   }
 
   @override
@@ -278,10 +330,15 @@ class OvalPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.purple
+      ..color = MyColors.primary
       ..style = PaintingStyle.fill;
 
-    const rect = Rect.fromLTWH(50, 50, 150, 100);
+    const rect = Rect.fromLTWH(
+      _defaultPadding,
+      _defaultPadding + _maxObjectHeight * 0.25 / 2,
+      _canvasWidth - _defaultPadding * 2,
+      _maxObjectHeight * 0.75,
+    );
     canvas.drawOval(rect, paint);
   }
 
@@ -293,15 +350,33 @@ class PathPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.orange
+      ..color = MyColors.primary
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+      ..strokeWidth = 4;
 
     final path = Path()
-      ..moveTo(20, 20)
-      ..lineTo(100, 20)
-      ..quadraticBezierTo(150, 0, 200, 20)
-      ..close();
+      ..moveTo(
+        _defaultPadding,
+        _defaultPadding,
+      )
+      ..lineTo(
+        _maxObjectWidth + _defaultPadding,
+        _defaultPadding,
+      );
+
+    double dx = _maxObjectWidth + _defaultPadding;
+    double dy = _maxObjectWidth + _defaultPadding;
+
+    while (dx > _defaultPadding || dy > _defaultPadding) {
+      path.lineTo(dx, dy);
+      if (dx >= dy) {
+        dx -= _defaultPadding;
+      } else {
+        dy -= _defaultPadding;
+      }
+    }
+
+    path.close();
 
     canvas.drawPath(path, paint);
   }
@@ -313,19 +388,22 @@ class PathPainter extends CustomPainter {
 class PointsPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
+    for (StrokeCap strokeCap in ui.StrokeCap.values) {
+      final Paint paint = Paint()
+        ..color = MyColors.primary
+        ..strokeWidth = _defaultPadding
+        ..strokeCap = strokeCap;
 
-    final points = [
-      const Offset(50, 50),
-      const Offset(100, 100),
-      const Offset(150, 50),
-      const Offset(200, 100),
-    ];
+      final List<Offset> points = <Offset>[];
 
-    canvas.drawPoints(ui.PointMode.points, points, paint);
+      for (int i = 0; i < 10; i++) {
+        points.add(Offset(
+          _defaultPadding + math.Random().nextDouble() * _maxObjectWidth,
+          _defaultPadding + math.Random().nextDouble() * _maxObjectHeight,
+        ));
+      }
+      canvas.drawPoints(ui.PointMode.points, points, paint);
+    }
   }
 
   @override
@@ -336,10 +414,15 @@ class RectanglePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.red
+      ..color = MyColors.primary
       ..style = PaintingStyle.fill;
 
-    const rect = Rect.fromLTWH(50, 50, 100, 80);
+    const rect = Rect.fromLTWH(
+      _defaultPadding,
+      _defaultPadding,
+      _maxObjectWidth,
+      _maxObjectHeight,
+    );
     canvas.drawRect(rect, paint);
   }
 
@@ -351,10 +434,16 @@ class RoundRectPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.green
+      ..color = MyColors.primary
       ..style = PaintingStyle.fill;
 
-    final rrect = RRect.fromLTRBR(50, 50, 150, 150, const Radius.circular(20));
+    final rrect = RRect.fromLTRBR(
+      _defaultPadding,
+      _defaultPadding,
+      _maxObjectWidth,
+      _maxObjectHeight,
+      const Radius.circular(20),
+    );
     canvas.drawRRect(rrect, paint);
   }
 
@@ -366,10 +455,18 @@ class ShadowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path()
-      ..addOval(Rect.fromCircle(center: const Offset(100, 100), radius: 50));
+      ..addOval(
+        Rect.fromCircle(
+          center: const Offset(
+            _defaultPadding + _maxObjectWidth / 2,
+            _defaultPadding + _maxObjectHeight / 2,
+          ),
+          radius: _maxObjectWidth / 2,
+        ),
+      );
 
-    canvas.drawShadow(path, Colors.black, 4, true);
-    canvas.drawPath(path, Paint()..color = Colors.blue);
+    canvas.drawShadow(path, Colors.black, _defaultPadding, true);
+    canvas.drawPath(path, Paint()..color = MyColors.primary);
   }
 
   @override
@@ -379,20 +476,28 @@ class ShadowPainter extends CustomPainter {
 class VerticesPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final vertices = ui.Vertices(
+    ui.Vertices vertices = ui.Vertices(
       VertexMode.triangles,
       [
-        const Offset(50, 50),
-        const Offset(150, 50),
-        const Offset(100, 150),
+        const Offset(
+          _defaultPadding,
+          _defaultPadding,
+        ),
+        const Offset(
+          _defaultPadding + _maxObjectWidth,
+          _defaultPadding,
+        ),
+        const Offset(
+          (_defaultPadding + _maxObjectWidth) / 2,
+          _defaultPadding + _maxObjectHeight,
+        ),
       ],
       colors: [
-        Colors.red,
-        Colors.green,
-        Colors.blue,
+        Colors.redAccent,
+        Colors.greenAccent,
+        Colors.blueAccent,
       ],
     );
-
     canvas.drawVertices(vertices, BlendMode.src, Paint());
   }
 
