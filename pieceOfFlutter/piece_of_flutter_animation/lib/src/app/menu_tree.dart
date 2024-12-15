@@ -1,29 +1,47 @@
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
 import 'package:piece_of_flutter_animation/src/pages/pages.dart';
 
-final Menu animationBase = Menu(
+final NavigationMenu animationBase = NavigationMenu(
   title: 'Animation Concepts',
-  subMenu: [
-    Menu(
+  path: '',
+  name: '',
+  menuItem: <NavigationMenu>[
+    NavigationMenu(
       title: TweenPage.title,
       path: TweenPage.path,
+      name: '$TweenPage',
+      menuItem: null,
     ),
-    Menu(
+    NavigationMenu(
       title: CurvePage.title,
       path: CurvePage.path,
+      name: '$CurvePage',
+      menuItem: null,
     ),
-    Menu(
+    NavigationMenu(
       title: TickerPage.title,
       path: TickerPage.path,
+      name: '$TickerPage',
+      menuItem: null,
     ),
-    Menu(
+    NavigationMenu(
       title: CanvasPage.title,
       path: CanvasPage.path,
-    )
+      name: '$CanvasPage',
+      menuItem: null,
+    ),
+    NavigationMenu(
+      title: CanvasWithAnimationPage.title,
+      path: CanvasWithAnimationPage.path,
+      name: CanvasWithAnimationPage.name,
+      menuItem: null,
+    ),
   ],
 );
 
-const Menu animationSamples = Menu(
+const NavigationMenu animationSamples = NavigationMenu(
   title: 'Animation Samples',
-  subMenu: [],
+  path: '',
+  name: '',
+  menuItem: [],
 );

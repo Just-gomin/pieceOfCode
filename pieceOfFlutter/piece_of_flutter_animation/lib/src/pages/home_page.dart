@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
 import 'package:piece_of_flutter_animation/src/widgets/widgets.dart';
 
+import '../domain/models/menus/menus.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
@@ -13,7 +15,7 @@ class HomePage extends StatelessWidget {
   static String get path => '/';
   static String get name => '$HomePage';
 
-  final List<Menu> menuList;
+  final List<NavigationMenu> menuList;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _BuildBody extends StatelessWidget {
     required this.menuList,
   });
 
-  final List<Menu> menuList;
+  final List<NavigationMenu> menuList;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class _BuildBody extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: CustomScrollView(
         slivers: <Widget>[
-          for (Menu menu in menuList) ...[
+          for (NavigationMenu menu in menuList) ...[
             _BuildSectionWithItems(
               menu: menu,
             ),
@@ -49,11 +51,12 @@ class _BuildBody extends StatelessWidget {
 }
 
 class _BuildSectionWithItems extends StatelessWidget {
-  const _BuildSectionWithItems({
+  _BuildSectionWithItems({
     required this.menu,
   });
 
-  final Menu menu;
+  final NavigationMenu menu;
+  final FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,9 @@ class _BuildSectionWithItems extends StatelessWidget {
         delegate: SliverChildListDelegate(
       [
         _BuildSectionTitle(title: menu.title),
-        ...(menu.subMenu ?? []).map((item) => _BuildListItem(menu: item))
+        ...(menu.menuItem ?? []).map(
+          (item) => _BuildListItem(menu: item),
+        )
       ],
     ));
   }
@@ -98,26 +103,53 @@ class _BuildSectionTitle extends StatelessWidget {
   }
 }
 
-class _BuildListItem extends StatelessWidget {
+class _BuildListItem extends StatefulWidget {
   const _BuildListItem({required this.menu});
 
-  final Menu menu;
+  final NavigationMenu menu;
+
+  @override
+  State<_BuildListItem> createState() => _BuildListItemState();
+}
+
+class _BuildListItemState extends State<_BuildListItem> {
+  bool isHover = false;
+
+  void setHoverState(bool val) {
+    setState(() {
+      isHover = val;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
-      title: Text(
-        menu.title,
-        style: const TextStyle(fontWeight: FontWeight.w500),
-      ),
-      onTap: () {
-        context.push(menu.path!);
+    return MouseRegion(
+      onHover: (event) {
+        setHoverState(true);
       },
-      hoverColor: Theme.of(context).primaryColor,
-      splashColor: Theme.of(context).primaryColor.withAlpha(128),
+      onExit: (event) {
+        setHoverState(false);
+      },
+      onEnter: (event) {
+        setHoverState(true);
+      },
+      child: ListTile(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        title: Text(
+          widget.menu.title,
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: isHover ? Colors.white : Colors.black,
+          ),
+        ),
+        onTap: () {
+          context.goNamed(widget.menu.name);
+        },
+        hoverColor: Theme.of(context).primaryColor,
+        splashColor: Theme.of(context).primaryColor.withAlpha(128),
+      ),
     );
   }
 }
