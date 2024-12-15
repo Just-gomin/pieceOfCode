@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
 import 'package:piece_of_flutter_animation/src/widgets/widgets.dart';
 
+import '../domain/models/menus/menus.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
@@ -13,7 +15,7 @@ class HomePage extends StatelessWidget {
   static String get path => '/';
   static String get name => '$HomePage';
 
-  final List<Menu> menuList;
+  final List<NavigationMenu> menuList;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _BuildBody extends StatelessWidget {
     required this.menuList,
   });
 
-  final List<Menu> menuList;
+  final List<NavigationMenu> menuList;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class _BuildBody extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: CustomScrollView(
         slivers: <Widget>[
-          for (Menu menu in menuList) ...[
+          for (NavigationMenu menu in menuList) ...[
             _BuildSectionWithItems(
               menu: menu,
             ),
@@ -53,7 +55,7 @@ class _BuildSectionWithItems extends StatelessWidget {
     required this.menu,
   });
 
-  final Menu menu;
+  final NavigationMenu menu;
   final FocusNode focusNode = FocusNode();
 
   @override
@@ -62,7 +64,7 @@ class _BuildSectionWithItems extends StatelessWidget {
         delegate: SliverChildListDelegate(
       [
         _BuildSectionTitle(title: menu.title),
-        ...(menu.subMenu ?? []).map(
+        ...(menu.menuItem ?? []).map(
           (item) => _BuildListItem(menu: item),
         )
       ],
@@ -104,7 +106,7 @@ class _BuildSectionTitle extends StatelessWidget {
 class _BuildListItem extends StatefulWidget {
   const _BuildListItem({required this.menu});
 
-  final Menu menu;
+  final NavigationMenu menu;
 
   @override
   State<_BuildListItem> createState() => _BuildListItemState();

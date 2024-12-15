@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:piece_of_flutter_animation/src/constants/constants.dart';
 import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
 
+import '../domain/models/menus/menus.dart';
+
 class CanvasPage extends StatelessWidget {
   const CanvasPage({super.key});
 
@@ -26,14 +28,14 @@ class _BuildBody extends StatefulWidget {
 }
 
 class _BuildBodyState extends State<_BuildBody> {
-  final List<MenuItem> menuList = <MenuItem>[
-    MenuItem(title: '$_MyPainter', painter: _MyPainter()),
-    MenuItem(title: '$_DRRectPainter', painter: _DRRectPainter()),
+  final List<Menu<CustomPainter>> menuList = <Menu<CustomPainter>>[
+    Menu<CustomPainter>(title: '$_MyPainter', menuItem: _MyPainter()),
+    Menu<CustomPainter>(title: '$_DRRectPainter', menuItem: _DRRectPainter()),
   ];
 
   late String title = menuList[0].title;
 
-  late CustomPainter painter = menuList[0].painter;
+  late CustomPainter painter = menuList[0].menuItem;
 
   void setMenu({
     required String title,
@@ -74,14 +76,14 @@ class _BuildBodyState extends State<_BuildBody> {
             width: 400,
             child: ListView(
               children: <Widget>[
-                for (MenuItem menuItem in menuList)
+                for (Menu<CustomPainter> menuItem in menuList)
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
                         setMenu(
                           title: menuItem.title,
-                          painter: menuItem.painter,
+                          painter: menuItem.menuItem,
                         );
                       },
                       child: Text(menuItem.title),
@@ -94,16 +96,6 @@ class _BuildBodyState extends State<_BuildBody> {
       ),
     );
   }
-}
-
-class MenuItem {
-  MenuItem({
-    required this.title,
-    required this.painter,
-  });
-
-  final String title;
-  final CustomPainter painter;
 }
 
 class _MyPainter extends CustomPainter {
