@@ -70,30 +70,66 @@ class _BuildBodyState extends State<_BuildBody> {
       builder: (BuildContext context, AsyncSnapshot<ui.Image> data) {
         if (!data.hasData) return const SizedBox();
         final List<Menu<CustomPainter>> menuList = <Menu<CustomPainter>>[
-          Menu<CustomPainter>(title: '$ArcPainter', menuItem: ArcPainter()),
           Menu<CustomPainter>(
-              title: '$CirclePainter', menuItem: CirclePainter()),
-          Menu<CustomPainter>(title: '$ColorPainter', menuItem: ColorPainter()),
+            title: '$ArcPainter',
+            menuItem: ArcPainter(),
+          ),
           Menu<CustomPainter>(
-              title: '$ColorFillPainter', menuItem: ColorFillPainter()),
+            title: '$CirclePainter',
+            menuItem: CirclePainter(),
+          ),
           Menu<CustomPainter>(
-              title: '$DRRectPainter', menuItem: DRRectPainter()),
+            title: '$ColorPainter',
+            menuItem: ColorPainter(),
+          ),
           Menu<CustomPainter>(
-              title: '$ImagePainter',
-              menuItem: ImagePainter(image: data.data!)),
-          Menu<CustomPainter>(title: '$LinePainter', menuItem: LinePainter()),
-          Menu<CustomPainter>(title: '$OvalPainter', menuItem: OvalPainter()),
-          Menu<CustomPainter>(title: '$PathPainter', menuItem: PathPainter()),
+            title: '$ColorFillPainter',
+            menuItem: ColorFillPainter(),
+          ),
           Menu<CustomPainter>(
-              title: '$PointsPainter', menuItem: PointsPainter()),
+            title: '$DRRectPainter',
+            menuItem: DRRectPainter(),
+          ),
           Menu<CustomPainter>(
-              title: '$RectanglePainter', menuItem: RectanglePainter()),
+            title: '$ImagePainter',
+            menuItem: ImagePainter(image: data.data!),
+          ),
           Menu<CustomPainter>(
-              title: '$RoundRectPainter', menuItem: RoundRectPainter()),
+            title: '$LinePainter',
+            menuItem: LinePainter(),
+          ),
           Menu<CustomPainter>(
-              title: '$ShadowPainter', menuItem: ShadowPainter()),
+            title: '$OvalPainter',
+            menuItem: OvalPainter(),
+          ),
           Menu<CustomPainter>(
-              title: '$VerticesPainter', menuItem: VerticesPainter()),
+            title: '$PathPainter',
+            menuItem: PathPainter(),
+          ),
+          Menu<CustomPainter>(
+            title: '$PointsPainter',
+            menuItem: PointsPainter(),
+          ),
+          Menu<CustomPainter>(
+            title: '$RectanglePainter',
+            menuItem: RectanglePainter(),
+          ),
+          Menu<CustomPainter>(
+            title: '$RoundRectPainter',
+            menuItem: RoundRectPainter(),
+          ),
+          Menu<CustomPainter>(
+            title: '$ShadowPainter',
+            menuItem: ShadowPainter(),
+          ),
+          Menu<CustomPainter>(
+            title: '$VerticesPainter',
+            menuItem: VerticesPainter(),
+          ),
+          Menu<CustomPainter>(
+            title: '$WavePainter',
+            menuItem: WavePainter(animationValue: 10),
+          ),
         ];
 
         return Container(
@@ -503,4 +539,44 @@ class VerticesPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class WavePainter extends CustomPainter {
+  final double animationValue;
+
+  WavePainter({
+    required this.animationValue,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue
+      ..style = PaintingStyle.fill;
+
+    final path = Path()..moveTo(_defaultPadding, _defaultPadding);
+
+    for (var i = _defaultPadding; i < _defaultPadding + _maxObjectWidth; i++) {
+      path.lineTo(
+        i,
+        size.height / 2 +
+            math.sin((i / size.width + animationValue) * 2 * math.pi) * 40,
+      );
+    }
+
+    path.lineTo(
+      _maxObjectWidth + _defaultPadding,
+      _maxObjectHeight + _defaultPadding,
+    );
+    path.lineTo(
+      _defaultPadding,
+      _maxObjectHeight + _defaultPadding,
+    );
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
