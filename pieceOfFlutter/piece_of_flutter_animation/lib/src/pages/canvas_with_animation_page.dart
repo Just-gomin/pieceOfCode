@@ -89,9 +89,11 @@ class WavePainter extends CustomPainter {
 
     final path = Path()..moveTo(_defaultPadding, _defaultPadding);
 
-    for (var i = _defaultPadding; i < _defaultPadding + _maxObjectWidth; i++) {
+    for (double i = _defaultPadding;
+        i < _defaultPadding + _maxObjectWidth;
+        i++) {
       double dy = _defaultPadding + _canvasHeight / 2;
-      dy += math.sin((i / _maxObjectWidth + animationValue) * 2 * math.pi) * 20;
+      dy += math.sin((i / _maxObjectWidth + animationValue) * 2 * math.pi) * 25;
 
       path.lineTo(i, dy);
     }
