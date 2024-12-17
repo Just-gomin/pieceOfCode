@@ -30,6 +30,14 @@ final NavigationMenu animationBase = NavigationMenu(
       name: '$CanvasPage',
       menuItem: null,
     ),
+  ],
+);
+
+final NavigationMenu animationSamples = NavigationMenu(
+  title: 'Animation Samples',
+  path: '',
+  name: '',
+  menuItem: [
     NavigationMenu(
       title: CanvasWithAnimationPage.title,
       path: CanvasWithAnimationPage.path,
@@ -37,11 +45,4 @@ final NavigationMenu animationBase = NavigationMenu(
       menuItem: null,
     ),
   ],
-);
-
-const NavigationMenu animationSamples = NavigationMenu(
-  title: 'Animation Samples',
-  path: '',
-  name: '',
-  menuItem: [],
 );
