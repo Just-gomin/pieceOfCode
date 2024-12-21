@@ -1,5 +1,5 @@
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
-import 'package:piece_of_flutter_animation/src/pages/pages.dart';
+import 'package:piece_of_flutter_animation/src/presentation/pages/pages.dart';
 
 final NavigationMenu animationBase = NavigationMenu(
   title: 'Animation Concepts',

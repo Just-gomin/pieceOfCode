@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:piece_of_flutter_animation/src/constants/constants.dart';
 import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
 
-import '../domain/models/menus/menus.dart';
+import '../../domain/models/menus/menus.dart';
 
 const double _defaultPadding = 16;
 const double _canvasWidth = _defaultPadding * 40;
