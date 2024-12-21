@@ -2,7 +2,8 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
+import 'package:piece_of_flutter_animation/src/presentation/themes/themes.dart';
+import 'package:piece_of_flutter_animation/src/presentation/widgets/my_app_bar.dart';
 
 const double _defaultPadding = 16;
 const double _canvasWidth = _defaultPadding * 40;
@@ -87,13 +88,29 @@ class WavePainter extends CustomPainter {
       ..color = Colors.blue
       ..style = PaintingStyle.fill;
 
-    final path = Path()..moveTo(_defaultPadding, _defaultPadding);
+    final Paint circlePaint = Paint()
+      ..color = MyColors.primary
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 8;
+    const double radius = 16;
 
-    for (var i = _defaultPadding; i < _defaultPadding + _maxObjectWidth; i++) {
+    final path = Path();
+
+    for (double i = _defaultPadding;
+        i < _defaultPadding + _maxObjectWidth;
+        i++) {
       double dy = _defaultPadding + _canvasHeight / 2;
-      dy += math.sin((i / _maxObjectWidth + animationValue) * 2 * math.pi) * 20;
+      dy += math.sin((i / _maxObjectWidth + animationValue) * 2 * math.pi) * 25;
+
+      if (i == _defaultPadding) {
+        path.moveTo(i, dy);
+      }
 
       path.lineTo(i, dy);
+      if (i >= (_maxObjectWidth + 2 * _defaultPadding) / 2 &&
+          i <= (_maxObjectWidth + 2 * _defaultPadding) / 2 + 1) {
+        canvas.drawCircle(Offset(i, dy - radius + 2), radius, circlePaint);
+      }
     }
 
     path

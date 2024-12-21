@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:piece_of_flutter_animation/src/app/menu_tree.dart';
-import 'package:piece_of_flutter_animation/src/pages/pages.dart';
+import 'package:piece_of_flutter_animation/src/presentation/pages/pages.dart';
 
 GoRouter appRouter = GoRouter(
   routes: <GoRoute>[

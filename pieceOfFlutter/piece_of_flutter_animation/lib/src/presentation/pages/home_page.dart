@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
-import 'package:piece_of_flutter_animation/src/widgets/widgets.dart';
+import 'package:piece_of_flutter_animation/src/presentation/widgets/widgets.dart';
 
-import '../domain/models/menus/menus.dart';
+import '../../domain/models/menus/menus.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({

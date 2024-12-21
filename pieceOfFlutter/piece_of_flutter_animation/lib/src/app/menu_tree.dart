@@ -1,5 +1,5 @@
 import 'package:piece_of_flutter_animation/src/domain/models/models.dart';
-import 'package:piece_of_flutter_animation/src/pages/pages.dart';
+import 'package:piece_of_flutter_animation/src/presentation/pages/pages.dart';
 
 final NavigationMenu animationBase = NavigationMenu(
   title: 'Animation Concepts',
@@ -30,6 +30,14 @@ final NavigationMenu animationBase = NavigationMenu(
       name: '$CanvasPage',
       menuItem: null,
     ),
+  ],
+);
+
+final NavigationMenu animationSamples = NavigationMenu(
+  title: 'Animation Samples',
+  path: '',
+  name: '',
+  menuItem: [
     NavigationMenu(
       title: CanvasWithAnimationPage.title,
       path: CanvasWithAnimationPage.path,
@@ -37,11 +45,4 @@ final NavigationMenu animationBase = NavigationMenu(
       menuItem: null,
     ),
   ],
-);
-
-const NavigationMenu animationSamples = NavigationMenu(
-  title: 'Animation Samples',
-  path: '',
-  name: '',
-  menuItem: [],
 );

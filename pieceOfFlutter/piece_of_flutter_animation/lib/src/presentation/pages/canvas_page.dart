@@ -3,10 +3,10 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:piece_of_flutter_animation/src/constants/constants.dart';
-import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
+import 'package:piece_of_flutter_animation/src/presentation/themes/themes.dart';
+import 'package:piece_of_flutter_animation/src/presentation/widgets/my_app_bar.dart';
 
-import '../domain/models/menus/menus.dart';
+import '../../domain/models/menus/menus.dart';
 
 const double _defaultPadding = 16;
 const double _canvasWidth = _defaultPadding * 40;
@@ -258,7 +258,7 @@ class ColorPainter extends CustomPainter {
     for (int i = 1; i < 10; i++) {
       final Paint backgroundPaint = Paint()
         ..style = PaintingStyle.fill
-        ..color = MyColors.primary.withOpacity((11 - i) / 10)
+        ..color = MyColors.primary.withAlpha((255 * (11 - i) / 10).toInt())
         ..isAntiAlias = false;
 
       // Left와 Top은 좌측 상단이 (0,0)으로 시작.

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
+import 'package:piece_of_flutter_animation/src/presentation/widgets/my_app_bar.dart';
 
 class TickerPage extends StatelessWidget {
   const TickerPage({super.key});
