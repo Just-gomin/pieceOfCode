@@ -258,7 +258,7 @@ class ColorPainter extends CustomPainter {
     for (int i = 1; i < 10; i++) {
       final Paint backgroundPaint = Paint()
         ..style = PaintingStyle.fill
-        ..color = MyColors.primary.withOpacity((11 - i) / 10)
+        ..color = MyColors.primary.withAlpha((255 * (11 - i) / 10).toInt())
         ..isAntiAlias = false;
 
       // Left와 Top은 좌측 상단이 (0,0)으로 시작.
