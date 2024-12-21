@@ -94,13 +94,17 @@ class WavePainter extends CustomPainter {
       ..strokeWidth = 8;
     const double radius = 16;
 
-    final path = Path()..moveTo(_defaultPadding, _defaultPadding);
+    final path = Path();
 
     for (double i = _defaultPadding;
         i < _defaultPadding + _maxObjectWidth;
         i++) {
       double dy = _defaultPadding + _canvasHeight / 2;
       dy += math.sin((i / _maxObjectWidth + animationValue) * 2 * math.pi) * 25;
+
+      if (i == _defaultPadding) {
+        path.moveTo(i, dy);
+      }
 
       path.lineTo(i, dy);
       if (i >= (_maxObjectWidth + 2 * _defaultPadding) / 2 &&
