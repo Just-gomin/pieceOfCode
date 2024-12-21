@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:piece_of_flutter_animation/src/widgets/my_app_bar.dart';
+import 'package:piece_of_flutter_animation/src/presentation/widgets/my_app_bar.dart';
 
 const double _defaultPadding = 16;
 const double _canvasWidth = _defaultPadding * 40;
