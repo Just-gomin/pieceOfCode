@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +18,15 @@ import java.util.Random;
 public class PlaneFinderService {
     private final PlaneRepository repo;
     private final FlightGenerator generator;
-    private URL acURL;
+    private final URL acURL;
     private final ObjectMapper om;
 
     @SneakyThrows
-    public PlaneFinderService(PlaneRepository repo, FlightGenerator generator) {
+    public PlaneFinderService(PlaneRepository repo, FlightGenerator generator) throws MalformedURLException {
         this.repo = repo;
         this.generator = generator;
 
-        acURL = new URL("http://192.0.0.2/ajax/aircraft");
+        acURL = new URL("http://192.168.0.68/ajax/aircraft");
         om = new ObjectMapper();
     }
 
