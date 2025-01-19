@@ -14,8 +14,8 @@ void main() async {
     () async {
       runApp();
     },
-    (Object exception, StackTrace stackTrace) async {
-      await SlackBot.error('$exception\n$stackTrace');
+    (Object exception, StackTrace stackTrace) {
+      SlackBot.error('$exception\n$stackTrace');
     },
   );
 }
@@ -23,11 +23,7 @@ void main() async {
 void runApp() {
   for (int i = 0; i < 10; i++) {
     print('‣ ${i + 1} 회차');
-
-    // Flutter.onError 역할
-    try {
-      View.pressButton();
-    } catch (_) {}
+    View.pressButton();
   }
 }
 
@@ -37,7 +33,7 @@ class View {
     try {
       Presenter.onButtonPreseed();
       Widget.toast(warning: false, message: '데이터 처리애 성공했습니다.');
-    } catch (_) {
+    } catch (e) {
       Widget.toast(warning: true, message: '데이터 처리에 실패했습니다.');
       rethrow;
     }
