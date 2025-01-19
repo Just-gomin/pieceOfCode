@@ -21,13 +21,12 @@ void main() {
       FlutterError.onError = (FlutterErrorDetails errorDetails) {
         final Object exception = errorDetails.exception;
         final StackTrace? stackTrace = errorDetails.stack;
-        slackBot
-            .error('[log from FlutterError.onError] $exception:$stackTrace');
+        slackBot.error('[FlutterError] $exception\n$stackTrace');
       };
       runApp(const MyApp());
     },
     (Object exception, StackTrace stackTrace) {
-      slackBot.error('[log from runZoneGuarded] $exception:$stackTrace');
+      slackBot.error('[runZoneGuarded] $exception\n$stackTrace');
     },
   );
 }
@@ -51,21 +50,21 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final HomePagePresenter presenter = HomePagePresenter();
+  final HomePageController controller = HomePageController();
 
   @override
   Widget build(BuildContext context) {
-    return HomePageMobileView(presenter: presenter);
+    return HomePageMobileView(controller: controller);
   }
 }
 
 class HomePageMobileView extends StatelessWidget {
   const HomePageMobileView({
     super.key,
-    required this.presenter,
+    required this.controller,
   });
 
-  final HomePagePresenter presenter;
+  final HomePageController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +73,7 @@ class HomePageMobileView extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             try {
-              await presenter.riskyOperation();
+              await controller.riskyOperation();
               if (context.mounted) {
                 DelightToastBar(
                   builder: (context) => ToastCard(
@@ -106,11 +105,11 @@ class HomePageMobileView extends StatelessWidget {
   }
 }
 
-class HomePagePresenter {
+class HomePageController {
   Future<void> riskyOperation() async {
     int randomInt = Random().nextInt(10);
     if (randomInt % 2 == 0) {
-      throw Exception('Error occured on handling data.');
+      throw Exception('❗️Error occured on riskyOperation.');
     }
     return;
   }
