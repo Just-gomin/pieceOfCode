@@ -82,13 +82,12 @@ class HomePageMobileView extends StatelessWidget {
 }
 
 class HomePageController {
+  final Repository repository = Repository();
+
   Future<int> riskyOperation(BuildContext context) async {
-    int randomInt;
+    int result;
     try {
-      randomInt = Random().nextInt(10);
-      if (randomInt % 2 == 0) {
-        throw Exception('❗️Error occured on riskyOperation.');
-      }
+      result = repository.handleData();
       if (context.mounted) {
         DelightToastBar(
           builder: (context) => ToastCard(
@@ -111,6 +110,16 @@ class HomePageController {
         ).show(context);
       }
       rethrow;
+    }
+    return result;
+  }
+}
+
+class Repository {
+  int handleData() {
+    int randomInt = Random().nextInt(10);
+    if (randomInt % 2 == 0) {
+      throw Exception('❗️Error occured on riskyOperation.');
     }
     return randomInt;
   }
