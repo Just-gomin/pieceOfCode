@@ -72,31 +72,7 @@ class HomePageMobileView extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
-            try {
-              await controller.riskyOperation();
-              if (context.mounted) {
-                DelightToastBar(
-                  builder: (context) => ToastCard(
-                    leading: Icon(Icons.check_circle, size: 28),
-                    color: Colors.lightGreen[200],
-                    title: Text("성공"),
-                  ),
-                  autoDismiss: true,
-                ).show(context);
-              }
-            } catch (e) {
-              if (context.mounted) {
-                DelightToastBar(
-                  builder: (context) => ToastCard(
-                    leading: Icon(Icons.error, size: 28),
-                    color: Colors.red[200],
-                    title: Text("실패!"),
-                  ),
-                  autoDismiss: true,
-                ).show(context);
-              }
-              rethrow;
-            }
+            await controller.riskyOperation(context);
           },
           child: Text('Button'),
         ),
@@ -106,11 +82,36 @@ class HomePageMobileView extends StatelessWidget {
 }
 
 class HomePageController {
-  Future<void> riskyOperation() async {
-    int randomInt = Random().nextInt(10);
-    if (randomInt % 2 == 0) {
-      throw Exception('❗️Error occured on riskyOperation.');
+  Future<int> riskyOperation(BuildContext context) async {
+    int randomInt;
+    try {
+      randomInt = Random().nextInt(10);
+      if (randomInt % 2 == 0) {
+        throw Exception('❗️Error occured on riskyOperation.');
+      }
+      if (context.mounted) {
+        DelightToastBar(
+          builder: (context) => ToastCard(
+            leading: Icon(Icons.check_circle, size: 28),
+            color: Colors.lightGreen[200],
+            title: Text("성공"),
+          ),
+          autoDismiss: true,
+        ).show(context);
+      }
+    } catch (e) {
+      if (context.mounted) {
+        DelightToastBar(
+          builder: (context) => ToastCard(
+            leading: Icon(Icons.error, size: 28),
+            color: Colors.red[200],
+            title: Text("실패!"),
+          ),
+          autoDismiss: true,
+        ).show(context);
+      }
+      rethrow;
     }
-    return;
+    return randomInt;
   }
 }
