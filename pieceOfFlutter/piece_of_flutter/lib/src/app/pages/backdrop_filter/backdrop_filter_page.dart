@@ -28,8 +28,9 @@ class _BuildBody extends StatefulWidget {
 }
 
 class _BuildBodyState extends State<_BuildBody> {
-  final String imageUrl =
+  final String initialImageUrl =
       'https://images.unsplash.com/photo-1738251198850-39ba48c75fde?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  String imageUrl = '';
 
   int viewIndex = 0;
   final int viewCounts = 2;
@@ -42,9 +43,21 @@ class _BuildBodyState extends State<_BuildBody> {
   final double maxSigmaY = 100;
   double sigmaY = 20;
 
+  final double minContentsWidth = 0;
+  final double maxContentsWidth = 500;
+  double contentsWidth = 200;
+
+  final double minContentsHeight = 0;
+  final double maxContentsHeight = 500;
+  double contentsHeight = 200;
+
+  late TextEditingController textEditingController;
+
   @override
   void initState() {
     super.initState();
+    imageUrl = initialImageUrl;
+    textEditingController = TextEditingController(text: initialImageUrl);
   }
 
   @override
@@ -60,6 +73,8 @@ class _BuildBodyState extends State<_BuildBody> {
                 imageUrl: imageUrl,
                 sigmaX: sigmaX,
                 sigmaY: sigmaY,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
               ),
             ),
           if (viewIndex == 1)
@@ -68,6 +83,8 @@ class _BuildBodyState extends State<_BuildBody> {
                 imageUrl: imageUrl,
                 sigmaX: sigmaX,
                 sigmaY: sigmaY,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
               ),
             ),
           ToggleButtons(
@@ -82,6 +99,23 @@ class _BuildBodyState extends State<_BuildBody> {
                 viewIndex = index;
               });
             },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 8,
+            children: <Widget>[
+              const Text('ImageURL'),
+              Expanded(
+                child: TextFormField(
+                  controller: textEditingController,
+                  onFieldSubmitted: (value) {
+                    setState(() {
+                      imageUrl = value;
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -119,6 +153,42 @@ class _BuildBodyState extends State<_BuildBody> {
               Text('${sigmaY.toInt()}'),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 8,
+            children: [
+              const Text('contentsWidth'),
+              Slider(
+                value: contentsWidth,
+                min: minContentsWidth,
+                max: maxContentsWidth,
+                onChanged: (double value) {
+                  setState(() {
+                    contentsWidth = value;
+                  });
+                },
+              ),
+              Text('${contentsWidth.toInt()}'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 8,
+            children: [
+              const Text('contentsHeight'),
+              Slider(
+                value: contentsHeight,
+                min: minContentsHeight,
+                max: maxContentsHeight,
+                onChanged: (double value) {
+                  setState(() {
+                    contentsHeight = value;
+                  });
+                },
+              ),
+              Text('${contentsHeight.toInt()}'),
+            ],
+          ),
         ],
       ),
     );
@@ -130,11 +200,15 @@ class _BuildBlurBackgroundView extends StatelessWidget {
     required this.imageUrl,
     required this.sigmaX,
     required this.sigmaY,
+    required this.contentsWidth,
+    required this.contentsHeight,
   });
 
   final String imageUrl;
   final double sigmaX;
   final double sigmaY;
+  final double contentsWidth;
+  final double contentsHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -152,8 +226,9 @@ class _BuildBlurBackgroundView extends StatelessWidget {
             alignment: Alignment.center,
             child: Image.network(
               imageUrl,
-              height: 250,
-              fit: BoxFit.fitHeight,
+              width: contentsWidth,
+              height: contentsHeight,
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -167,11 +242,15 @@ class _BuildFrontTextView extends StatelessWidget {
     required this.imageUrl,
     required this.sigmaX,
     required this.sigmaY,
+    required this.contentsWidth,
+    required this.contentsHeight,
   });
 
   final String imageUrl;
   final double sigmaX;
   final double sigmaY;
+  final double contentsWidth;
+  final double contentsHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -187,8 +266,8 @@ class _BuildFrontTextView extends StatelessWidget {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: sigmaX, sigmaY: sigmaY),
               child: Container(
-                width: 200,
-                height: 200,
+                width: contentsWidth,
+                height: contentsHeight,
                 alignment: Alignment.center,
                 child: const Text(
                   'Front',
