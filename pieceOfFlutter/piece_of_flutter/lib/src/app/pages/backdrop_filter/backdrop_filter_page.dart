@@ -32,7 +32,7 @@ class _BuildBodyState extends State<_BuildBody> {
 
   final List<Widget> views = <Widget>[
     const _BuildBlurBackgroundView(),
-    const Placeholder(),
+    const _BuildFrontTextView(),
   ];
 
   @override
@@ -93,6 +93,39 @@ class _BuildBlurBackgroundView extends StatelessWidget {
             ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _BuildFrontTextView extends StatelessWidget {
+  const _BuildFrontTextView();
+
+  final String imageUrl =
+      'https://images.unsplash.com/photo-1738251198850-39ba48c75fde?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        Image.network(
+          imageUrl,
+          fit: BoxFit.fitHeight,
+        ),
+        Center(
+          child: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              child: Container(
+                width: 200,
+                height: 200,
+                alignment: Alignment.center,
+                child: const Text('Front'),
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
