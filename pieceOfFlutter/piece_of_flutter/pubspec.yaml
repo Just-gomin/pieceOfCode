@@ -25,4 +25,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - lib/src/app/pages/
+    - lib/src/app/pages/backdrop_filter/
     - lib/src/app/pages/container/
