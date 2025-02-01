@@ -60,26 +60,26 @@ class PositionControllerTest {
                 Instant.now(), Instant.now(), Instant.now());
 
         // Replace this line in turn with each section below, then run test getCurrentACPositions()
-//        Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3));
+        Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3));
 
-//        Hooks.onOperatorDebug();
-//        Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
-//                .concatWith(Flux.error(new Throwable("Bad position report"))));
+        //Hooks.onOperatorDebug();
+        //Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
+        //        .concatWith(Flux.error(new Throwable("Bad position report"))));
 
-//        Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
-//                .checkpoint()
-//                .concatWith(Flux.error(new Throwable("Bad position report")))
-//                .checkpoint());
+        //Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
+        //        .checkpoint()
+        //        .concatWith(Flux.error(new Throwable("Bad position report")))
+        //        .checkpoint());
 
-//        Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
-//                .checkpoint("All Aircraft: after all good positions reported")
-//                .concatWith(Flux.error(new Throwable("Bad position report")))
-//                .checkpoint("All Aircraft: after appending bad position report"));
+        //Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
+        //        .checkpoint("All Aircraft: after all good positions reported")
+        //        .concatWith(Flux.error(new Throwable("Bad position report")))
+        //        .checkpoint("All Aircraft: after appending bad position report"));
 
-        Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
-                .checkpoint("All Aircraft: after all good positions reported", true)
-                .concatWith(Flux.error(new Throwable("Bad position report")))
-                .checkpoint("All Aircraft: after appending bad position report", true));
+        //Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
+        //        .checkpoint("All Aircraft: after all good positions reported", true)
+        //        .concatWith(Flux.error(new Throwable("Bad position report")))
+        //        .checkpoint("All Aircraft: after appending bad position report", true));
 
         //ReactorDebugAgent.init();
         //Mockito.when(service.getAllAircraft()).thenReturn(Flux.just(ac1, ac2, ac3)
