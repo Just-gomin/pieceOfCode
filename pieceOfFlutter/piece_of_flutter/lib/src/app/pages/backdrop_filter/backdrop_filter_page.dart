@@ -28,12 +28,24 @@ class _BuildBody extends StatefulWidget {
 }
 
 class _BuildBodyState extends State<_BuildBody> {
-  int viewIndex = 0;
+  final String imageUrl =
+      'https://images.unsplash.com/photo-1738251198850-39ba48c75fde?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
-  final List<Widget> views = <Widget>[
-    const _BuildBlurBackgroundView(),
-    const _BuildFrontTextView(),
-  ];
+  int viewIndex = 0;
+  final int viewCounts = 2;
+
+  final double minSigmaX = 0;
+  final double maxSigmaX = 100;
+  double sigmaX = 20;
+
+  final double minSigmaY = 0;
+  final double maxSigmaY = 100;
+  double sigmaY = 20;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +54,70 @@ class _BuildBodyState extends State<_BuildBody> {
       child: Column(
         spacing: 8,
         children: [
-          Expanded(child: views[viewIndex]),
+          if (viewIndex == 0)
+            Expanded(
+              child: _BuildBlurBackgroundView(
+                imageUrl: imageUrl,
+                sigmaX: sigmaX,
+                sigmaY: sigmaY,
+              ),
+            ),
+          if (viewIndex == 1)
+            Expanded(
+              child: _BuildFrontTextView(
+                imageUrl: imageUrl,
+                sigmaX: sigmaX,
+                sigmaY: sigmaY,
+              ),
+            ),
           ToggleButtons(
-            selectedColor: Colors.white,
-            fillColor: const Color(0xFF7C7365),
             isSelected: <bool>[
-              for (int i = 0; i < views.length; i++) i == viewIndex,
+              for (int i = 0; i < viewCounts; i++) i == viewIndex,
             ],
             children: <Widget>[
-              for (int i = 0; i < views.length; i++) Text("${i + 1}"),
+              for (int i = 0; i < viewCounts; i++) Text("${i + 1}"),
             ],
             onPressed: (index) {
               setState(() {
                 viewIndex = index;
               });
             },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 8,
+            children: [
+              const Text('sigmaX'),
+              Slider(
+                value: sigmaX,
+                min: minSigmaX,
+                max: maxSigmaX,
+                onChanged: (double value) {
+                  setState(() {
+                    sigmaX = value;
+                  });
+                },
+              ),
+              Text('${sigmaX.toInt()}'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 8,
+            children: [
+              const Text('sigmaY'),
+              Slider(
+                value: sigmaY,
+                min: minSigmaY,
+                max: maxSigmaY,
+                onChanged: (double value) {
+                  setState(() {
+                    sigmaY = value;
+                  });
+                },
+              ),
+              Text('${sigmaY.toInt()}'),
+            ],
           ),
         ],
       ),
@@ -65,12 +126,15 @@ class _BuildBodyState extends State<_BuildBody> {
 }
 
 class _BuildBlurBackgroundView extends StatelessWidget {
-  const _BuildBlurBackgroundView();
+  const _BuildBlurBackgroundView({
+    required this.imageUrl,
+    required this.sigmaX,
+    required this.sigmaY,
+  });
 
-  // final String imageUrl =
-  //     'https://images.unsplash.com/photo-1735627062325-c978986b1871?q=80&w=3212&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-  final String imageUrl =
-      'https://images.unsplash.com/photo-1738251198850-39ba48c75fde?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  final String imageUrl;
+  final double sigmaX;
+  final double sigmaY;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +147,7 @@ class _BuildBlurBackgroundView extends StatelessWidget {
           ),
         ),
         BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          filter: ImageFilter.blur(sigmaX: sigmaX, sigmaY: sigmaY),
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
@@ -99,10 +163,15 @@ class _BuildBlurBackgroundView extends StatelessWidget {
 }
 
 class _BuildFrontTextView extends StatelessWidget {
-  const _BuildFrontTextView();
+  const _BuildFrontTextView({
+    required this.imageUrl,
+    required this.sigmaX,
+    required this.sigmaY,
+  });
 
-  final String imageUrl =
-      'https://images.unsplash.com/photo-1738251198850-39ba48c75fde?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  final String imageUrl;
+  final double sigmaX;
+  final double sigmaY;
 
   @override
   Widget build(BuildContext context) {
@@ -116,12 +185,17 @@ class _BuildFrontTextView extends StatelessWidget {
         Center(
           child: ClipRect(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              filter: ImageFilter.blur(sigmaX: sigmaX, sigmaY: sigmaY),
               child: Container(
                 width: 200,
                 height: 200,
                 alignment: Alignment.center,
-                child: const Text('Front'),
+                child: const Text(
+                  'Front',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),
