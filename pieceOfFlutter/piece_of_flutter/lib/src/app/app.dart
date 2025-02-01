@@ -8,7 +8,11 @@ class PieceOfFlutter extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF7C7365),
+        ),
+      ),
       darkTheme: ThemeData.dark(),
       home: const HomePage(),
     );
