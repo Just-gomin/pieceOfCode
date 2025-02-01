@@ -84,6 +84,7 @@ class _BuildBodyState extends State<_BuildBody> {
                     imageUrl: imageUrl,
                     filterX: filterX,
                     filterY: filterY,
+                    blendMode: blendMode,
                     contentsWidth: contentsWidth,
                     contentsHeight: contentsHeight,
                   );
@@ -93,6 +94,7 @@ class _BuildBodyState extends State<_BuildBody> {
                     imageUrl: imageUrl,
                     filterX: filterX,
                     filterY: filterY,
+                    blendMode: blendMode,
                     contentsWidth: contentsWidth,
                     contentsHeight: contentsHeight,
                   );
@@ -102,6 +104,7 @@ class _BuildBodyState extends State<_BuildBody> {
                     imageUrl: imageUrl,
                     filterX: filterX,
                     filterY: filterY,
+                    blendMode: blendMode,
                     contentsWidth: contentsWidth,
                     contentsHeight: contentsHeight,
                   );
@@ -111,6 +114,7 @@ class _BuildBodyState extends State<_BuildBody> {
                     imageUrl: imageUrl,
                     filterX: filterX,
                     filterY: filterY,
+                    blendMode: blendMode,
                     contentsWidth: contentsWidth,
                     contentsHeight: contentsHeight,
                   );
@@ -306,6 +310,7 @@ class _BuildBlurBackgroundView extends StatelessWidget {
     required this.imageUrl,
     required this.filterX,
     required this.filterY,
+    required this.blendMode,
     required this.contentsWidth,
     required this.contentsHeight,
   });
@@ -313,6 +318,7 @@ class _BuildBlurBackgroundView extends StatelessWidget {
   final String imageUrl;
   final double filterX;
   final double filterY;
+  final BlendMode blendMode;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -328,6 +334,7 @@ class _BuildBlurBackgroundView extends StatelessWidget {
         ),
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: filterX, sigmaY: filterY),
+          blendMode: blendMode,
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
@@ -348,6 +355,7 @@ class _BuildFrontTextView extends StatelessWidget {
     required this.imageUrl,
     required this.filterX,
     required this.filterY,
+    required this.blendMode,
     required this.contentsWidth,
     required this.contentsHeight,
   });
@@ -355,6 +363,7 @@ class _BuildFrontTextView extends StatelessWidget {
   final String imageUrl;
   final double filterX;
   final double filterY;
+  final BlendMode blendMode;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -371,6 +380,7 @@ class _BuildFrontTextView extends StatelessWidget {
           child: ClipRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: filterX, sigmaY: filterY),
+              blendMode: blendMode,
               child: Container(
                 width: contentsWidth,
                 height: contentsHeight,
@@ -395,6 +405,7 @@ class _BuildDilateBackgroundView extends StatelessWidget {
     required this.imageUrl,
     required this.filterX,
     required this.filterY,
+    required this.blendMode,
     required this.contentsWidth,
     required this.contentsHeight,
   });
@@ -402,6 +413,7 @@ class _BuildDilateBackgroundView extends StatelessWidget {
   final String imageUrl;
   final double filterX;
   final double filterY;
+  final BlendMode blendMode;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -417,6 +429,7 @@ class _BuildDilateBackgroundView extends StatelessWidget {
         ),
         BackdropFilter(
           filter: ImageFilter.dilate(radiusX: filterX, radiusY: filterY),
+          blendMode: blendMode,
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
@@ -437,6 +450,7 @@ class _BuildErodeBackgroundView extends StatelessWidget {
     required this.imageUrl,
     required this.filterX,
     required this.filterY,
+    required this.blendMode,
     required this.contentsWidth,
     required this.contentsHeight,
   });
@@ -444,6 +458,7 @@ class _BuildErodeBackgroundView extends StatelessWidget {
   final String imageUrl;
   final double filterX;
   final double filterY;
+  final BlendMode blendMode;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -459,6 +474,7 @@ class _BuildErodeBackgroundView extends StatelessWidget {
         ),
         BackdropFilter(
           filter: ImageFilter.erode(radiusX: filterX, radiusY: filterY),
+          blendMode: blendMode,
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
