@@ -53,6 +53,7 @@ class _BuildBodyState extends State<_BuildBody> {
 
   late TextEditingController textEditingController;
   late ImageFilter filter;
+  late BlendMode blendMode;
 
   @override
   void initState() {
@@ -60,6 +61,7 @@ class _BuildBodyState extends State<_BuildBody> {
     imageUrl = initialImageUrl;
     textEditingController = TextEditingController(text: initialImageUrl);
     filter = ImageFilter.erode();
+    blendMode = BlendMode.srcOver;
   }
 
   @override
@@ -112,12 +114,14 @@ class _BuildBodyState extends State<_BuildBody> {
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.all(8),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Text('view'),
-                    DropdownButton(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  _BuildField(
+                    title: 'View',
+                    child: DropdownButton(
+                      value: viewIndex,
                       items: const <DropdownMenuItem<int>>[
                         DropdownMenuItem(
                           value: 0,
@@ -142,13 +146,10 @@ class _BuildBodyState extends State<_BuildBody> {
                         });
                       },
                     ),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: <Widget>[
-                    const Text('ImageURL'),
-                    Expanded(
+                  ),
+                  _BuildField(
+                    title: 'Image',
+                    child: Expanded(
                       child: TextFormField(
                         controller: textEditingController,
                         onFieldSubmitted: (value) {
@@ -158,81 +159,129 @@ class _BuildBodyState extends State<_BuildBody> {
                         },
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    const Text('filterX'),
-                    Slider(
-                      value: filterX,
-                      min: minFilterX,
-                      max: maxFilterX,
-                      onChanged: (double value) {
-                        setState(() {
-                          filterX = value;
-                        });
+                  ),
+                  _BuildField(
+                    title: 'BlendMode',
+                    child: DropdownButton(
+                      value: blendMode,
+                      items: <DropdownMenuItem<BlendMode>>[
+                        for (BlendMode mode in BlendMode.values)
+                          DropdownMenuItem(
+                            value: mode,
+                            child: Text(mode.name),
+                          ),
+                      ],
+                      onChanged: (BlendMode? value) {
+                        if (value != null) {
+                          setState(() {
+                            blendMode = value;
+                          });
+                        }
                       },
                     ),
-                    Text('${filterX.toInt()}'),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    const Text('filterY'),
-                    Slider(
-                      value: filterY,
-                      min: minFilterY,
-                      max: maxFilterY,
-                      onChanged: (double value) {
-                        setState(() {
-                          filterY = value;
-                        });
-                      },
+                  ),
+                  _BuildField(
+                    title: 'FilterX',
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        Slider(
+                          value: filterX,
+                          min: minFilterX,
+                          max: maxFilterX,
+                          onChanged: (double value) {
+                            setState(() {
+                              filterX = value;
+                            });
+                          },
+                        ),
+                        Text('${filterX.toInt()}'),
+                      ],
                     ),
-                    Text('${filterY.toInt()}'),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    const Text('contentsWidth'),
-                    Slider(
-                      value: contentsWidth,
-                      min: minContentsWidth,
-                      max: maxContentsWidth,
-                      onChanged: (double value) {
-                        setState(() {
-                          contentsWidth = value;
-                        });
-                      },
+                  ),
+                  _BuildField(
+                    title: 'FilterY',
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        Slider(
+                          value: filterY,
+                          min: minFilterY,
+                          max: maxFilterY,
+                          onChanged: (double value) {
+                            setState(() {
+                              filterY = value;
+                            });
+                          },
+                        ),
+                        Text('${filterY.toInt()}'),
+                      ],
                     ),
-                    Text('${contentsWidth.toInt()}'),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    const Text('contentsHeight'),
-                    Slider(
-                      value: contentsHeight,
-                      min: minContentsHeight,
-                      max: maxContentsHeight,
-                      onChanged: (double value) {
-                        setState(() {
-                          contentsHeight = value;
-                        });
-                      },
+                  ),
+                  _BuildField(
+                    title: 'ContentsWidth',
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        Slider(
+                          value: contentsWidth,
+                          min: minContentsWidth,
+                          max: maxContentsWidth,
+                          onChanged: (double value) {
+                            setState(() {
+                              contentsWidth = value;
+                            });
+                          },
+                        ),
+                        Text('${contentsWidth.toInt()}'),
+                      ],
                     ),
-                    Text('${contentsHeight.toInt()}'),
-                  ],
-                ),
-              ],
+                  ),
+                  _BuildField(
+                    title: 'ContentsHeight',
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        Slider(
+                          value: contentsHeight,
+                          min: minContentsHeight,
+                          max: maxContentsHeight,
+                          onChanged: (double value) {
+                            setState(() {
+                              contentsHeight = value;
+                            });
+                          },
+                        ),
+                        Text('${contentsHeight.toInt()}'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _BuildField extends StatelessWidget {
+  const _BuildField({
+    required this.title,
+    required this.child,
+  });
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(width: 120, child: Text(title)),
+        child,
+      ],
     );
   }
 }
