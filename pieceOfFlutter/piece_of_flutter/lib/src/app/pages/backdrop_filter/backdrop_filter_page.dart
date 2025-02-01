@@ -99,6 +99,16 @@ class _BuildBodyState extends State<_BuildBody> {
                 contentsHeight: contentsHeight,
               ),
             ),
+          if (viewIndex == 3)
+            Expanded(
+              child: _BuildErodeBackgroundView(
+                imageUrl: imageUrl,
+                filterX: filterX,
+                filterY: filterY,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
+              ),
+            ),
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.all(8),
@@ -120,6 +130,10 @@ class _BuildBodyState extends State<_BuildBody> {
                         DropdownMenuItem(
                           value: 2,
                           child: Text('dilate-back'),
+                        ),
+                        DropdownMenuItem(
+                          value: 3,
+                          child: Text('erode-back'),
                         ),
                       ],
                       onChanged: (int? value) {
@@ -339,6 +353,48 @@ class _BuildDilateBackgroundView extends StatelessWidget {
         ),
         BackdropFilter(
           filter: ImageFilter.dilate(radiusX: filterX, radiusY: filterY),
+          child: Container(
+            alignment: Alignment.center,
+            child: Image.network(
+              imageUrl,
+              width: contentsWidth,
+              height: contentsHeight,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _BuildErodeBackgroundView extends StatelessWidget {
+  const _BuildErodeBackgroundView({
+    required this.imageUrl,
+    required this.filterX,
+    required this.filterY,
+    required this.contentsWidth,
+    required this.contentsHeight,
+  });
+
+  final String imageUrl;
+  final double filterX;
+  final double filterY;
+  final double contentsWidth;
+  final double contentsHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        BackdropFilter(
+          filter: ImageFilter.erode(radiusX: filterX, radiusY: filterY),
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
