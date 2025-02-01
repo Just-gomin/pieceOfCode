@@ -9,6 +9,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<PageSource> pageSources = [
       PageSource(
+        pageName: BackdropFilterPage.pageName,
+        page: const BackdropFilterPage(),
+      ),
+      PageSource(
         pageName: ContainerPage.pageName,
         page: const ContainerPage(),
       ),

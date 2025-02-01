@@ -7,7 +7,12 @@ class PieceOfFlutter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light(),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF7C7365),
+        ),
+      ),
       darkTheme: ThemeData.dark(),
       home: const HomePage(),
     );
