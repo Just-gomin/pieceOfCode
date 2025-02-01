@@ -35,13 +35,13 @@ class _BuildBodyState extends State<_BuildBody> {
   int viewIndex = 0;
   final int viewCounts = 2;
 
-  final double minSigmaX = 0;
-  final double maxSigmaX = 100;
-  double sigmaX = 20;
+  final double minFilterX = 0;
+  final double maxFilterX = 100;
+  double filterX = 20;
 
-  final double minSigmaY = 0;
-  final double maxSigmaY = 100;
-  double sigmaY = 20;
+  final double minFilterY = 0;
+  final double maxFilterY = 100;
+  double filterY = 20;
 
   final double minContentsWidth = 0;
   final double maxContentsWidth = 500;
@@ -52,12 +52,14 @@ class _BuildBodyState extends State<_BuildBody> {
   double contentsHeight = 200;
 
   late TextEditingController textEditingController;
+  late ImageFilter filter;
 
   @override
   void initState() {
     super.initState();
     imageUrl = initialImageUrl;
     textEditingController = TextEditingController(text: initialImageUrl);
+    filter = ImageFilter.erode();
   }
 
   @override
@@ -71,8 +73,8 @@ class _BuildBodyState extends State<_BuildBody> {
             Expanded(
               child: _BuildBlurBackgroundView(
                 imageUrl: imageUrl,
-                sigmaX: sigmaX,
-                sigmaY: sigmaY,
+                filterX: filterX,
+                filterY: filterY,
                 contentsWidth: contentsWidth,
                 contentsHeight: contentsHeight,
               ),
@@ -81,113 +83,139 @@ class _BuildBodyState extends State<_BuildBody> {
             Expanded(
               child: _BuildFrontTextView(
                 imageUrl: imageUrl,
-                sigmaX: sigmaX,
-                sigmaY: sigmaY,
+                filterX: filterX,
+                filterY: filterY,
                 contentsWidth: contentsWidth,
                 contentsHeight: contentsHeight,
               ),
             ),
-          ToggleButtons(
-            isSelected: <bool>[
-              for (int i = 0; i < viewCounts; i++) i == viewIndex,
-            ],
-            children: <Widget>[
-              for (int i = 0; i < viewCounts; i++) Text("${i + 1}"),
-            ],
-            onPressed: (index) {
-              setState(() {
-                viewIndex = index;
-              });
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 8,
-            children: <Widget>[
-              const Text('ImageURL'),
-              Expanded(
-                child: TextFormField(
-                  controller: textEditingController,
-                  onFieldSubmitted: (value) {
-                    setState(() {
-                      imageUrl = value;
-                    });
-                  },
+          if (viewIndex == 2)
+            Expanded(
+              child: _BuildDilateBackgroundView(
+                imageUrl: imageUrl,
+                filterX: filterX,
+                filterY: filterY,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
+              ),
+            ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    const Text('view'),
+                    DropdownButton(
+                      items: const <DropdownMenuItem<int>>[
+                        DropdownMenuItem(
+                          value: 0,
+                          child: Text('blur-back'),
+                        ),
+                        DropdownMenuItem(
+                          value: 1,
+                          child: Text('blur-front'),
+                        ),
+                        DropdownMenuItem(
+                          value: 2,
+                          child: Text('dilate-back'),
+                        ),
+                      ],
+                      onChanged: (int? value) {
+                        setState(() {
+                          viewIndex = value ?? 0;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 8,
-            children: [
-              const Text('sigmaX'),
-              Slider(
-                value: sigmaX,
-                min: minSigmaX,
-                max: maxSigmaX,
-                onChanged: (double value) {
-                  setState(() {
-                    sigmaX = value;
-                  });
-                },
-              ),
-              Text('${sigmaX.toInt()}'),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 8,
-            children: [
-              const Text('sigmaY'),
-              Slider(
-                value: sigmaY,
-                min: minSigmaY,
-                max: maxSigmaY,
-                onChanged: (double value) {
-                  setState(() {
-                    sigmaY = value;
-                  });
-                },
-              ),
-              Text('${sigmaY.toInt()}'),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 8,
-            children: [
-              const Text('contentsWidth'),
-              Slider(
-                value: contentsWidth,
-                min: minContentsWidth,
-                max: maxContentsWidth,
-                onChanged: (double value) {
-                  setState(() {
-                    contentsWidth = value;
-                  });
-                },
-              ),
-              Text('${contentsWidth.toInt()}'),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 8,
-            children: [
-              const Text('contentsHeight'),
-              Slider(
-                value: contentsHeight,
-                min: minContentsHeight,
-                max: maxContentsHeight,
-                onChanged: (double value) {
-                  setState(() {
-                    contentsHeight = value;
-                  });
-                },
-              ),
-              Text('${contentsHeight.toInt()}'),
-            ],
+                Row(
+                  spacing: 8,
+                  children: <Widget>[
+                    const Text('ImageURL'),
+                    Expanded(
+                      child: TextFormField(
+                        controller: textEditingController,
+                        onFieldSubmitted: (value) {
+                          setState(() {
+                            imageUrl = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  spacing: 8,
+                  children: [
+                    const Text('filterX'),
+                    Slider(
+                      value: filterX,
+                      min: minFilterX,
+                      max: maxFilterX,
+                      onChanged: (double value) {
+                        setState(() {
+                          filterX = value;
+                        });
+                      },
+                    ),
+                    Text('${filterX.toInt()}'),
+                  ],
+                ),
+                Row(
+                  spacing: 8,
+                  children: [
+                    const Text('filterY'),
+                    Slider(
+                      value: filterY,
+                      min: minFilterY,
+                      max: maxFilterY,
+                      onChanged: (double value) {
+                        setState(() {
+                          filterY = value;
+                        });
+                      },
+                    ),
+                    Text('${filterY.toInt()}'),
+                  ],
+                ),
+                Row(
+                  spacing: 8,
+                  children: [
+                    const Text('contentsWidth'),
+                    Slider(
+                      value: contentsWidth,
+                      min: minContentsWidth,
+                      max: maxContentsWidth,
+                      onChanged: (double value) {
+                        setState(() {
+                          contentsWidth = value;
+                        });
+                      },
+                    ),
+                    Text('${contentsWidth.toInt()}'),
+                  ],
+                ),
+                Row(
+                  spacing: 8,
+                  children: [
+                    const Text('contentsHeight'),
+                    Slider(
+                      value: contentsHeight,
+                      min: minContentsHeight,
+                      max: maxContentsHeight,
+                      onChanged: (double value) {
+                        setState(() {
+                          contentsHeight = value;
+                        });
+                      },
+                    ),
+                    Text('${contentsHeight.toInt()}'),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -198,15 +226,15 @@ class _BuildBodyState extends State<_BuildBody> {
 class _BuildBlurBackgroundView extends StatelessWidget {
   const _BuildBlurBackgroundView({
     required this.imageUrl,
-    required this.sigmaX,
-    required this.sigmaY,
+    required this.filterX,
+    required this.filterY,
     required this.contentsWidth,
     required this.contentsHeight,
   });
 
   final String imageUrl;
-  final double sigmaX;
-  final double sigmaY;
+  final double filterX;
+  final double filterY;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -221,7 +249,7 @@ class _BuildBlurBackgroundView extends StatelessWidget {
           ),
         ),
         BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: sigmaX, sigmaY: sigmaY),
+          filter: ImageFilter.blur(sigmaX: filterX, sigmaY: filterY),
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
@@ -240,15 +268,15 @@ class _BuildBlurBackgroundView extends StatelessWidget {
 class _BuildFrontTextView extends StatelessWidget {
   const _BuildFrontTextView({
     required this.imageUrl,
-    required this.sigmaX,
-    required this.sigmaY,
+    required this.filterX,
+    required this.filterY,
     required this.contentsWidth,
     required this.contentsHeight,
   });
 
   final String imageUrl;
-  final double sigmaX;
-  final double sigmaY;
+  final double filterX;
+  final double filterY;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -264,7 +292,7 @@ class _BuildFrontTextView extends StatelessWidget {
         Center(
           child: ClipRect(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: sigmaX, sigmaY: sigmaY),
+              filter: ImageFilter.blur(sigmaX: filterX, sigmaY: filterY),
               child: Container(
                 width: contentsWidth,
                 height: contentsHeight,
@@ -279,6 +307,48 @@ class _BuildFrontTextView extends StatelessWidget {
             ),
           ),
         )
+      ],
+    );
+  }
+}
+
+class _BuildDilateBackgroundView extends StatelessWidget {
+  const _BuildDilateBackgroundView({
+    required this.imageUrl,
+    required this.filterX,
+    required this.filterY,
+    required this.contentsWidth,
+    required this.contentsHeight,
+  });
+
+  final String imageUrl;
+  final double filterX;
+  final double filterY;
+  final double contentsWidth;
+  final double contentsHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        BackdropFilter(
+          filter: ImageFilter.dilate(radiusX: filterX, radiusY: filterY),
+          child: Container(
+            alignment: Alignment.center,
+            child: Image.network(
+              imageUrl,
+              width: contentsWidth,
+              height: contentsHeight,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ],
     );
   }
