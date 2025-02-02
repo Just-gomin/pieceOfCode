@@ -51,6 +51,10 @@ class _BuildBodyState extends State<_BuildBody> {
   final double maxContentsHeight = 400;
   double contentsHeight = 200;
 
+  final double minContentsAlpha = 0;
+  final double maxContentsAlpha = 255;
+  int contentsAlpha = 0;
+
   late TextEditingController textEditingController;
   late ImageFilter filter;
   late BlendMode blendMode;
@@ -78,6 +82,15 @@ class _BuildBodyState extends State<_BuildBody> {
             height: maxContentsHeight,
             alignment: Alignment.center,
             child: <Widget>[
+              _BuildBlurTransparentContentsView(
+                imageUrl: imageUrl,
+                filterX: filterX,
+                filterY: filterY,
+                blendMode: blendMode,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
+                contentsAlpha: contentsAlpha,
+              ),
               _BuildBlurBackgroundView(
                 imageUrl: imageUrl,
                 filterX: filterX,
@@ -131,18 +144,22 @@ class _BuildBodyState extends State<_BuildBody> {
                           items: const <DropdownMenuItem<int>>[
                             DropdownMenuItem(
                               value: 0,
-                              child: Text('blur-back'),
+                              child: Text('blur-transparent-contents'),
                             ),
                             DropdownMenuItem(
                               value: 1,
-                              child: Text('blur-front'),
+                              child: Text('blur-back'),
                             ),
                             DropdownMenuItem(
                               value: 2,
-                              child: Text('dilate-back'),
+                              child: Text('blur-front'),
                             ),
                             DropdownMenuItem(
                               value: 3,
+                              child: Text('dilate-back'),
+                            ),
+                            DropdownMenuItem(
+                              value: 4,
                               child: Text('erode-back'),
                             ),
                           ],
@@ -262,6 +279,25 @@ class _BuildBodyState extends State<_BuildBody> {
                           ],
                         ),
                       ),
+                      _BuildField(
+                        title: 'ContentsAlpha',
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Slider(
+                              value: contentsAlpha.toDouble(),
+                              min: minContentsAlpha,
+                              max: maxContentsAlpha,
+                              onChanged: (double value) {
+                                setState(() {
+                                  contentsAlpha = value.toInt();
+                                });
+                              },
+                            ),
+                            Text('$contentsAlpha'),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -289,6 +325,49 @@ class _BuildField extends StatelessWidget {
       children: [
         SizedBox(width: 120, child: Text(title)),
         child,
+      ],
+    );
+  }
+}
+
+class _BuildBlurTransparentContentsView extends StatelessWidget {
+  const _BuildBlurTransparentContentsView({
+    required this.imageUrl,
+    required this.filterX,
+    required this.filterY,
+    required this.blendMode,
+    required this.contentsWidth,
+    required this.contentsHeight,
+    required this.contentsAlpha,
+  });
+
+  final String imageUrl;
+  final double filterX;
+  final double filterY;
+  final BlendMode blendMode;
+  final double contentsWidth;
+  final double contentsHeight;
+  final int contentsAlpha;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: filterX, sigmaY: filterY),
+          blendMode: blendMode,
+          child: Container(
+            width: contentsWidth,
+            height: contentsHeight,
+            color: Colors.white.withAlpha(contentsAlpha),
+          ),
+        ),
       ],
     );
   }
