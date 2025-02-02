@@ -44,15 +44,22 @@ class _BuildBodyState extends State<_BuildBody> {
   double filterY = 20;
 
   final double minContentsWidth = 0;
-  final double maxContentsWidth = 500;
+  final double maxContentsWidth = 400;
   double contentsWidth = 200;
 
   final double minContentsHeight = 0;
-  final double maxContentsHeight = 500;
+  final double maxContentsHeight = 400;
   double contentsHeight = 200;
+
+  final double minContentsAlpha = 0;
+  final double maxContentsAlpha = 255;
+  int contentsAlpha = 0;
 
   late TextEditingController textEditingController;
   late ImageFilter filter;
+  late BlendMode blendMode;
+
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -60,6 +67,7 @@ class _BuildBodyState extends State<_BuildBody> {
     imageUrl = initialImageUrl;
     textEditingController = TextEditingController(text: initialImageUrl);
     filter = ImageFilter.erode();
+    blendMode = BlendMode.srcOver;
   }
 
   @override
@@ -69,170 +77,298 @@ class _BuildBodyState extends State<_BuildBody> {
       child: Column(
         spacing: 8,
         children: [
-          if (viewIndex == 0)
-            Expanded(
-              child: _BuildBlurBackgroundView(
+          Container(
+            width: maxContentsWidth,
+            height: maxContentsHeight,
+            alignment: Alignment.center,
+            child: <Widget>[
+              _BuildBlurTransparentContentsView(
                 imageUrl: imageUrl,
                 filterX: filterX,
                 filterY: filterY,
+                blendMode: blendMode,
                 contentsWidth: contentsWidth,
                 contentsHeight: contentsHeight,
+                contentsAlpha: contentsAlpha,
               ),
-            ),
-          if (viewIndex == 1)
-            Expanded(
-              child: _BuildFrontTextView(
+              _BuildBlurBackgroundView(
                 imageUrl: imageUrl,
                 filterX: filterX,
                 filterY: filterY,
+                blendMode: blendMode,
                 contentsWidth: contentsWidth,
                 contentsHeight: contentsHeight,
               ),
-            ),
-          if (viewIndex == 2)
-            Expanded(
-              child: _BuildDilateBackgroundView(
+              _BuildFrontTextView(
                 imageUrl: imageUrl,
                 filterX: filterX,
                 filterY: filterY,
+                blendMode: blendMode,
                 contentsWidth: contentsWidth,
                 contentsHeight: contentsHeight,
               ),
-            ),
-          if (viewIndex == 3)
-            Expanded(
-              child: _BuildErodeBackgroundView(
+              _BuildDilateBackgroundView(
                 imageUrl: imageUrl,
                 filterX: filterX,
                 filterY: filterY,
+                blendMode: blendMode,
                 contentsWidth: contentsWidth,
                 contentsHeight: contentsHeight,
               ),
-            ),
+              _BuildErodeBackgroundView(
+                imageUrl: imageUrl,
+                filterX: filterX,
+                filterY: filterY,
+                blendMode: blendMode,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
+              )
+            ][viewIndex],
+          ),
           const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Text('view'),
-                    DropdownButton(
-                      items: const <DropdownMenuItem<int>>[
-                        DropdownMenuItem(
-                          value: 0,
-                          child: Text('blur-back'),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Scrollbar(
+                controller: scrollController,
+                thumbVisibility: true,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      _BuildField(
+                        title: 'View',
+                        child: DropdownButton(
+                          value: viewIndex,
+                          items: const <DropdownMenuItem<int>>[
+                            DropdownMenuItem(
+                              value: 0,
+                              child: Text('blur-transparent-contents'),
+                            ),
+                            DropdownMenuItem(
+                              value: 1,
+                              child: Text('blur-back'),
+                            ),
+                            DropdownMenuItem(
+                              value: 2,
+                              child: Text('blur-front'),
+                            ),
+                            DropdownMenuItem(
+                              value: 3,
+                              child: Text('dilate-back'),
+                            ),
+                            DropdownMenuItem(
+                              value: 4,
+                              child: Text('erode-back'),
+                            ),
+                          ],
+                          onChanged: (int? value) {
+                            setState(() {
+                              viewIndex = value ?? 0;
+                            });
+                          },
                         ),
-                        DropdownMenuItem(
-                          value: 1,
-                          child: Text('blur-front'),
-                        ),
-                        DropdownMenuItem(
-                          value: 2,
-                          child: Text('dilate-back'),
-                        ),
-                        DropdownMenuItem(
-                          value: 3,
-                          child: Text('erode-back'),
-                        ),
-                      ],
-                      onChanged: (int? value) {
-                        setState(() {
-                          viewIndex = value ?? 0;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: <Widget>[
-                    const Text('ImageURL'),
-                    Expanded(
-                      child: TextFormField(
-                        controller: textEditingController,
-                        onFieldSubmitted: (value) {
-                          setState(() {
-                            imageUrl = value;
-                          });
-                        },
                       ),
-                    ),
-                  ],
+                      _BuildField(
+                        title: 'Image',
+                        child: Expanded(
+                          child: TextFormField(
+                            controller: textEditingController,
+                            onFieldSubmitted: (value) {
+                              setState(() {
+                                imageUrl = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      _BuildField(
+                        title: 'BlendMode',
+                        child: DropdownButton(
+                          value: blendMode,
+                          items: <DropdownMenuItem<BlendMode>>[
+                            for (BlendMode mode in BlendMode.values)
+                              DropdownMenuItem(
+                                value: mode,
+                                child: Text(mode.name),
+                              ),
+                          ],
+                          onChanged: (BlendMode? value) {
+                            if (value != null) {
+                              setState(() {
+                                blendMode = value;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      _BuildField(
+                        title: 'FilterX',
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Slider(
+                              value: filterX,
+                              min: minFilterX,
+                              max: maxFilterX,
+                              onChanged: (double value) {
+                                setState(() {
+                                  filterX = value;
+                                });
+                              },
+                            ),
+                            Text('${filterX.toInt()}'),
+                          ],
+                        ),
+                      ),
+                      _BuildField(
+                        title: 'FilterY',
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Slider(
+                              value: filterY,
+                              min: minFilterY,
+                              max: maxFilterY,
+                              onChanged: (double value) {
+                                setState(() {
+                                  filterY = value;
+                                });
+                              },
+                            ),
+                            Text('${filterY.toInt()}'),
+                          ],
+                        ),
+                      ),
+                      _BuildField(
+                        title: 'ContentsWidth',
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Slider(
+                              value: contentsWidth,
+                              min: minContentsWidth,
+                              max: maxContentsWidth,
+                              onChanged: (double value) {
+                                setState(() {
+                                  contentsWidth = value;
+                                });
+                              },
+                            ),
+                            Text('${contentsWidth.toInt()}'),
+                          ],
+                        ),
+                      ),
+                      _BuildField(
+                        title: 'ContentsHeight',
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Slider(
+                              value: contentsHeight,
+                              min: minContentsHeight,
+                              max: maxContentsHeight,
+                              onChanged: (double value) {
+                                setState(() {
+                                  contentsHeight = value;
+                                });
+                              },
+                            ),
+                            Text('${contentsHeight.toInt()}'),
+                          ],
+                        ),
+                      ),
+                      _BuildField(
+                        title: 'ContentsAlpha',
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Slider(
+                              value: contentsAlpha.toDouble(),
+                              min: minContentsAlpha,
+                              max: maxContentsAlpha,
+                              onChanged: (double value) {
+                                setState(() {
+                                  contentsAlpha = value.toInt();
+                                });
+                              },
+                            ),
+                            Text('$contentsAlpha'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    const Text('filterX'),
-                    Slider(
-                      value: filterX,
-                      min: minFilterX,
-                      max: maxFilterX,
-                      onChanged: (double value) {
-                        setState(() {
-                          filterX = value;
-                        });
-                      },
-                    ),
-                    Text('${filterX.toInt()}'),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    const Text('filterY'),
-                    Slider(
-                      value: filterY,
-                      min: minFilterY,
-                      max: maxFilterY,
-                      onChanged: (double value) {
-                        setState(() {
-                          filterY = value;
-                        });
-                      },
-                    ),
-                    Text('${filterY.toInt()}'),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    const Text('contentsWidth'),
-                    Slider(
-                      value: contentsWidth,
-                      min: minContentsWidth,
-                      max: maxContentsWidth,
-                      onChanged: (double value) {
-                        setState(() {
-                          contentsWidth = value;
-                        });
-                      },
-                    ),
-                    Text('${contentsWidth.toInt()}'),
-                  ],
-                ),
-                Row(
-                  spacing: 8,
-                  children: [
-                    const Text('contentsHeight'),
-                    Slider(
-                      value: contentsHeight,
-                      min: minContentsHeight,
-                      max: maxContentsHeight,
-                      onChanged: (double value) {
-                        setState(() {
-                          contentsHeight = value;
-                        });
-                      },
-                    ),
-                    Text('${contentsHeight.toInt()}'),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _BuildField extends StatelessWidget {
+  const _BuildField({
+    required this.title,
+    required this.child,
+  });
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(width: 120, child: Text(title)),
+        child,
+      ],
+    );
+  }
+}
+
+class _BuildBlurTransparentContentsView extends StatelessWidget {
+  const _BuildBlurTransparentContentsView({
+    required this.imageUrl,
+    required this.filterX,
+    required this.filterY,
+    required this.blendMode,
+    required this.contentsWidth,
+    required this.contentsHeight,
+    required this.contentsAlpha,
+  });
+
+  final String imageUrl;
+  final double filterX;
+  final double filterY;
+  final BlendMode blendMode;
+  final double contentsWidth;
+  final double contentsHeight;
+  final int contentsAlpha;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: filterX, sigmaY: filterY),
+          blendMode: blendMode,
+          child: Container(
+            width: contentsWidth,
+            height: contentsHeight,
+            color: Colors.white.withAlpha(contentsAlpha),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -242,6 +378,7 @@ class _BuildBlurBackgroundView extends StatelessWidget {
     required this.imageUrl,
     required this.filterX,
     required this.filterY,
+    required this.blendMode,
     required this.contentsWidth,
     required this.contentsHeight,
   });
@@ -249,6 +386,7 @@ class _BuildBlurBackgroundView extends StatelessWidget {
   final String imageUrl;
   final double filterX;
   final double filterY;
+  final BlendMode blendMode;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -264,6 +402,7 @@ class _BuildBlurBackgroundView extends StatelessWidget {
         ),
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: filterX, sigmaY: filterY),
+          blendMode: blendMode,
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
@@ -284,6 +423,7 @@ class _BuildFrontTextView extends StatelessWidget {
     required this.imageUrl,
     required this.filterX,
     required this.filterY,
+    required this.blendMode,
     required this.contentsWidth,
     required this.contentsHeight,
   });
@@ -291,6 +431,7 @@ class _BuildFrontTextView extends StatelessWidget {
   final String imageUrl;
   final double filterX;
   final double filterY;
+  final BlendMode blendMode;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -307,6 +448,7 @@ class _BuildFrontTextView extends StatelessWidget {
           child: ClipRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: filterX, sigmaY: filterY),
+              blendMode: blendMode,
               child: Container(
                 width: contentsWidth,
                 height: contentsHeight,
@@ -331,6 +473,7 @@ class _BuildDilateBackgroundView extends StatelessWidget {
     required this.imageUrl,
     required this.filterX,
     required this.filterY,
+    required this.blendMode,
     required this.contentsWidth,
     required this.contentsHeight,
   });
@@ -338,6 +481,7 @@ class _BuildDilateBackgroundView extends StatelessWidget {
   final String imageUrl;
   final double filterX;
   final double filterY;
+  final BlendMode blendMode;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -353,6 +497,7 @@ class _BuildDilateBackgroundView extends StatelessWidget {
         ),
         BackdropFilter(
           filter: ImageFilter.dilate(radiusX: filterX, radiusY: filterY),
+          blendMode: blendMode,
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
@@ -373,6 +518,7 @@ class _BuildErodeBackgroundView extends StatelessWidget {
     required this.imageUrl,
     required this.filterX,
     required this.filterY,
+    required this.blendMode,
     required this.contentsWidth,
     required this.contentsHeight,
   });
@@ -380,6 +526,7 @@ class _BuildErodeBackgroundView extends StatelessWidget {
   final String imageUrl;
   final double filterX;
   final double filterY;
+  final BlendMode blendMode;
   final double contentsWidth;
   final double contentsHeight;
 
@@ -395,6 +542,7 @@ class _BuildErodeBackgroundView extends StatelessWidget {
         ),
         BackdropFilter(
           filter: ImageFilter.erode(radiusX: filterX, radiusY: filterY),
+          blendMode: blendMode,
           child: Container(
             alignment: Alignment.center,
             child: Image.network(
