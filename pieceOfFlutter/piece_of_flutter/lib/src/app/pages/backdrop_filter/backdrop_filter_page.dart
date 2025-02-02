@@ -77,51 +77,40 @@ class _BuildBodyState extends State<_BuildBody> {
             width: maxContentsWidth,
             height: maxContentsHeight,
             alignment: Alignment.center,
-            child: Builder(
-              builder: (context) {
-                if (viewIndex == 0) {
-                  return _BuildBlurBackgroundView(
-                    imageUrl: imageUrl,
-                    filterX: filterX,
-                    filterY: filterY,
-                    blendMode: blendMode,
-                    contentsWidth: contentsWidth,
-                    contentsHeight: contentsHeight,
-                  );
-                }
-                if (viewIndex == 1) {
-                  return _BuildFrontTextView(
-                    imageUrl: imageUrl,
-                    filterX: filterX,
-                    filterY: filterY,
-                    blendMode: blendMode,
-                    contentsWidth: contentsWidth,
-                    contentsHeight: contentsHeight,
-                  );
-                }
-                if (viewIndex == 2) {
-                  return _BuildDilateBackgroundView(
-                    imageUrl: imageUrl,
-                    filterX: filterX,
-                    filterY: filterY,
-                    blendMode: blendMode,
-                    contentsWidth: contentsWidth,
-                    contentsHeight: contentsHeight,
-                  );
-                }
-                if (viewIndex == 3) {
-                  return _BuildErodeBackgroundView(
-                    imageUrl: imageUrl,
-                    filterX: filterX,
-                    filterY: filterY,
-                    blendMode: blendMode,
-                    contentsWidth: contentsWidth,
-                    contentsHeight: contentsHeight,
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
+            child: <Widget>[
+              _BuildBlurBackgroundView(
+                imageUrl: imageUrl,
+                filterX: filterX,
+                filterY: filterY,
+                blendMode: blendMode,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
+              ),
+              _BuildFrontTextView(
+                imageUrl: imageUrl,
+                filterX: filterX,
+                filterY: filterY,
+                blendMode: blendMode,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
+              ),
+              _BuildDilateBackgroundView(
+                imageUrl: imageUrl,
+                filterX: filterX,
+                filterY: filterY,
+                blendMode: blendMode,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
+              ),
+              _BuildErodeBackgroundView(
+                imageUrl: imageUrl,
+                filterX: filterX,
+                filterY: filterY,
+                blendMode: blendMode,
+                contentsWidth: contentsWidth,
+                contentsHeight: contentsHeight,
+              )
+            ][viewIndex],
           ),
           const SizedBox(height: 16),
           Expanded(
